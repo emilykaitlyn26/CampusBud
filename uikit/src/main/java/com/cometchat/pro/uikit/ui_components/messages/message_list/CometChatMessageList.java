@@ -397,7 +397,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
         //videoCallAction = view.findViewById(R.id.video_call_action);
 
         backIcon.setOnClickListener(this);
-        infoAction.setOnClickListener(this);
+        //infoAction.setOnClickListener(this);
         //audioCallAction.setOnClickListener(this);
         //videoCallAction.setOnClickListener(this);
 
