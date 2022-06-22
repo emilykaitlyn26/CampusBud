@@ -58,7 +58,7 @@
         android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <TextView
+    <!--<TextView
         android:id="@+id/audio_message"
         android:clickable="true"
         android:drawableStart="@drawable/ic_audio"
@@ -70,8 +70,8 @@
         android:text="@string/send_audio_files"
         android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
+        android:layout_height="wrap_content"/>-->
+    <!--<TextView
         android:id="@+id/location_message"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
@@ -83,7 +83,7 @@
         android:text="@string/share_location"
         android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"/>-->
     <TextView
         android:id="@+id/sticker_message"
         android:clickable="true"

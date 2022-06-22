@@ -18,8 +18,8 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
     private TextView galleryMessage;
     private TextView cameraMessage;
     private TextView fileMessage;
-    private TextView audioMessage;
-    private TextView locationMessage;
+    //private TextView audioMessage;
+    //private TextView locationMessage;
     private TextView pollsMessage;
     private TextView stickerMessage;
     private TextView whiteBoardMessage;
@@ -77,8 +77,8 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
         galleryMessage = view.findViewById(R.id.gallery_message);
         cameraMessage = view.findViewById(R.id.camera_message);
         fileMessage = view.findViewById(R.id.file_message);
-        audioMessage = view.findViewById(R.id.audio_message);
-        locationMessage = view.findViewById(R.id.location_message);
+        //audioMessage = view.findViewById(R.id.audio_message);
+        //locationMessage = view.findViewById(R.id.location_message);
         whiteBoardMessage = view.findViewById(R.id.vw_whiteboard_message);
         writeBoardMessage = view.findViewById(R.id.writeboard_message);
 
@@ -110,14 +110,14 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
             fileMessage.setVisibility(View.VISIBLE);
         else
             fileMessage.setVisibility(View.GONE);
-        if (isAudioVisible)
+        /*if (isAudioVisible)
             audioMessage.setVisibility(View.VISIBLE);
         else
-            audioMessage.setVisibility(View.GONE);
-        if (isLocationVisible)
+            audioMessage.setVisibility(View.GONE);*/
+        /*if (isLocationVisible)
             locationMessage.setVisibility(View.VISIBLE);
         else
-            locationMessage.setVisibility(View.GONE);
+            locationMessage.setVisibility(View.GONE);*/
 
         writeBoardMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,22 +175,22 @@ public class CometChatComposeBoxActions extends BottomSheetDialogFragment {
                 dismiss();
             }
         });
-        audioMessage.setOnClickListener(new View.OnClickListener() {
+        /*audioMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (composeBoxActionListener!=null)
                     composeBoxActionListener.onAudioClick();
                 dismiss();
             }
-        });
-        locationMessage.setOnClickListener(new View.OnClickListener() {
+        });*/
+        /*locationMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (composeBoxActionListener!=null)
                     composeBoxActionListener.onLocationClick();
                 dismiss();
             }
-        });
+        });*/
         return view;
     }
 
