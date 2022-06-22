@@ -62,7 +62,7 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <ImageView
+            <!--<ImageView
                 android:layout_gravity="center"
                 android:padding="8dp"
                 android:clickable="true"
@@ -71,8 +71,8 @@
                 android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_videocall"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <ImageView
+                android:layout_height="wrap_content"/>-->
+            <!--<ImageView
                 android:padding="8dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -80,7 +80,7 @@
                 android:tint="@color/colorPrimary"
                 android:src="@drawable/ic_audiocall"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"/>-->
             <ImageView
                 android:clickable="true"
                 android:focusable="true"

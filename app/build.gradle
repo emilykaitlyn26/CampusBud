@@ -17,7 +17,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders = [file_provider: "CampusBud.app"]
+        manifestPlaceholders = [file_provider: "CapstoneApp.app"]
     }
 
     buildTypes {

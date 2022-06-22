@@ -7,11 +7,6 @@
       android:icon="@drawable/ic_chats" />
 
   <item
-      android:id="@+id/menu_call"
-      android:title="@string/calls"
-      android:icon="@drawable/ic_audiocall" />
-
-  <item
       android:id="@+id/menu_users"
       android:title="@string/users"
       android:icon="@drawable/ic_users"/>
