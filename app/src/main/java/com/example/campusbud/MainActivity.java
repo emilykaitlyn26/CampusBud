@@ -10,12 +10,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.uikit.ui_components.cometchat_ui.CometChatUI;
 import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
+import com.example.campusbud.fragments.ChatFragment;
+import com.example.campusbud.fragments.ProfileFragment;
+import com.example.campusbud.fragments.RoommateFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +37,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startActivity(new Intent(MainActivity.this, CometChatUI.class));
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                switch (item.getItemId()) {
+                    case R.id.action_chat:
+                        Toast.makeText(MainActivity.this, "Chat", Toast.LENGTH_SHORT).show();
+                        fragment = new ChatFragment();
+                        break;
+                    case R.id.action_profile:
+                        Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
+                        fragment = new ProfileFragment();
+                        break;
+                    case R.id.action_matching:
+                    default:
+                        Toast.makeText(MainActivity.this, "Roommates", Toast.LENGTH_SHORT).show();
+                        fragment = new RoommateFragment();
+                        break;
+                }
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                return true;
+            }
+        });
+        
+        bottomNavigationView.setSelectedItemId(R.id.action_profile);
+
+        //startActivity(new Intent(MainActivity.this, CometChatUI.class));
     }
 
     @Override
@@ -70,5 +106,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
+
+    /* have bottom navigation bar with profile, roommates, map, and chat
+    when chat is opened, bar on top to switch to normal and groups (if i can't get them together)
+    profile will have logout button there
+     */
 
 }
