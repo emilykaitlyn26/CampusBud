@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -115,6 +116,11 @@ public class CometChatUI extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }*/
 
         activity = this;
         CometChatError.init(this);
