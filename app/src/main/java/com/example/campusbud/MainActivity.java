@@ -22,6 +22,8 @@ import com.example.campusbud.fragments.ChatFragment;
 import com.example.campusbud.fragments.ProfileFragment;
 import com.example.campusbud.fragments.RoommateFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,23 +83,25 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.miLogout) {
             Log.i(TAG, "Clicked logout button");
-            ParseUser.logOut();
-
-            CometChat.logout(new CometChat.CallbackListener<String>() {
+            ParseUser.logOutInBackground(new LogOutCallback() {
                 @Override
-                public void onSuccess(String s) {
-                    Log.d(TAG, "Logout completed successfully");
-                }
-                @Override
-                public void onError(CometChatException e) {
-                    Log.d(TAG, "Logout failed with exception: " + e.getMessage());
+                public void done(ParseException e) {
+                    CometChat.logout(new CometChat.CallbackListener<String>() {
+                        @Override
+                        public void onSuccess(String s) {
+                            Log.d(TAG, "Logout completed successfully");
+                            goLoginScreen();
+                        }
+                        @Override
+                        public void onError(CometChatException e) {
+                            Log.d(TAG, "Logout failed with exception: " + e.getMessage());
+                        }
+                    });
+                    //ParseUser currentUser = ParseUser.getCurrentUser();
+                    Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
+                    //return true;
                 }
             });
-
-            ParseUser currentUser = ParseUser.getCurrentUser();
-            Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
-            goLoginScreen();
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -32,6 +32,6 @@ public class ChatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        //startActivity(new Intent(getActivity(), CometChatUI.class));
+        startActivity(new Intent(getActivity(), CometChatUI.class));
     }
 }
