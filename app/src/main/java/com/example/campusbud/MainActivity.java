@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.uikit.ui_components.chats.CometChatConversationList;
 import com.cometchat.pro.uikit.ui_components.cometchat_ui.CometChatUI;
 import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
 import com.example.campusbud.fragments.ChatFragment;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_chat:
                         Toast.makeText(MainActivity.this, "Chat", Toast.LENGTH_SHORT).show();
-                        fragment = new ChatFragment();
+                        fragment = new CometChatConversationList();
                         break;
                     case R.id.action_profile:
                         Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();

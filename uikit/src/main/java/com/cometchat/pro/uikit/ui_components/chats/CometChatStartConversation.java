@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,8 @@ import com.cometchat.pro.uikit.ui_settings.enums.ConversationMode;
 import com.google.android.material.tabs.TabLayout;
 
 public class CometChatStartConversation extends AppCompatActivity {
+
+    private String TAG = "CometChatStartConversation";
 
     private ViewPager viewPager;
 
@@ -59,7 +62,7 @@ public class CometChatStartConversation extends AppCompatActivity {
         cometChatGroupList.setTitleVisible(false);
         cometChatGroupList.setGroupCreateVisible(false);
         if (conversationType.equalsIgnoreCase(ConversationMode.ALL_CHATS.toString())) {
-            adapter.addFragment(cometChatUserList, getString(R.string.users));
+            adapter.addFragment(cometChatUserList, "User");
             adapter.addFragment(cometChatGroupList, getString(R.string.groups));
         } else if (conversationType.equalsIgnoreCase(ConversationMode.GROUP.toString())) {
             title.setText(getString(R.string.select_group));

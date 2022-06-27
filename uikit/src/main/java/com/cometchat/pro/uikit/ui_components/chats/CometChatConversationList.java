@@ -3,6 +3,7 @@ package com.cometchat.pro.uikit.ui_components.chats;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ import com.cometchat.pro.models.Group;
 import com.cometchat.pro.models.MessageReceipt;
 import com.cometchat.pro.models.TypingIndicator;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.uikit.ui_components.cometchat_ui.CometChatUI;
+import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
 import com.cometchat.pro.uikit.ui_components.shared.CometChatSnackBar;
 import com.cometchat.pro.uikit.ui_components.shared.cometchatConversations.CometChatConversations;
 import com.cometchat.pro.uikit.R;
@@ -44,6 +47,7 @@ import com.cometchat.pro.models.Conversation;
 import com.cometchat.pro.models.CustomMessage;
 import com.cometchat.pro.models.MediaMessage;
 import com.cometchat.pro.models.TextMessage;
+import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
 import com.cometchat.pro.uikit.ui_resources.utils.custom_alertDialog.CustomAlertDialogHelper;
 import com.cometchat.pro.uikit.ui_resources.utils.custom_alertDialog.OnAlertDialogButtonClickListener;
@@ -54,6 +58,7 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.cometchat.pro.uikit.ui_resources.utils.item_clickListener.OnItemClickListener;
 import com.cometchat.pro.uikit.ui_resources.utils.FontUtils;
@@ -89,6 +94,8 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
     private RelativeLayout rlSearchBox;
 
     private LinearLayout noConversationView;
+
+    //private User user;
 
     private static final String TAG = "ConversationList";
 
@@ -141,7 +148,7 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
         startConversation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CometChatStartConversation.launch(getContext());
+                CometChatStartConversation.launch(Objects.requireNonNull(getContext()));
             }
         });
         searchEdit.setOnEditorActionListener((textView, i, keyEvent) -> {
@@ -198,8 +205,16 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
         rvConversationList.setItemClickListener(new OnItemClickListener<Conversation>() {
             @Override
             public void OnItemClick(Conversation conversation, int position) {
-                if (events!=null)
-                    events.OnItemClick(conversation,position);
+                CometChatConversationList.setItemClickListener(new OnItemClickListener<Conversation>() {
+                    @Override
+                    public void OnItemClick(Conversation conversation, int position) {
+                        if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP))
+                            startGroupIntent(((Group) conversation.getConversationWith()));
+                        else
+                            startUserIntent(((User) conversation.getConversationWith()));
+                    }
+                });
+                events.OnItemClick(conversation,position);
             }
         });
 
@@ -325,6 +340,30 @@ public class CometChatConversationList extends Fragment implements TextWatcher, 
         }
     }
 
+    private void startUserIntent(User user) {
+        Intent intent = new Intent(getContext(), CometChatMessageListActivity.class);
+        intent.putExtra(UIKitConstants.IntentStrings.UID, user.getUid());
+        intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
+        intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
+        intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
+        intent.putExtra(UIKitConstants.IntentStrings.LINK,user.getLink());
+        intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
+        startActivity(intent);
+    }
+
+    private void startGroupIntent(Group group) {
+        Intent intent = new Intent(getContext(), CometChatMessageListActivity.class);
+        intent.putExtra(UIKitConstants.IntentStrings.GUID, group.getGuid());
+        intent.putExtra(UIKitConstants.IntentStrings.AVATAR, group.getIcon());
+        intent.putExtra(UIKitConstants.IntentStrings.GROUP_OWNER,group.getOwner());
+        intent.putExtra(UIKitConstants.IntentStrings.NAME, group.getName());
+        intent.putExtra(UIKitConstants.IntentStrings.GROUP_TYPE,group.getGroupType());
+        intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_GROUP);
+        intent.putExtra(UIKitConstants.IntentStrings.MEMBER_COUNT,group.getMembersCount());
+        intent.putExtra(UIKitConstants.IntentStrings.GROUP_DESC,group.getDescription());
+        intent.putExtra(UIKitConstants.IntentStrings.GROUP_PASSWORD,group.getPassword());
+        startActivity(intent);
+    }
 
     public void setConversationListType(String conversationListType) {
         this.conversationListType = conversationListType;
