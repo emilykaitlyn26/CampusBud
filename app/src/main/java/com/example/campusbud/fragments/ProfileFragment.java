@@ -63,9 +63,6 @@ public class ProfileFragment extends Fragment {
         tvMajorDisplay = view.findViewById(R.id.tvMajorDisplay);
         ivSettings = view.findViewById(R.id.ivSettings);
 
-        profile.username = parseUser.getUsername();
-        //profile.password = parseUser.getString("Password");
-
         tvUserDisplay.setText(profile.name);
         tvYearDisplay.setText(profile.year);
         tvMajorDisplay.setText(profile.major);

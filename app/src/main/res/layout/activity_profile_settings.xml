@@ -26,6 +26,61 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />-->
 
+    <RadioGroup
+        android:id="@+id/rgSmoke"
+        android:layout_width="197dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@+id/tvSmoke"
+        app:layout_constraintTop_toBottomOf="@+id/rgCleanliness">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Yes"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Sometimes"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="No"
+            android:textSize="12sp" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvDrink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="Do you drink?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSmoke" />
+
+    <TextView
+        android:id="@+id/tvSmoke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="Do you smoke?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgCleanliness" />
+
     <EditText
         android:id="@+id/etMajor"
         android:layout_width="100dp"
@@ -33,7 +88,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:hint="Major"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/ivCreatePicture"
         app:layout_constraintTop_toBottomOf="@+id/etName" />
 
     <EditText
@@ -43,7 +98,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:hint="Name"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/ivCreatePicture"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
@@ -61,7 +116,9 @@
             android:layout_height="30dp"
             android:checked="false"
             android:text="Freshman"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"/>
 
         <RadioButton
             android:id="@+id/rbSophomore"
@@ -69,7 +126,9 @@
             android:layout_height="30dp"
             android:checked="false"
             android:text="Sophomore"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"/>
 
         <RadioButton
             android:id="@+id/rbJunior"
@@ -77,7 +136,9 @@
             android:layout_height="30dp"
             android:checked="false"
             android:text="Junior"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"/>
 
         <RadioButton
             android:id="@+id/rbSenior"
@@ -85,7 +146,9 @@
             android:layout_height="30dp"
             android:checked="false"
             android:text="Senior"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"/>
 
     </RadioGroup>
 
@@ -100,12 +163,112 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/ivCreatePicture"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        app:srcCompat="@drawable/addprofile"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="22dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/addprofile" />
+
+    <Switch
+        android:id="@+id/roommateSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:text="Roommate Profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etMajor" />
+
+    <TextView
+        android:id="@+id/tvCleanliness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Room Cleanliness"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roommateSwitch" />
+
+    <RadioGroup
+        android:id="@+id/rgCleanliness"
+        android:layout_width="369dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="7dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCleanliness">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Organized"
+            android:textSize="12sp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Casual"
+            android:textSize="12sp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Occasionally messy"
+            android:textSize="12sp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Messy"
+            android:textSize="12sp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"/>
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rgDrink"
+        android:layout_width="197dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@+id/tvDrink"
+        app:layout_constraintTop_toBottomOf="@+id/rgSmoke">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Yes"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Sometimes"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="No"
+            android:textSize="12sp" />
+
+    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

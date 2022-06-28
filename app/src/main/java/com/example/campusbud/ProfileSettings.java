@@ -10,9 +10,13 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
@@ -26,22 +30,34 @@ import org.json.JSONObject;
 
 public class ProfileSettings extends AppCompatActivity {
 
-    EditText etName;
-    EditText etMajor;
-    EditText etNewUsername;
-    EditText etNewPassword;
-    Button btnSubmit;
+    public EditText etName;
+    public EditText etMajor;
+    public EditText etNewUsername;
+    public EditText etNewPassword;
+    public Button btnSubmit;
+    public ImageView ivCreatePicture;
+    public TextView tvCleanliness;
+    public TextView tvSmoke;
+    public TextView tvDrink;
 
-    String TAG = "ProfileSettings";
+    private final String TAG = "ProfileSettings";
 
     public JSONObject metadata = new JSONObject();
 
-    RadioGroup radioYearGroup;
-    RadioButton radioYearButton;
+    public RadioGroup radioYearGroup;
+    public RadioButton radioYearButton;
+    public Switch roommateSwitch;
+    public Boolean switchState;
+    public RadioGroup rgCleanliness;
+    public RadioButton rbCleanliness;
+    public RadioGroup rgSmoke;
+    public RadioButton rbSmoke;
+    public RadioGroup rgDrink;
+    public RadioButton rbDrink;
 
-    String year;
-    String name;
-    String major;
+    public String year;
+    public String name;
+    public String major;
     String username;
     String password;
 
@@ -54,11 +70,61 @@ public class ProfileSettings extends AppCompatActivity {
         ParseUser parseUser = ParseUser.getCurrentUser();
 
         radioYearGroup = (RadioGroup) findViewById(R.id.radioYearGroup);
+        ivCreatePicture = findViewById(R.id.ivCreatePicture);
         etName = findViewById(R.id.etName);
         etMajor = findViewById(R.id.etMajor);
         etNewUsername = findViewById(R.id.etNewUsername);
         etNewPassword = findViewById(R.id.etNewPassword);
         btnSubmit = findViewById(R.id.btnSubmit);
+        roommateSwitch = findViewById(R.id.roommateSwitch);
+        tvCleanliness = findViewById(R.id.tvCleanliness);
+        tvSmoke = findViewById(R.id.tvSmoke);
+        tvDrink = findViewById(R.id.tvDrink);
+        rgCleanliness = findViewById(R.id.rgCleanliness);
+        rgSmoke = findViewById(R.id.rgSmoke);
+        rgDrink = findViewById(R.id.rgDrink);
+
+        roommateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (roommateSwitch.isChecked()) {
+                    switchState = true;
+                    tvCleanliness.setVisibility(View.VISIBLE);
+                    tvSmoke.setVisibility(View.VISIBLE);
+                    tvDrink.setVisibility(View.VISIBLE);
+                    rgCleanliness.setVisibility(View.VISIBLE);
+                    rgSmoke.setVisibility(View.VISIBLE);
+                    rgDrink.setVisibility(View.VISIBLE);
+
+                } else {
+                    switchState = false;
+                    tvCleanliness.setVisibility(View.GONE);
+                    tvSmoke.setVisibility(View.GONE);
+                    tvDrink.setVisibility(View.GONE);
+                    rgCleanliness.setVisibility(View.GONE);
+                    rgSmoke.setVisibility(View.GONE);
+                    rgDrink.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        switchState = roommateSwitch.isChecked();
+
+        if (switchState == true) {
+            tvCleanliness.setVisibility(View.VISIBLE);
+            tvSmoke.setVisibility(View.VISIBLE);
+            tvDrink.setVisibility(View.VISIBLE);
+            rgCleanliness.setVisibility(View.VISIBLE);
+            rgSmoke.setVisibility(View.VISIBLE);
+            rgDrink.setVisibility(View.VISIBLE);
+        } else {
+            tvCleanliness.setVisibility(View.GONE);
+            tvSmoke.setVisibility(View.GONE);
+            tvDrink.setVisibility(View.GONE);
+            rgCleanliness.setVisibility(View.GONE);
+            rgSmoke.setVisibility(View.GONE);
+            rgDrink.setVisibility(View.GONE);
+        }
 
         /*if (etNewUsername.getText() != null) {
             username = etNewUsername.getText().toString();
@@ -85,11 +151,9 @@ public class ProfileSettings extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                                             //createProfileData(metadata);
 
                 name = etName.getText().toString();
                 major = etMajor.getText().toString();
-                                             //});
 
                 try {
                     metadata.put("name", name);
