@@ -224,11 +224,21 @@ public class CometChatUserList extends Fragment {
             }
         });
 
-        // Used to trigger event on click of user item in rvUserList (RecyclerView)
         rvUserList.setItemClickListener(new OnItemClickListener<User>() {
             @Override
+            public void OnItemClick(User var, int position) {
+                startUserIntent(var);
+            }
+        });
+        return view;
+    }
+
+
+        // Used to trigger event on click of user item in rvUserList (RecyclerView)
+        /*rvUserList.setItemClickListener(new OnItemClickListener<User>() {
+            @Override
             public void OnItemClick(User user, int position) {
-                CometChatConversationList.setItemClickListener(new OnItemClickListener<Conversation>() {
+                CometChatUserList.setItemClickListener(new OnItemClickListener<User>() {
                     @Override
                     public void OnItemClick(Conversation conversation, int position) {
                         if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP))
@@ -236,12 +246,15 @@ public class CometChatUserList extends Fragment {
                         else
                             startUserIntent(((User) conversation.getConversationWith()));
                     }
-                });
-                //events.OnItemClick(user, position);
+                }) {
+                    @Override
+                    public void OnItemClick(User var, int position) {
+
+                    }
+                };
+                events.OnItemClick(user, position);
             }
-        });
-        return view;
-    }
+        });*/
 
     private void startUserIntent(User user) {
         Intent intent = new Intent(getContext(), CometChatMessageListActivity.class);
@@ -380,8 +393,6 @@ public class CometChatUserList extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-
     }
 
     @Override

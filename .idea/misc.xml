@@ -8,10 +8,12 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28248291015625004" />
         <entry key="app/src/main/res/layout/activity_parse_application.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.23093719482421876" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.3428741455078125" />
+        <entry key="app/src/main/res/layout/activity_profile_settings.xml" value="0.3160858154296875" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_cometchat_conversationlist.xml" value="0.28177083333333336" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.33229166666666665" />
         <entry key="uikit/src/main/res-components/calls/layout/activity_cometchat_callmanager.xml" value="0.17135416666666667" />
         <entry key="uikit/src/main/res-components/calls/layout/activity_cometchat_start_call.xml" value="0.17135416666666667" />
@@ -23,7 +25,9 @@
         <entry key="uikit/src/main/res-components/groups/layout/activity_cometchat_ban_members.xml" value="0.17135416666666667" />
         <entry key="uikit/src/main/res-components/groups/layout/activity_cometchat_group_detail.xml" value="0.17135416666666667" />
         <entry key="uikit/src/main/res-components/groups/layout/cometchat_group_member_row.xml" value="0.17135416666666667" />
+        <entry key="uikit/src/main/res-components/groups/layout/fragment_cometchat_add_member.xml" value="0.3333333333333333" />
         <entry key="uikit/src/main/res-components/groups/layout/fragment_cometchat_admin_moderator_list.xml" value="0.1" />
+        <entry key="uikit/src/main/res-components/groups/layout/fragment_cometchat_create_group.xml" value="0.3333333333333333" />
         <entry key="uikit/src/main/res-components/groups/layout/fragment_cometchat_grouplist.xml" value="0.16822916666666668" />
         <entry key="uikit/src/main/res-components/messages/layout/activity_cometchat_forward_message.xml" value="0.17135416666666667" />
         <entry key="uikit/src/main/res-components/messages/layout/activity_cometchat_media_view.xml" value="0.17135416666666667" />
@@ -39,6 +43,7 @@
         <entry key="uikit/src/main/res-components/messages/layout/cometchat_messagedate_header.xml" value="0.17135416666666667" />
         <entry key="uikit/src/main/res-components/messages/layout/cometchat_messagelist_toolbar.xml" value="0.24706980387369795" />
         <entry key="uikit/src/main/res-components/messages/layout/fragment_cometchat_conversationlist.xml" value="0.16822916666666668" />
+        <entry key="uikit/src/main/res-components/messages/layout/fragment_cometchat_messagelist.xml" value="0.3333333333333333" />
         <entry key="uikit/src/main/res-components/others/layout/activity_screen.xml" value="0.17135416666666667" />
         <entry key="uikit/src/main/res-components/others/layout/add_polls_layout.xml" value="0.17135416666666667" />
         <entry key="uikit/src/main/res-components/others/layout/cc_dialog.xml" value="0.17135416666666667" />
@@ -49,9 +54,12 @@
         <entry key="uikit/src/main/res-components/shared/layout/cometchat_badge_count.xml" value="0.17135416666666667" />
         <entry key="uikit/src/main/res-components/shared/layout/cometchat_compose_box.xml" value="0.17135416666666667" />
         <entry key="uikit/src/main/res-components/userprofile/layout/activity_cometchat_more_privacy.xml" value="0.17135416666666667" />
+        <entry key="uikit/src/main/res-components/userprofile/layout/fragment_cometchat_user_profile.xml" value="0.3333333333333333" />
         <entry key="uikit/src/main/res-components/users/layout/activity_cometchat_user_detail.xml" value="0.17135416666666667" />
-        <entry key="uikit/src/main/res/layout/activity_comet_chat_start_conversation.xml" value="0.17135416666666667" />
+        <entry key="uikit/src/main/res-components/users/layout/fragment_cometchat_userlist.xml" value="0.3333333333333333" />
+        <entry key="uikit/src/main/res/layout/activity_comet_chat_start_conversation.xml" value="0.3317148844401042" />
         <entry key="uikit/src/main/res/menu/cometchat_navigation_bottom.xml" value="0.40956217447916665" />
+        <entry key="uikit/src/main/res/menu/menu_main.xml" value="0.3333333333333333" />
       </map>
     </option>
   </component>

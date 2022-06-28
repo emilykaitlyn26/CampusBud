@@ -15,6 +15,9 @@
         android:theme="@style/Theme.CapstoneApp"
         tools:targetApi="31">
         <activity
+            android:name=".ProfileSettings"
+            android:exported="false" />
+        <activity
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
