@@ -23,9 +23,14 @@ import com.example.campusbud.R;
 import com.example.campusbud.models.Profile;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ProfileFragment extends Fragment {
 
     ParseUser parseUser = ParseUser.getCurrentUser();
+    User user = CometChat.getLoggedInUser();
+    JSONObject metadataObject = user.getMetadata();
 
     public ProfileFragment() { }
 
@@ -39,7 +44,12 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Profile profile = new Profile();
+        Profile profile = null;
+        try {
+            profile = Profile.fromJson(metadataObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         ImageView ivPictureDisplay;
         TextView tvUserDisplay;
@@ -54,9 +64,9 @@ public class ProfileFragment extends Fragment {
         ivSettings = view.findViewById(R.id.ivSettings);
 
         profile.username = parseUser.getUsername();
-        profile.password = parseUser.getString("Password");
+        //profile.password = parseUser.getString("Password");
 
-        tvUserDisplay.setText(profile.username);
+        tvUserDisplay.setText(profile.name);
         tvYearDisplay.setText(profile.year);
         tvMajorDisplay.setText(profile.major);
 
