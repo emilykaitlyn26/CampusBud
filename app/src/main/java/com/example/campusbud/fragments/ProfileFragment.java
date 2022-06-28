@@ -21,8 +21,11 @@ import com.cometchat.pro.models.User;
 import com.example.campusbud.ProfileSettings;
 import com.example.campusbud.R;
 import com.example.campusbud.models.Profile;
+import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {
+
+    ParseUser parseUser = ParseUser.getCurrentUser();
 
     public ProfileFragment() { }
 
@@ -36,9 +39,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Profile profile = new Profile();
-
-        User user = CometChat.getLoggedInUser();
+        Profile profile = new Profile();
 
         ImageView ivPictureDisplay;
         TextView tvUserDisplay;
@@ -52,10 +53,12 @@ public class ProfileFragment extends Fragment {
         tvMajorDisplay = view.findViewById(R.id.tvMajorDisplay);
         ivSettings = view.findViewById(R.id.ivSettings);
 
-        //profile.username = user.getName();
+        profile.username = parseUser.getUsername();
+        profile.password = parseUser.getString("Password");
 
-        //String username = user.getName();
-        //tvUserDisplay.setText(username);
+        tvUserDisplay.setText(profile.username);
+        tvYearDisplay.setText(profile.year);
+        tvMajorDisplay.setText(profile.major);
 
         ivSettings.setOnClickListener(new View.OnClickListener() {
             @Override

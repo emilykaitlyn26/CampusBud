@@ -11,18 +11,8 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="9dp"
-        android:hint="Name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etYear" />
-
-    <EditText
-        android:id="@+id/etYear"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="13dp"
-        android:hint="Year"
+        android:hint="Major"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etName" />
 
