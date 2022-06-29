@@ -7,14 +7,54 @@
     tools:context=".fragments.ProfileFragment">
 
     <TextView
-        android:id="@+id/tvTimeSleepInput2"
+        android:id="@+id/tvBioInput"
+        android:layout_width="349dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvBio"
+        app:layout_constraintTop_toBottomOf="@+id/tvActivitiesInput"
+        tools:text="These are my activities, they are good activities" />
+
+    <TextView
+        android:id="@+id/tvActivitiesInput"
+        android:layout_width="310dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintStart_toEndOf="@+id/tvActivities"
+        app:layout_constraintTop_toBottomOf="@+id/tvInterestsInput"
+        tools:text="These are my activities, they are good activities" />
+
+    <TextView
+        android:id="@+id/tvActivities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="Activities: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInterestsInput" />
+
+    <TextView
+        android:id="@+id/tvInterests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="Interests: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWake" />
+
+    <TextView
+        android:id="@+id/tvTimeWakeInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
-        android:text="8:00am"
         app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeSleepInput" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeSleepInput"
+        tools:text="8:00am" />
 
     <TextView
         android:id="@+id/tvTimeWake"
@@ -32,9 +72,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
-        android:text="10:00pm"
         app:layout_constraintStart_toEndOf="@+id/tvTimeSleep"
-        app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2"
+        tools:text="10:00pm" />
 
     <TextView
         android:id="@+id/tvRoomUseDisplay2"
@@ -45,16 +85,6 @@
         android:text="Preferred Room Use: "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDrinking" />
-
-    <TextView
-        android:id="@+id/tvTimeNight2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text="When do you sleep?"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
 
     <ImageView
         android:id="@+id/ivPictureDisplay"
@@ -194,8 +224,28 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
-        android:text="Social Space"
         app:layout_constraintStart_toEndOf="@+id/tvRoomUseDisplay2"
-        app:layout_constraintTop_toBottomOf="@+id/tvDrinkingInput" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDrinkingInput"
+        tools:text="Social Space" />
+
+    <TextView
+        android:id="@+id/tvInterestsInput"
+        android:layout_width="311dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintStart_toEndOf="@+id/tvInterests"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWakeInput"
+        tools:text="These are my interests, they are very interesting." />
+
+    <TextView
+        android:id="@+id/tvBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="Bio: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvActivitiesInput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

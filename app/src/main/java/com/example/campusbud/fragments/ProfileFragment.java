@@ -86,6 +86,16 @@ public class ProfileFragment extends Fragment {
         TextView tvDrinkingInput;
         TextView tvRoomUseDisplay;
         TextView tvRoomUseInput;
+        TextView tvTimeSleep;
+        TextView tvTimeWake;
+        TextView tvTimeSleepInput;
+        TextView tvTimeWakeInput;
+        TextView tvInterests;
+        TextView tvActivities;
+        TextView tvBio;
+        TextView tvInterestsInput;
+        TextView tvActivitiesInput;
+        TextView tvBioInput;
 
         ivPictureDisplay = view.findViewById(R.id.ivPictureDisplay);
         tvUserDisplay = view.findViewById(R.id.tvUserDisplay);
@@ -100,6 +110,15 @@ public class ProfileFragment extends Fragment {
         tvDrinkingInput = view.findViewById(R.id.tvDrinkingInput);
         tvRoomUseDisplay = view.findViewById(R.id.tvTimeSleep);
         tvRoomUseInput = view.findViewById(R.id.tvRoomUseInput);
+        tvTimeSleep = view.findViewById(R.id.tvTimeSleep);
+        tvTimeSleepInput = view.findViewById(R.id.tvTimeSleepInput);
+        tvTimeWake = view.findViewById(R.id.tvTimeWake);
+        tvTimeWakeInput = view.findViewById(R.id.tvTimeWakeInput);
+        tvInterests = view.findViewById(R.id.tvInterests);
+        tvInterestsInput = view.findViewById(R.id.tvInterestsInput);
+        tvActivities = view.findViewById(R.id.tvActivities);
+        tvActivitiesInput = view.findViewById(R.id.tvActivitiesInput);
+        tvBioInput = view.findViewById(R.id.tvBioInput);
 
         try {
             tvUserDisplay.setText(metadata.getString("name"));
@@ -120,6 +139,11 @@ public class ProfileFragment extends Fragment {
                  tvSmokingInput.setText(roommateProfile.getString("if_smoke"));
                  tvDrinkingInput.setText(roommateProfile.getString("if_drink"));
                  tvRoomUseInput.setText(roommateProfile.getString("room_use"));
+                 tvTimeSleepInput.setText(roommateProfile.getString("time_sleep"));
+                 tvTimeWakeInput.setText(roommateProfile.getString("time_wake"));
+                 tvInterestsInput.setText(roommateProfile.getString("interests"));
+                 tvActivitiesInput.setText(roommateProfile.getString("activities"));
+                 tvBioInput.setText(roommateProfile.getString("bio"));
              } catch (JSONException e) {
                  e.printStackTrace();
              }
@@ -131,6 +155,11 @@ public class ProfileFragment extends Fragment {
             tvDrinkingInput.setVisibility(View.VISIBLE);
             tvRoomUseDisplay.setVisibility(View.VISIBLE);
             tvRoomUseInput.setVisibility(View.VISIBLE);
+            tvTimeSleepInput.setVisibility(View.VISIBLE);
+            tvTimeWakeInput.setVisibility(View.VISIBLE);
+            tvInterestsInput.setVisibility(View.VISIBLE);
+            tvActivitiesInput.setVisibility(View.VISIBLE);
+            tvBioInput.setVisibility(View.VISIBLE);
         } else {
             tvRoomCleanliness.setVisibility(View.GONE);
             tvCleanlinessInput.setVisibility(View.GONE);

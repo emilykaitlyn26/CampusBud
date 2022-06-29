@@ -45,6 +45,9 @@ public class ProfileSettings extends AppCompatActivity {
     public EditText etNewPassword;
     public EditText etTimeMorning;
     public EditText etTimeNight;
+    public EditText etInterests;
+    public EditText etActivities;
+    public EditText etBio;
     public Button btnSubmit;
     public ImageView ivCreatePicture;
     public TextView tvCleanliness;
@@ -89,6 +92,9 @@ public class ProfileSettings extends AppCompatActivity {
     public String gender;
     public String timeSleep;
     public String timeWake;
+    public String interests;
+    public String activities;
+    public String bio;
     String username;
     String password;
 
@@ -121,6 +127,9 @@ public class ProfileSettings extends AppCompatActivity {
         rgGender = findViewById(R.id.rgGender);
         tvTimeMorning = findViewById(R.id.tvTimeMorning);
         tvTimeNight = findViewById(R.id.tvTimeNight);
+        etInterests = findViewById(R.id.etInterests);
+        etActivities = findViewById(R.id.etActivities);
+        etBio = findViewById(R.id.etBio);
 
         /*roommateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -232,17 +241,22 @@ public class ProfileSettings extends AppCompatActivity {
 
                 name = etName.getText().toString();
                 major = etMajor.getText().toString();
-
                 timeSleep = etTimeNight.getText().toString();
                 timeWake = etTimeMorning.getText().toString();
+                interests = etInterests.getText().toString();
+                activities = etActivities.getText().toString();
+                bio = etBio.getText().toString();
 
                 try {
                     metadata.put("name", name);
                     metadata.put("year", year);
                     metadata.put("major", major);
                     metadata.put("gender", gender);
-                    metadata.put("time_sleep", timeSleep);
-                    metadata.put("time_wake", timeWake);
+                    roommateProfile.put("time_sleep", timeSleep);
+                    roommateProfile.put("time_wake", timeWake);
+                    roommateProfile.put("interests", interests);
+                    roommateProfile.put("activities", activities);
+                    roommateProfile.put("bio", bio);
                     roommateProfile.put("cleanliness", cleanliness);
                     roommateProfile.put("if_smoke", ifSmoke);
                     roommateProfile.put("if_drink", ifDrink);
