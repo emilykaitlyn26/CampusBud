@@ -25,6 +25,7 @@ import com.example.campusbud.fragments.ProfileFragment;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,11 +46,13 @@ public class ProfileSettings extends AppCompatActivity {
     private final String TAG = "ProfileSettings";
 
     public JSONObject metadata = new JSONObject();
+    public JSONArray roommateProfileArray = new JSONArray();
+    public JSONObject roommateProfile = new JSONObject();
 
     public RadioGroup radioYearGroup;
     public RadioButton radioYearButton;
     public Switch roommateSwitch;
-    public Boolean switchState;
+    public Boolean switchState = false;
     public RadioGroup rgCleanliness;
     public RadioButton rbCleanliness;
     public RadioGroup rgSmoke;
@@ -60,6 +63,9 @@ public class ProfileSettings extends AppCompatActivity {
     public String year;
     public String name;
     public String major;
+    public String cleanliness;
+    public String ifSmoke;
+    public String ifDrink;
     String username;
     String password;
 
@@ -86,7 +92,7 @@ public class ProfileSettings extends AppCompatActivity {
         rgSmoke = findViewById(R.id.rgSmoke);
         rgDrink = findViewById(R.id.rgDrink);
 
-        roommateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*roommateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (roommateSwitch.isChecked()) {
@@ -108,11 +114,9 @@ public class ProfileSettings extends AppCompatActivity {
                     rgDrink.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
 
-        switchState = roommateSwitch.isChecked();
-
-        if (switchState == true) {
+        /*if (switchState == true) {
             tvCleanliness.setVisibility(View.VISIBLE);
             tvSmoke.setVisibility(View.VISIBLE);
             tvDrink.setVisibility(View.VISIBLE);
@@ -126,7 +130,7 @@ public class ProfileSettings extends AppCompatActivity {
             rgCleanliness.setVisibility(View.GONE);
             rgSmoke.setVisibility(View.GONE);
             rgDrink.setVisibility(View.GONE);
-        }
+        }*/
 
         /*if (etNewUsername.getText() != null) {
             username = etNewUsername.getText().toString();
@@ -150,6 +154,32 @@ public class ProfileSettings extends AppCompatActivity {
             }
         });
 
+        //if (switchState == true) {
+            rgCleanliness.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    rbCleanliness = (RadioButton) findViewById(checkedId);
+                    cleanliness = rbCleanliness.getText().toString();
+                }
+            });
+
+            rgSmoke.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    rbSmoke = findViewById(checkedId);
+                    ifSmoke = rbSmoke.getText().toString();
+                }
+            });
+
+            rgDrink.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    rbDrink = findViewById(checkedId);
+                    ifDrink = rbDrink.getText().toString();
+                }
+            });
+        //}
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +191,12 @@ public class ProfileSettings extends AppCompatActivity {
                     metadata.put("name", name);
                     metadata.put("year", year);
                     metadata.put("major", major);
+                    roommateProfile.put("cleanliness", cleanliness);
+                    roommateProfile.put("if_smoke", ifSmoke);
+                    roommateProfile.put("if_drink", ifDrink);
+                    roommateProfileArray.put(roommateProfile);
+                    //metadata.put("cleanliness", cleanliness);
+                    metadata.put("roommate_profile", roommateProfileArray);
                     Log.d(TAG, "metadata: " + metadata);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -170,6 +206,7 @@ public class ProfileSettings extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
     public void updateUser(User user) {
