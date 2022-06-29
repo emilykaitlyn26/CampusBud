@@ -106,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(User user) {
                             Log.d(TAG, "Login Successful : " + user.toString());
+                            goMainActivity();
                         }
 
                         @Override
@@ -114,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                 }
-                goMainActivity();
                 Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
             }
         });

@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.example.campusbud.ProfileSettings;
 import com.example.campusbud.R;
@@ -28,9 +30,12 @@ import org.json.JSONObject;
 
 public class ProfileFragment extends Fragment {
 
-    ParseUser parseUser = ParseUser.getCurrentUser();
-    User user = CometChat.getLoggedInUser();
-    JSONObject metadataObject = user.getMetadata();
+    Profile profile;
+    private final String TAG = "ProfileFragment";
+
+    ParseUser parseUser;
+    User user;
+    JSONObject metadata;
 
     public ProfileFragment() { }
 
@@ -43,10 +48,19 @@ public class ProfileFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        parseUser = ParseUser.getCurrentUser();
+        user = CometChat.getLoggedInUser();
+        Log.e(TAG, "User is " + parseUser.toString() + " parse and " + user + " comet");
 
-        Profile profile = null;
+        if (user != null) {
+            Log.d(TAG, "user is not null");
+            metadata = user.getMetadata();
+        } else {
+            Log.d(TAG, "User is null");
+        }
+
         try {
-            profile = Profile.fromJson(metadataObject);
+            profile = Profile.fromJson(metadata);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -79,4 +93,5 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(getActivity(), ProfileSettings.class);
         startActivity(intent);
     }
+
 }

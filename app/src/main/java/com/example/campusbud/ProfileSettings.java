@@ -40,6 +40,8 @@ public class ProfileSettings extends AppCompatActivity {
     public TextView tvSmoke;
     public TextView tvDrink;
 
+    public User user;
+
     private final String TAG = "ProfileSettings";
 
     public JSONObject metadata = new JSONObject();
@@ -66,7 +68,7 @@ public class ProfileSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
 
-        User user = CometChat.getLoggedInUser();
+        user = CometChat.getLoggedInUser();
         ParseUser parseUser = ParseUser.getCurrentUser();
 
         radioYearGroup = (RadioGroup) findViewById(R.id.radioYearGroup);

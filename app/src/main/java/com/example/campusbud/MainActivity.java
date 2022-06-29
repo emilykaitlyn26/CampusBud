@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.ui_components.chats.CometChatConversationList;
 import com.cometchat.pro.uikit.ui_components.cometchat_ui.CometChatUI;
 import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
@@ -26,6 +27,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
