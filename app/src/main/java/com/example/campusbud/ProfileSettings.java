@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
@@ -29,17 +31,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ProfileSettings extends AppCompatActivity {
 
     public EditText etName;
     public EditText etMajor;
     public EditText etNewUsername;
     public EditText etNewPassword;
+    public EditText etTimeMorning;
+    public EditText etTimeNight;
     public Button btnSubmit;
     public ImageView ivCreatePicture;
     public TextView tvCleanliness;
     public TextView tvSmoke;
     public TextView tvDrink;
+    public TextView tvRoomUse;
+    public TextView tvTimeMorning;
+    public TextView tvTimeNight;
+
+    public TimePickerDialog timePickerDialog;
 
     public User user;
 
@@ -59,6 +74,10 @@ public class ProfileSettings extends AppCompatActivity {
     public RadioButton rbSmoke;
     public RadioGroup rgDrink;
     public RadioButton rbDrink;
+    public RadioGroup rgRoomUse;
+    public RadioButton rbRoomUse;
+    public RadioGroup rgGender;
+    public RadioButton rbGender;
 
     public String year;
     public String name;
@@ -66,6 +85,10 @@ public class ProfileSettings extends AppCompatActivity {
     public String cleanliness;
     public String ifSmoke;
     public String ifDrink;
+    public String roomUse;
+    public String gender;
+    public String timeSleep;
+    public String timeWake;
     String username;
     String password;
 
@@ -81,8 +104,10 @@ public class ProfileSettings extends AppCompatActivity {
         ivCreatePicture = findViewById(R.id.ivCreatePicture);
         etName = findViewById(R.id.etName);
         etMajor = findViewById(R.id.etMajor);
-        etNewUsername = findViewById(R.id.etNewUsername);
-        etNewPassword = findViewById(R.id.etNewPassword);
+        etTimeMorning = findViewById(R.id.etTimeMorning);
+        etTimeNight = findViewById(R.id.etTimeNight);
+        //etNewUsername = findViewById(R.id.etNewUsername);
+        //etNewPassword = findViewById(R.id.etNewPassword);
         btnSubmit = findViewById(R.id.btnSubmit);
         roommateSwitch = findViewById(R.id.roommateSwitch);
         tvCleanliness = findViewById(R.id.tvCleanliness);
@@ -91,6 +116,11 @@ public class ProfileSettings extends AppCompatActivity {
         rgCleanliness = findViewById(R.id.rgCleanliness);
         rgSmoke = findViewById(R.id.rgSmoke);
         rgDrink = findViewById(R.id.rgDrink);
+        tvRoomUse = findViewById(R.id.tvRoomUse);
+        rgRoomUse = findViewById(R.id.rgRoomUse);
+        rgGender = findViewById(R.id.rgGender);
+        tvTimeMorning = findViewById(R.id.tvTimeMorning);
+        tvTimeNight = findViewById(R.id.tvTimeNight);
 
         /*roommateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -180,6 +210,22 @@ public class ProfileSettings extends AppCompatActivity {
             });
         //}
 
+        rgRoomUse.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                rbRoomUse = findViewById(checkedId);
+                roomUse = rbRoomUse.getText().toString();
+            }
+        });
+
+        rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                rbGender = findViewById(checkedId);
+                gender = rbGender.getText().toString();
+            }
+        });
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,13 +233,20 @@ public class ProfileSettings extends AppCompatActivity {
                 name = etName.getText().toString();
                 major = etMajor.getText().toString();
 
+                timeSleep = etTimeNight.getText().toString();
+                timeWake = etTimeMorning.getText().toString();
+
                 try {
                     metadata.put("name", name);
                     metadata.put("year", year);
                     metadata.put("major", major);
+                    metadata.put("gender", gender);
+                    metadata.put("time_sleep", timeSleep);
+                    metadata.put("time_wake", timeWake);
                     roommateProfile.put("cleanliness", cleanliness);
                     roommateProfile.put("if_smoke", ifSmoke);
                     roommateProfile.put("if_drink", ifDrink);
+                    roommateProfile.put("room_use", roomUse);
                     roommateProfileArray.put(roommateProfile);
                     //metadata.put("cleanliness", cleanliness);
                     metadata.put("roommate_profile", roommateProfileArray);
@@ -206,7 +259,6 @@ public class ProfileSettings extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     public void updateUser(User user) {

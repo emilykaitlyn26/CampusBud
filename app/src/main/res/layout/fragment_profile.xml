@@ -6,6 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProfileFragment">
 
+    <TextView
+        android:id="@+id/tvTimeSleepInput2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:text="8:00am"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeSleepInput" />
+
+    <TextView
+        android:id="@+id/tvTimeWake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="Time Wake Up: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeSleep" />
+
+    <TextView
+        android:id="@+id/tvTimeSleepInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:text="10:00pm"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeSleep"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2" />
+
+    <TextView
+        android:id="@+id/tvRoomUseDisplay2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="Preferred Room Use: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDrinking" />
+
+    <TextView
+        android:id="@+id/tvTimeNight2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="When do you sleep?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
+
     <ImageView
         android:id="@+id/ivPictureDisplay"
         android:layout_width="100dp"
@@ -94,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:layout_marginTop="4dp"
-        android:text="Drinking"
+        android:text="Drinking: "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSmoking" />
 
@@ -127,5 +177,25 @@
         app:layout_constraintStart_toEndOf="@+id/tvDrinking"
         app:layout_constraintTop_toBottomOf="@+id/tvSmoking"
         tools:text="No" />
+
+    <TextView
+        android:id="@+id/tvTimeSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="Time Sleep: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2" />
+
+    <TextView
+        android:id="@+id/tvRoomUseInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:text="Social Space"
+        app:layout_constraintStart_toEndOf="@+id/tvRoomUseDisplay2"
+        app:layout_constraintTop_toBottomOf="@+id/tvDrinkingInput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

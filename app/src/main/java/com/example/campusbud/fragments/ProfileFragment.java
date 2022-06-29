@@ -1,7 +1,6 @@
 package com.example.campusbud.fragments;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,13 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cometchat.pro.core.CometChat;
-import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.example.campusbud.ProfileSettings;
 import com.example.campusbud.R;
@@ -88,6 +84,8 @@ public class ProfileFragment extends Fragment {
         TextView tvDrinking;
         TextView tvSmokingInput;
         TextView tvDrinkingInput;
+        TextView tvRoomUseDisplay;
+        TextView tvRoomUseInput;
 
         ivPictureDisplay = view.findViewById(R.id.ivPictureDisplay);
         tvUserDisplay = view.findViewById(R.id.tvUserDisplay);
@@ -100,6 +98,8 @@ public class ProfileFragment extends Fragment {
         tvDrinking = view.findViewById(R.id.tvDrinking);
         tvSmokingInput = view.findViewById(R.id.tvSmokingInput);
         tvDrinkingInput = view.findViewById(R.id.tvDrinkingInput);
+        tvRoomUseDisplay = view.findViewById(R.id.tvTimeSleep);
+        tvRoomUseInput = view.findViewById(R.id.tvRoomUseInput);
 
         try {
             tvUserDisplay.setText(metadata.getString("name"));
@@ -119,6 +119,7 @@ public class ProfileFragment extends Fragment {
                  tvCleanlinessInput.setText(roommateProfile.getString("cleanliness"));
                  tvSmokingInput.setText(roommateProfile.getString("if_smoke"));
                  tvDrinkingInput.setText(roommateProfile.getString("if_drink"));
+                 tvRoomUseInput.setText(roommateProfile.getString("room_use"));
              } catch (JSONException e) {
                  e.printStackTrace();
              }
@@ -128,6 +129,8 @@ public class ProfileFragment extends Fragment {
             tvDrinking.setVisibility(View.VISIBLE);
             tvSmokingInput.setVisibility(View.VISIBLE);
             tvDrinkingInput.setVisibility(View.VISIBLE);
+            tvRoomUseDisplay.setVisibility(View.VISIBLE);
+            tvRoomUseInput.setVisibility(View.VISIBLE);
         } else {
             tvRoomCleanliness.setVisibility(View.GONE);
             tvCleanlinessInput.setVisibility(View.GONE);

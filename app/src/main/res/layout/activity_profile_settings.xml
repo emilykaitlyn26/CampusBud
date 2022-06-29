@@ -26,6 +26,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />-->
 
+    <TextView
+        android:id="@+id/tvTimeNight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="When do you sleep?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
+
     <RadioGroup
         android:id="@+id/rgSmoke"
         android:layout_width="197dp"
@@ -83,21 +93,23 @@
 
     <EditText
         android:id="@+id/etMajor"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="140dp"
+        android:layout_height="38dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:hint="Major"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/ivCreatePicture"
         app:layout_constraintTop_toBottomOf="@+id/etName" />
 
     <EditText
         android:id="@+id/etName"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="141dp"
+        android:layout_height="41dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:hint="Name"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/ivCreatePicture"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -105,9 +117,9 @@
         android:id="@+id/radioYearGroup"
         android:layout_width="97dp"
         android:layout_height="119dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/etMajor"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/etName"
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
@@ -115,40 +127,40 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:checked="false"
-            android:text="Freshman"
-            android:textSize="12sp"
             android:scaleX="0.8"
-            android:scaleY="0.8"/>
+            android:scaleY="0.8"
+            android:text="Freshman"
+            android:textSize="12sp" />
 
         <RadioButton
             android:id="@+id/rbSophomore"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:checked="false"
-            android:text="Sophomore"
-            android:textSize="12sp"
             android:scaleX="0.8"
-            android:scaleY="0.8"/>
+            android:scaleY="0.8"
+            android:text="Sophomore"
+            android:textSize="12sp" />
 
         <RadioButton
             android:id="@+id/rbJunior"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:checked="false"
-            android:text="Junior"
-            android:textSize="12sp"
             android:scaleX="0.8"
-            android:scaleY="0.8"/>
+            android:scaleY="0.8"
+            android:text="Junior"
+            android:textSize="12sp" />
 
         <RadioButton
             android:id="@+id/rbSenior"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:checked="false"
-            android:text="Senior"
-            android:textSize="12sp"
             android:scaleX="0.8"
-            android:scaleY="0.8"/>
+            android:scaleY="0.8"
+            android:text="Senior"
+            android:textSize="12sp" />
 
     </RadioGroup>
 
@@ -177,10 +189,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="8dp"
         android:text="Roommate Profile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etMajor" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCreatePicture" />
 
     <TextView
         android:id="@+id/tvCleanliness"
@@ -195,8 +207,8 @@
         android:id="@+id/rgCleanliness"
         android:layout_width="369dp"
         android:layout_height="23dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCleanliness">
@@ -204,34 +216,34 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:text="Organized"
-            android:textSize="12sp"
-            android:scaleX="0.8"
-            android:scaleY="0.8"/>
+            android:textSize="12sp" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:text="Casual"
-            android:textSize="12sp"
-            android:scaleX="0.8"
-            android:scaleY="0.8"/>
+            android:textSize="12sp" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:text="Occasionally messy"
-            android:textSize="12sp"
-            android:scaleX="0.8"
-            android:scaleY="0.8"/>
+            android:textSize="12sp" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:text="Messy"
-            android:textSize="12sp"
             android:scaleX="0.8"
-            android:scaleY="0.8"/>
+            android:scaleY="0.8"
+            android:text="Messy"
+            android:textSize="12sp" />
 
     </RadioGroup>
 
@@ -269,6 +281,113 @@
             android:textSize="12sp" />
 
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvRoomUse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="Preferred Use of Room"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgDrink" />
+
+    <RadioGroup
+        android:id="@+id/rgRoomUse"
+        android:layout_width="438dp"
+        android:layout_height="23dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomUse">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Social Space"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Study Space"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Sleeping Space"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Mix of All"
+            android:textSize="12sp" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/etTimeNight"
+        android:layout_width="57dp"
+        android:layout_height="34dp"
+        android:ems="10"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeNight"
+        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
+
+    <EditText
+        android:id="@+id/etTimeMorning"
+        android:layout_width="57dp"
+        android:layout_height="34dp"
+        android:ems="10"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeMorning"
+        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
+
+    <RadioGroup
+        android:id="@+id/rgGender"
+        android:layout_width="140dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="9dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@+id/ivCreatePicture"
+        app:layout_constraintTop_toBottomOf="@+id/etMajor">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Male"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Female"
+            android:textSize="12sp" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvTimeMorning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="When do you wake up?"
+        app:layout_constraintStart_toEndOf="@+id/etTimeNight"
+        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
