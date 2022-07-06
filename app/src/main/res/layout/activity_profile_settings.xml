@@ -294,9 +294,13 @@
 
     <RadioGroup
         android:id="@+id/rgRoomUse"
-        android:layout_width="438dp"
-        android:layout_height="23dp"
+        android:layout_width="387dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="11dp"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomUse">
 
@@ -325,11 +329,12 @@
             android:textSize="12sp" />
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:text="Mix of All"
+            android:text="All of the Above"
             android:textSize="12sp" />
 
     </RadioGroup>
