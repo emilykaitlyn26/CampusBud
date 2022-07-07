@@ -117,7 +117,7 @@
         android:id="@+id/radioYearGroup"
         android:layout_width="97dp"
         android:layout_height="119dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/etName"
         app:layout_constraintTop_toTopOf="parent">
@@ -294,8 +294,8 @@
 
     <RadioGroup
         android:id="@+id/rgRoomUse"
-        android:layout_width="387dp"
-        android:layout_height="41dp"
+        android:layout_width="389dp"
+        android:layout_height="45dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="11dp"
@@ -329,7 +329,7 @@
             android:textSize="12sp" />
 
         <RadioButton
-            android:layout_width="125dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleX="0.8"

@@ -93,4 +93,6 @@ dependencies {
     compileOnly 'com.cometchat:pro-android-chat-sdk:3.0.1'
     compileOnly 'com.cometchat:pro-android-calls-sdk:2.1.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.0'
+
+    implementation 'androidx.cardview:cardview:1.0.0'
 }

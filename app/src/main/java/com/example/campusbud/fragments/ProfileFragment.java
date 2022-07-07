@@ -65,13 +65,13 @@ public class ProfileFragment extends Fragment {
             Log.d(TAG, "metadata is null");
         }
 
-        try {
+        /*try {
             profile = Profile.fromJson(metadata);
             Log.e(TAG, "profile is not null");
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e(TAG, "profile is null");
-        }
+        }*/
 
         ImageView ivPictureDisplay;
         TextView tvUserDisplay;
@@ -120,53 +120,57 @@ public class ProfileFragment extends Fragment {
         tvActivitiesInput = view.findViewById(R.id.tvActivitiesInput);
         tvBioInput = view.findViewById(R.id.tvBioInput);
 
-        try {
-            tvUserDisplay.setText(metadata.getString("name"));
-            tvYearDisplay.setText(metadata.getString("year"));
-            tvMajorDisplay.setText(metadata.getString("major"));
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (metadata != null) {
+            try {
+                tvUserDisplay.setText(metadata.getString("name"));
+                tvYearDisplay.setText(metadata.getString("year"));
+                tvMajorDisplay.setText(metadata.getString("major"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }//);
         //
         //;
 
-        Log.d(TAG, "metadata:" + metadata);
-         if (metadata.has("roommate_profile")) {
-             try {
-                 roommateProfileArray = metadata.getJSONArray("roommate_profile");
-                 roommateProfile = roommateProfileArray.getJSONObject(0);
-                 tvCleanlinessInput.setText(roommateProfile.getString("cleanliness"));
-                 tvSmokingInput.setText(roommateProfile.getString("if_smoke"));
-                 tvDrinkingInput.setText(roommateProfile.getString("if_drink"));
-                 tvRoomUseInput.setText(roommateProfile.getString("room_use"));
-                 tvTimeSleepInput.setText(roommateProfile.getString("time_sleep"));
-                 tvTimeWakeInput.setText(roommateProfile.getString("time_wake"));
-                 tvInterestsInput.setText(roommateProfile.getString("interests"));
-                 tvActivitiesInput.setText(roommateProfile.getString("activities"));
-                 tvBioInput.setText(roommateProfile.getString("bio"));
-             } catch (JSONException e) {
-                 e.printStackTrace();
-             }
-            tvRoomCleanliness.setVisibility(View.VISIBLE);
-            tvCleanlinessInput.setVisibility(View.VISIBLE);
-            tvSmoking.setVisibility(View.VISIBLE);
-            tvDrinking.setVisibility(View.VISIBLE);
-            tvSmokingInput.setVisibility(View.VISIBLE);
-            tvDrinkingInput.setVisibility(View.VISIBLE);
-            tvRoomUseDisplay.setVisibility(View.VISIBLE);
-            tvRoomUseInput.setVisibility(View.VISIBLE);
-            tvTimeSleepInput.setVisibility(View.VISIBLE);
-            tvTimeWakeInput.setVisibility(View.VISIBLE);
-            tvInterestsInput.setVisibility(View.VISIBLE);
-            tvActivitiesInput.setVisibility(View.VISIBLE);
-            tvBioInput.setVisibility(View.VISIBLE);
-        } else {
-            tvRoomCleanliness.setVisibility(View.GONE);
-            tvCleanlinessInput.setVisibility(View.GONE);
-            tvSmoking.setVisibility(View.GONE);
-            tvDrinking.setVisibility(View.GONE);
-            tvSmokingInput.setVisibility(View.GONE);
-            tvDrinkingInput.setVisibility(View.GONE);
+        if (metadata != null) {
+            Log.d(TAG, "metadata:" + metadata);
+            if (metadata.has("roommate_profile")) {
+                try {
+                    roommateProfileArray = metadata.getJSONArray("roommate_profile");
+                    roommateProfile = roommateProfileArray.getJSONObject(0);
+                    tvCleanlinessInput.setText(roommateProfile.getString("cleanliness"));
+                    tvSmokingInput.setText(roommateProfile.getString("if_smoke"));
+                    tvDrinkingInput.setText(roommateProfile.getString("if_drink"));
+                    tvRoomUseInput.setText(roommateProfile.getString("room_use"));
+                    tvTimeSleepInput.setText(roommateProfile.getString("time_sleep"));
+                    tvTimeWakeInput.setText(roommateProfile.getString("time_wake"));
+                    tvInterestsInput.setText(roommateProfile.getString("interests"));
+                    tvActivitiesInput.setText(roommateProfile.getString("activities"));
+                    tvBioInput.setText(roommateProfile.getString("bio"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvRoomCleanliness.setVisibility(View.VISIBLE);
+                tvCleanlinessInput.setVisibility(View.VISIBLE);
+                tvSmoking.setVisibility(View.VISIBLE);
+                tvDrinking.setVisibility(View.VISIBLE);
+                tvSmokingInput.setVisibility(View.VISIBLE);
+                tvDrinkingInput.setVisibility(View.VISIBLE);
+                tvRoomUseDisplay.setVisibility(View.VISIBLE);
+                tvRoomUseInput.setVisibility(View.VISIBLE);
+                tvTimeSleepInput.setVisibility(View.VISIBLE);
+                tvTimeWakeInput.setVisibility(View.VISIBLE);
+                tvInterestsInput.setVisibility(View.VISIBLE);
+                tvActivitiesInput.setVisibility(View.VISIBLE);
+                tvBioInput.setVisibility(View.VISIBLE);
+            } else {
+                tvRoomCleanliness.setVisibility(View.GONE);
+                tvCleanlinessInput.setVisibility(View.GONE);
+                tvSmoking.setVisibility(View.GONE);
+                tvDrinking.setVisibility(View.GONE);
+                tvSmokingInput.setVisibility(View.GONE);
+                tvDrinkingInput.setVisibility(View.GONE);
+            }
         }
 
         ivSettings.setOnClickListener(new View.OnClickListener() {

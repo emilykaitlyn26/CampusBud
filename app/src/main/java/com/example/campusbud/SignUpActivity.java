@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -104,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             });
 
-            goMainActivity();
+            loginUser(username, password);
             Toast.makeText(SignUpActivity.this, "Success", Toast.LENGTH_SHORT).show();
         });
     }
@@ -143,6 +145,38 @@ public class SignUpActivity extends AppCompatActivity {
 
         //return user;
     }*/
+
+    private void loginUser(String username, String password) {
+        Log.i(TAG, "Attempting to login user" + username);
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with login", e);
+                    Toast.makeText(SignUpActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ParseUser parseUser = ParseUser.getCurrentUser();
+                String UID = parseUser.getObjectId();
+
+                if (CometChat.getLoggedInUser() == null) {
+                    CometChat.login(UID, authKey, new CometChat.CallbackListener<User>() {
+                        @Override
+                        public void onSuccess(User user) {
+                            Log.d(TAG, "Login Successful : " + user.toString());
+                            goMainActivity();
+                        }
+
+                        @Override
+                        public void onError(CometChatException e) {
+                            Log.d(TAG, "Login failed with exception: " + e.getMessage());
+                        }
+                    });
+                }
+                Toast.makeText(SignUpActivity.this, "Success", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void goMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);

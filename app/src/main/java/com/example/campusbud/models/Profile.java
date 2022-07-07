@@ -1,9 +1,18 @@
 package com.example.campusbud.models;
 
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Parcel
 public class Profile {
 
     public String name;
@@ -15,6 +24,8 @@ public class Profile {
     public String ifSmoke;
     public String ifDrink;
     public Boolean ifRoommateProfile = false;*/
+
+    //public static final String KEY_OBJECT_ID = "object_id";
 
     public Profile() {}
 
@@ -33,5 +44,11 @@ public class Profile {
         return profile;
     }
 
-
+    public static List<Profile> fromJsonArray(JSONArray jsonArray) throws JSONException {
+        List<Profile> profiles = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            profiles.add(fromJson(jsonArray.getJSONObject(i)));
+        }
+        return profiles;
+    }
 }
