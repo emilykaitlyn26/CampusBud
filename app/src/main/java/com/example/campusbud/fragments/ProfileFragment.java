@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
@@ -65,34 +64,17 @@ public class ProfileFragment extends Fragment {
             Log.d(TAG, "metadata is null");
         }
 
-        /*try {
-            profile = Profile.fromJson(metadata);
-            Log.e(TAG, "profile is not null");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e(TAG, "profile is null");
-        }*/
-
         ImageView ivPictureDisplay;
         TextView tvUserDisplay;
         TextView tvYearDisplay;
         TextView tvMajorDisplay;
         ImageView ivSettings;
-        TextView tvRoomCleanliness;
         TextView tvCleanlinessInput;
-        TextView tvSmoking;
-        TextView tvDrinking;
         TextView tvSmokingInput;
         TextView tvDrinkingInput;
-        TextView tvRoomUseDisplay;
         TextView tvRoomUseInput;
-        TextView tvTimeSleep;
-        TextView tvTimeWake;
         TextView tvTimeSleepInput;
         TextView tvTimeWakeInput;
-        TextView tvInterests;
-        TextView tvActivities;
-        TextView tvBio;
         TextView tvInterestsInput;
         TextView tvActivitiesInput;
         TextView tvBioInput;
@@ -102,21 +84,13 @@ public class ProfileFragment extends Fragment {
         tvYearDisplay = view.findViewById(R.id.tvYearDisplay);
         tvMajorDisplay = view.findViewById(R.id.tvMajorDisplay);
         ivSettings = view.findViewById(R.id.ivSettings);
-        tvRoomCleanliness = view.findViewById(R.id.tvRoomCleanliness);
         tvCleanlinessInput = view.findViewById(R.id.tvCleanlinessInput);
-        tvSmoking = view.findViewById(R.id.tvSmoking);
-        tvDrinking = view.findViewById(R.id.tvDrinking);
         tvSmokingInput = view.findViewById(R.id.tvSmokingInput);
         tvDrinkingInput = view.findViewById(R.id.tvDrinkingInput);
-        tvRoomUseDisplay = view.findViewById(R.id.tvTimeSleep);
         tvRoomUseInput = view.findViewById(R.id.tvRoomUseInput);
-        tvTimeSleep = view.findViewById(R.id.tvTimeSleep);
         tvTimeSleepInput = view.findViewById(R.id.tvTimeSleepInput);
-        tvTimeWake = view.findViewById(R.id.tvTimeWake);
         tvTimeWakeInput = view.findViewById(R.id.tvTimeWakeInput);
-        tvInterests = view.findViewById(R.id.tvInterests);
         tvInterestsInput = view.findViewById(R.id.tvInterestsInput);
-        tvActivities = view.findViewById(R.id.tvActivities);
         tvActivitiesInput = view.findViewById(R.id.tvActivitiesInput);
         tvBioInput = view.findViewById(R.id.tvBioInput);
 
@@ -128,9 +102,7 @@ public class ProfileFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }//);
-        //
-        //;
+        }
 
         if (metadata != null) {
             Log.d(TAG, "metadata:" + metadata);
@@ -150,26 +122,6 @@ public class ProfileFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                tvRoomCleanliness.setVisibility(View.VISIBLE);
-                tvCleanlinessInput.setVisibility(View.VISIBLE);
-                tvSmoking.setVisibility(View.VISIBLE);
-                tvDrinking.setVisibility(View.VISIBLE);
-                tvSmokingInput.setVisibility(View.VISIBLE);
-                tvDrinkingInput.setVisibility(View.VISIBLE);
-                tvRoomUseDisplay.setVisibility(View.VISIBLE);
-                tvRoomUseInput.setVisibility(View.VISIBLE);
-                tvTimeSleepInput.setVisibility(View.VISIBLE);
-                tvTimeWakeInput.setVisibility(View.VISIBLE);
-                tvInterestsInput.setVisibility(View.VISIBLE);
-                tvActivitiesInput.setVisibility(View.VISIBLE);
-                tvBioInput.setVisibility(View.VISIBLE);
-            } else {
-                tvRoomCleanliness.setVisibility(View.GONE);
-                tvCleanlinessInput.setVisibility(View.GONE);
-                tvSmoking.setVisibility(View.GONE);
-                tvDrinking.setVisibility(View.GONE);
-                tvSmokingInput.setVisibility(View.GONE);
-                tvDrinkingInput.setVisibility(View.GONE);
             }
         }
 

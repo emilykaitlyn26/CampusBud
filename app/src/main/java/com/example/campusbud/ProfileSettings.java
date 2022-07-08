@@ -1,12 +1,20 @@
 package com.example.campusbud;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +39,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -56,8 +67,13 @@ public class ProfileSettings extends AppCompatActivity {
     public TextView tvRoomUse;
     public TextView tvTimeMorning;
     public TextView tvTimeNight;
+    public ImageView ivProfileImage1;
+    public ImageView ivProfileImage2;
+    public ImageView ivProfileImage3;
 
-    public TimePickerDialog timePickerDialog;
+    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+    private File photoFile;
+    public String photoFileName = "photo.jpg";
 
     public User user;
 
@@ -104,86 +120,37 @@ public class ProfileSettings extends AppCompatActivity {
         setContentView(R.layout.activity_profile_settings);
 
         user = CometChat.getLoggedInUser();
-        ParseUser parseUser = ParseUser.getCurrentUser();
 
-        radioYearGroup = (RadioGroup) findViewById(R.id.radioYearGroup);
+        radioYearGroup = findViewById(R.id.radioYearGroup);
         ivCreatePicture = findViewById(R.id.ivCreatePicture);
         etName = findViewById(R.id.etName);
         etMajor = findViewById(R.id.etMajor);
         etTimeMorning = findViewById(R.id.etTimeMorning);
         etTimeNight = findViewById(R.id.etTimeNight);
-        //etNewUsername = findViewById(R.id.etNewUsername);
-        //etNewPassword = findViewById(R.id.etNewPassword);
         btnSubmit = findViewById(R.id.btnSubmit);
         roommateSwitch = findViewById(R.id.roommateSwitch);
-        tvCleanliness = findViewById(R.id.tvCleanliness);
-        tvSmoke = findViewById(R.id.tvSmoke);
-        tvDrink = findViewById(R.id.tvDrink);
         rgCleanliness = findViewById(R.id.rgCleanliness);
         rgSmoke = findViewById(R.id.rgSmoke);
         rgDrink = findViewById(R.id.rgDrink);
-        tvRoomUse = findViewById(R.id.tvRoomUse);
         rgRoomUse = findViewById(R.id.rgRoomUse);
         rgGender = findViewById(R.id.rgGender);
-        tvTimeMorning = findViewById(R.id.tvTimeMorning);
-        tvTimeNight = findViewById(R.id.tvTimeNight);
         etInterests = findViewById(R.id.etInterests);
         etActivities = findViewById(R.id.etActivities);
         etBio = findViewById(R.id.etBio);
+        ivProfileImage1 = findViewById(R.id.ivProfileImage1);
+        ivProfileImage2 = findViewById(R.id.ivProfileImage2);
+        ivProfileImage3 = findViewById(R.id.ivProfileImage3);
 
         /*roommateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (roommateSwitch.isChecked()) {
                     switchState = true;
-                    tvCleanliness.setVisibility(View.VISIBLE);
-                    tvSmoke.setVisibility(View.VISIBLE);
-                    tvDrink.setVisibility(View.VISIBLE);
-                    rgCleanliness.setVisibility(View.VISIBLE);
-                    rgSmoke.setVisibility(View.VISIBLE);
-                    rgDrink.setVisibility(View.VISIBLE);
-
                 } else {
                     switchState = false;
-                    tvCleanliness.setVisibility(View.GONE);
-                    tvSmoke.setVisibility(View.GONE);
-                    tvDrink.setVisibility(View.GONE);
-                    rgCleanliness.setVisibility(View.GONE);
-                    rgSmoke.setVisibility(View.GONE);
-                    rgDrink.setVisibility(View.GONE);
                 }
             }
         });*/
-
-        /*if (switchState == true) {
-            tvCleanliness.setVisibility(View.VISIBLE);
-            tvSmoke.setVisibility(View.VISIBLE);
-            tvDrink.setVisibility(View.VISIBLE);
-            rgCleanliness.setVisibility(View.VISIBLE);
-            rgSmoke.setVisibility(View.VISIBLE);
-            rgDrink.setVisibility(View.VISIBLE);
-        } else {
-            tvCleanliness.setVisibility(View.GONE);
-            tvSmoke.setVisibility(View.GONE);
-            tvDrink.setVisibility(View.GONE);
-            rgCleanliness.setVisibility(View.GONE);
-            rgSmoke.setVisibility(View.GONE);
-            rgDrink.setVisibility(View.GONE);
-        }*/
-
-        /*if (etNewUsername.getText() != null) {
-            username = etNewUsername.getText().toString();
-            if (!parseUser.getUsername().equals(username)) {
-                parseUser.setUsername(username);
-            }
-        }*/
-
-        /*if (etNewPassword.getText() != null) {
-            password = etNewPassword.getText().toString();
-            if (!parseUser.getString("Password").equals(password)) {
-                parseUser.setPassword(password);
-            }
-        }*/
 
         radioYearGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -193,31 +160,29 @@ public class ProfileSettings extends AppCompatActivity {
             }
         });
 
-        //if (switchState == true) {
-            rgCleanliness.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    rbCleanliness = (RadioButton) findViewById(checkedId);
-                    cleanliness = rbCleanliness.getText().toString();
-                }
-            });
+        rgCleanliness.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                rbCleanliness = (RadioButton) findViewById(checkedId);
+                cleanliness = rbCleanliness.getText().toString();
+            }
+        });
 
-            rgSmoke.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    rbSmoke = findViewById(checkedId);
-                    ifSmoke = rbSmoke.getText().toString();
-                }
-            });
+        rgSmoke.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                rbSmoke = findViewById(checkedId);
+                ifSmoke = rbSmoke.getText().toString();
+            }
+        });
 
-            rgDrink.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    rbDrink = findViewById(checkedId);
-                    ifDrink = rbDrink.getText().toString();
-                }
-            });
-        //}
+        rgDrink.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                rbDrink = findViewById(checkedId);
+                ifDrink = rbDrink.getText().toString();
+            }
+        });
 
         rgRoomUse.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -232,6 +197,34 @@ public class ProfileSettings extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 rbGender = findViewById(checkedId);
                 gender = rbGender.getText().toString();
+            }
+        });
+
+        ivCreatePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                optionsMenu();
+            }
+        });
+
+        ivProfileImage1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                optionsMenu();
+            }
+        });
+
+        ivProfileImage2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                optionsMenu();
+            }
+        });
+
+        ivProfileImage3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                optionsMenu();
             }
         });
 
@@ -262,7 +255,6 @@ public class ProfileSettings extends AppCompatActivity {
                     roommateProfile.put("if_drink", ifDrink);
                     roommateProfile.put("room_use", roomUse);
                     roommateProfileArray.put(roommateProfile);
-                    //metadata.put("cleanliness", cleanliness);
                     metadata.put("roommate_profile", roommateProfileArray);
                     Log.d(TAG, "metadata: " + metadata);
                 } catch (JSONException e) {
@@ -286,5 +278,55 @@ public class ProfileSettings extends AppCompatActivity {
                 Log.d(TAG, e.getMessage());
             }
         });
+    }
+
+    public void optionsMenu() {
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Photo");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Take Photo")) {
+                    launchCamera();
+                    //saveImage(user, photoFile);
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 2);
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        }); builder.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                ivCreatePicture.setImageBitmap(takenImage);
+            }
+        }
+    }
+
+    public File getPhotoFileUri(String fileName) {
+        File mediaStorageDir = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+            Log.d(TAG, "failed to create directory");
+        }
+        return new File(mediaStorageDir.getPath() + File.separator + fileName);
+    }
+
+    public void launchCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        photoFile = getPhotoFileUri(photoFileName);
+        //String authority = this.getPackageName() + ".fileprovider";
+        //Uri fileProvider = FileProvider.getUriForFile(this, authority, photoFile);
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+        if (intent.resolveActivity(this.getPackageManager()) != null) {
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
     }
 }

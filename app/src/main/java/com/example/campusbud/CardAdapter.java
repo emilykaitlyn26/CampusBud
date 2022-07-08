@@ -14,6 +14,7 @@ import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,8 +32,18 @@ public class CardAdapter extends BaseAdapter {
     public ImageView image3;
     public TextView tvRoommateName;
     public ImageView ivBackground;
-
-    //public CardAdapter() {}
+    public TextView tvEnd;
+    public TextView tvRMajor;
+    public TextView tvRYear;
+    public TextView tvRCleanlinessInput;
+    public TextView tvRSmokingInput;
+    public TextView tvRDrinkingInput;
+    public TextView tvRRoomUseInput;
+    public TextView tvRTimeSleepInput;
+    public TextView tvRTimeWakeInput;
+    public TextView tvRInterestsInput;
+    public TextView tvRActivitiesInput;
+    public TextView tvRBioInput;
 
     public CardAdapter(Context context, List<User> userProfiles) {
         this.context = context;
@@ -83,25 +94,44 @@ public class CardAdapter extends BaseAdapter {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //getCurrentUser(position, view);
         } else {
             view = convertView;
         }
         return view;
     }
 
-    /*public void getCurrentUser(int position, View v) {
-        //User currentUser = CometChat.
-    }*/
-
-    public void getUser(int position, View view) {
-    }
-
     public void setup(User userProfile, View v) throws JSONException {
         JSONObject metadata = userProfile.getMetadata();
+        JSONArray roommateProfileArray = metadata.getJSONArray("roommate_profile");
+        JSONObject roommateProfile = roommateProfileArray.getJSONObject(0);
+
+        tvEnd = v.findViewById(R.id.tvEnd);
         tvRoommateName = v.findViewById(R.id.tvRName);
         ivBackground = v.findViewById(R.id.ivBackground);
+        tvRMajor = v.findViewById(R.id.tvRMajor);
+        tvRYear = v.findViewById(R.id.tvRYear);
+        tvRCleanlinessInput = v.findViewById(R.id.tvRCleanlinessInput);
+        tvRSmokingInput = v.findViewById(R.id.tvRSmokingInput);
+        tvRDrinkingInput = v.findViewById(R.id.tvRDrinkingInput);
+        tvRRoomUseInput = v.findViewById(R.id.tvRRoomUseInput);
+        tvRTimeSleepInput = v.findViewById(R.id.tvRTimeSleepInput);
+        tvRTimeWakeInput = v.findViewById(R.id.tvRTimeWakeInput);
+        tvRInterestsInput = v.findViewById(R.id.tvRInterestsInput);
+        tvRActivitiesInput = v.findViewById(R.id.tvRActivitiesInput);
+        tvRBioInput = v.findViewById(R.id.tvRBioInput);
+
         tvRoommateName.setText(metadata.getString("name"));
+        tvRYear.setText(metadata.getString("year"));
+        tvRMajor.setText(metadata.getString("major"));
+        tvRCleanlinessInput.setText(roommateProfile.getString("cleanliness"));
+        tvRSmokingInput.setText(roommateProfile.getString("if_smoke"));
+        tvRDrinkingInput.setText(roommateProfile.getString("if_drink"));
+        tvRRoomUseInput.setText(roommateProfile.getString("room_use"));
+        tvRTimeSleepInput.setText(roommateProfile.getString("time_sleep"));
+        tvRTimeWakeInput.setText(roommateProfile.getString("time_wake"));
+        tvRInterestsInput.setText(roommateProfile.getString("interests"));
+        tvRActivitiesInput.setText(roommateProfile.getString("activities"));
+        tvRBioInput.setText(roommateProfile.getString("bio"));
     }
 
 

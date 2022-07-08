@@ -80,10 +80,8 @@ public class ChatFragment extends Fragment {
 
     public static final String TAG = "ChatFragment";
 
-    //Used to bind the layout with class
     private static ActivityCometchatUnifiedBinding activityCometChatUnifiedBinding;
 
-    //Stores the count of user whose messages are unread.
     private List<String> unreadCount = new ArrayList<>();
 
     private BadgeDrawable badgeDrawable;
@@ -112,7 +110,6 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(com.cometchat.pro.uikit.R.layout.fragment_cometchat_conversationlist, container, false);
     }
 
@@ -125,9 +122,6 @@ public class ChatFragment extends Fragment {
             CometChatCallListener.addCallListener(TAG, getContext());
 
         setConversationClickListener();
-
-
-        //startActivity(new Intent(getActivity(), CometChatUI.class));
     }
 
     private void setConversationClickListener() {
@@ -136,8 +130,6 @@ public class ChatFragment extends Fragment {
             public void OnItemClick(Conversation conversation, int position) {
                 if (conversation.getConversationType().equals(CometChatConstants.CONVERSATION_TYPE_GROUP))
                     startGroupIntent(((Group) conversation.getConversationWith()));
-                /*else
-                    startUserIntent(((User) conversation.getConversationWith()));*/
             }
         });
     }
@@ -159,8 +151,7 @@ public class ChatFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        addConversationListener();    //Enable Listener when app starts
-
+        addConversationListener();
     }
 
     public void addConversationListener() {
@@ -169,12 +160,10 @@ public class ChatFragment extends Fragment {
             public void onTextMessageReceived(TextMessage message) {
                 setUnreadCount(message);
             }
-
             @Override
             public void onMediaMessageReceived(MediaMessage message) {
                 setUnreadCount(message);
             }
-
             @Override
             public void onCustomMessageReceived(CustomMessage message) {
                 setUnreadCount(message);
@@ -183,7 +172,6 @@ public class ChatFragment extends Fragment {
     }
 
     private void setUnreadCount(BaseMessage message) {
-
         if (message.getReceiverType().equals(CometChatConstants.RECEIVER_TYPE_GROUP)) {
             if (!unreadCount.contains(message.getReceiverUid())) {
                 unreadCount.add(message.getReceiverUid());
@@ -210,7 +198,7 @@ public class ChatFragment extends Fragment {
     public void onPause() {
         super.onPause();
         badgeDrawable.clearNumber();
-        unreadCount.clear();    //Clear conversation count when app pauses or goes background.
+        unreadCount.clear();
     }
 
     @VisibleForTesting
@@ -231,5 +219,4 @@ public class ChatFragment extends Fragment {
         config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
-
 }

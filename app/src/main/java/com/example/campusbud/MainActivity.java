@@ -72,14 +72,11 @@ public class MainActivity extends AppCompatActivity {
         });
         
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
-
-        //startActivity(new Intent(MainActivity.this, CometChatUI.class));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        //SearchView searchView = (SearchView) menu.findItem(R.id.miLogout).getActionView();
         return true;
     }
 
@@ -101,9 +98,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "Logout failed with exception: " + e.getMessage());
                         }
                     });
-                    //ParseUser currentUser = ParseUser.getCurrentUser();
                     Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
-                    //return true;
                 }
             });
         }
@@ -114,10 +109,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
-
-    /* have bottom navigation bar with profile, roommates, map, and chat
-    when chat is opened, bar on top to switch to normal and groups (if i can't get them together)
-    profile will have logout button there
-     */
-
 }

@@ -1,6 +1,5 @@
 package com.example.campusbud;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -16,21 +15,9 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -82,17 +69,10 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(this, "Issue with sign up", Toast.LENGTH_SHORT).show();
                 return;
             }
-            //String UID = parseUser.KEY_OBJECT_ID;
             String UID = parseUser.getObjectId();
             User user = new User();
             user.setUid(UID);
             user.setName(username);
-
-            /*try {
-                createCometChatUser(UID, username);
-            } catch (IOException | JSONException ex) {
-                ex.printStackTrace();
-            }*/
 
             CometChat.createUser(user, authKey, new CometChat.CallbackListener<User>() {
                 @Override
@@ -110,41 +90,6 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(SignUpActivity.this, "Success", Toast.LENGTH_SHORT).show();
         });
     }
-
-    /*public void createCometChatUser(String UID, String username) throws IOException, JSONException {
-        /*OkHttpClient client = new OkHttpClient();
-
-        MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\"uid\":\"" + UID + "\", \"name\":\"" + username + "\"}");
-        Request request = new Request.Builder()
-                .url("https://appId.api-region.cometchat.io/v3/users")
-                .post(body)
-                .addHeader("apiKey", "49438afd893ffc776b52ecc4c78c297dbec336b6")
-                .addHeader("Accept", "application/json")
-                .addHeader("Content-Type", "application/json")
-                .build();
-
-        Response response = client.newCall(request).execute();
-
-        User user = new User();
-
-        String jsonData = response.body().string();
-        JSONObject json = new JSONObject(jsonData);
-
-        //String uid;
-        user.setUid(json.getString("uid"));
-        user.setName(json.getString("name"));*/
-
-        /*String url = "https://appId.api-region.cometchat.io/v3/users";
-
-        try {
-            doGetRequest(url, UID, username);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //return user;
-    }*/
 
     private void loginUser(String username, String password) {
         Log.i(TAG, "Attempting to login user" + username);
@@ -183,56 +128,4 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-    /*void doGetRequest(String url, String UID, String username) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-
-        MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\"uid\":\"" + UID + "\", \"name\":\"" + username + "\"}");
-
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .addHeader("apiKey", "49438afd893ffc776b52ecc4c78c297dbec336b6")
-                .addHeader("Accept", "application/json")
-                .addHeader("Content-Type", "application/json")
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.i(TAG, "Failed");
-                    }
-                });
-            }
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String res = response.body().string();
-
-                User user = new User();
-
-                String jsonData = response.body().string();
-                JSONObject json = null;
-                try {
-                    json = new JSONObject(jsonData);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    user.setUid(json.getString("uid"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    user.setName(json.getString("name"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }*/
 }

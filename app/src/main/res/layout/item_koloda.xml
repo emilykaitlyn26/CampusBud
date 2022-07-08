@@ -5,14 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/tvEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End of Profiles"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivBackground" />
+
     <ImageView
         android:id="@+id/ivBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/white" />
 
     <ImageView
@@ -48,8 +60,209 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
-        android:text="TextView"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
         tools:text="Emily Kania" />
+
+    <TextView
+        android:id="@+id/tvRMajor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRName"
+        tools:text="Computer Science" />
+
+    <TextView
+        android:id="@+id/tvRYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="9dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/tvRName"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        tools:text="Junior" />
+
+    <TextView
+        android:id="@+id/tvRCleanliness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="20dp"
+        android:text="Cleanliness: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRMajor" />
+
+    <TextView
+        android:id="@+id/tvRCleanlinessInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRCleanliness"
+        app:layout_constraintTop_toBottomOf="@+id/tvRMajor"
+        tools:text="Organized" />
+
+    <TextView
+        android:id="@+id/tvRSmoking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:text="Smoking: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRCleanliness" />
+
+    <TextView
+        android:id="@+id/tvRSmokingInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRSmoking"
+        app:layout_constraintTop_toBottomOf="@+id/tvRCleanlinessInput"
+        tools:text="No" />
+
+    <TextView
+        android:id="@+id/tvRDrinking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:text="Drinking: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRSmoking" />
+
+    <TextView
+        android:id="@+id/tvRDrinkingInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRDrinking"
+        app:layout_constraintTop_toBottomOf="@+id/tvRSmokingInput"
+        tools:text="No" />
+
+    <TextView
+        android:id="@+id/tvRRoomUse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:text="Preferred Room Use:"
+        app:layout_constraintStart_toStartOf="@+id/ivBackground"
+        app:layout_constraintTop_toBottomOf="@+id/tvRDrinking" />
+
+    <TextView
+        android:id="@+id/tvRRoomUseInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRRoomUse"
+        app:layout_constraintTop_toBottomOf="@+id/tvRDrinkingInput"
+        tools:text="Study Space" />
+
+    <TextView
+        android:id="@+id/tvRTimeSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:text="Time Sleep: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRRoomUse" />
+
+    <TextView
+        android:id="@+id/tvRTimeSleepInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRTimeSleep"
+        app:layout_constraintTop_toBottomOf="@+id/tvRRoomUseInput"
+        tools:text="10:00pm" />
+
+    <TextView
+        android:id="@+id/tvRTimeWake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:text="Time Wake Up: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRTimeSleep" />
+
+    <TextView
+        android:id="@+id/tvRTimeWakeInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRTimeWake"
+        app:layout_constraintTop_toBottomOf="@+id/tvRTimeSleepInput"
+        tools:text="8:00am" />
+
+    <TextView
+        android:id="@+id/tvRInterests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:text="Interests: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRTimeWake" />
+
+    <TextView
+        android:id="@+id/tvRInterestsInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRInterests"
+        app:layout_constraintTop_toBottomOf="@+id/tvRTimeWakeInput"
+        tools:text="These are my interests" />
+
+    <TextView
+        android:id="@+id/tvRActivities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:text="Activities: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRInterestsInput" />
+
+    <TextView
+        android:id="@+id/tvRActivitiesInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRActivities"
+        app:layout_constraintTop_toBottomOf="@+id/tvRInterestsInput"
+        tools:text="These are my activities" />
+
+    <TextView
+        android:id="@+id/tvRBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="4dp"
+        android:text="Bio: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRActivitiesInput" />
+
+    <TextView
+        android:id="@+id/tvRBioInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRBio"
+        app:layout_constraintTop_toBottomOf="@+id/tvRActivitiesInput"
+        tools:text="This is my bio" />
 </androidx.constraintlayout.widget.ConstraintLayout>

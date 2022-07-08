@@ -118,24 +118,5 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
             }
         });
-
-        /*ParseUser parseUser = ParseUser.getCurrentUser();
-        String UID = parseUser.KEY_OBJECT_ID;
-
-        if (CometChat.getLoggedInUser() == null) {
-            CometChat.login(UID, authKey, new CometChat.CallbackListener<User>() {
-                @Override
-                public void onSuccess(User user) {
-                    Log.d(TAG, "Login Successful : " + user.toString());
-                }
-
-                @Override
-                public void onError(CometChatException e) {
-                    Log.d(TAG, "Login failed with exception: " + e.getMessage());
-                }
-            });
-        } else {
-            goMainActivity();
-        }*/
     }
 }
