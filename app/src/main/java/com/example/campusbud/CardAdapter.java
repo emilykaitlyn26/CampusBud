@@ -1,6 +1,8 @@
 package com.example.campusbud;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +11,24 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
+import com.cometchat.pro.constants.CometChatConstants;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
+import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
+import com.example.campusbud.fragments.RoommateFragment;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.yalantis.library.Koloda;
+import com.yalantis.library.KolodaListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +44,7 @@ public class CardAdapter extends BaseAdapter {
     public List<Image> images;
     public User userProfile;
     public int index;
+    public Koloda koloda;
 
     private final String TAG = "CardAdapter";
 
@@ -55,8 +66,10 @@ public class CardAdapter extends BaseAdapter {
     public TextView tvRActivitiesInput;
     public TextView tvRBioInput;
 
-    public CardAdapter(Context context, List<User> userProfiles, List<Image> images) {
+
+    public CardAdapter(Context context, Koloda koloda, List<User> userProfiles, List<Image> images) {
         this.context = context;
+        this.koloda = koloda;
         this.userProfiles = userProfiles;
         this.images = images;
     }
@@ -100,11 +113,13 @@ public class CardAdapter extends BaseAdapter {
             queryProfiles();
             userProfile = userProfiles.get(position);
             Log.d(TAG, "user: " + userProfile);
+
             try {
                 setup(userProfile, view);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         } else {
             view = convertView;
         }
@@ -116,6 +131,7 @@ public class CardAdapter extends BaseAdapter {
         JSONArray roommateProfileArray = metadata.getJSONArray("roommate_profile");
         JSONObject roommateProfile = roommateProfileArray.getJSONObject(0);
 
+        ivBackground = v.findViewById(R.id.ivBackground);
         tvEnd = v.findViewById(R.id.tvEnd);
         tvRoommateName = v.findViewById(R.id.tvRName);
         ivBackground = v.findViewById(R.id.ivBackground);
@@ -167,5 +183,68 @@ public class CardAdapter extends BaseAdapter {
             ParseFile image3file = (images.get(index)).getImage3Url();
             Glide.with(context).load(image3file.getUrl()).into(ivRImage3);
         }
+
+        /*koloda.setKolodaListener(new KolodaListener() {
+            @Override
+            public void onNewTopCard(int i) {
+
+            }
+
+            @Override
+            public void onCardDrag(int i, @NonNull View view, float v) {
+
+            }
+
+            @Override
+            public void onCardSwipedLeft(int i) {
+
+            }
+
+            @Override
+            public void onCardSwipedRight(int i) {
+                startUserIntent(userProfile);
+            }
+
+            @Override
+            public void onClickRight(int i) {
+
+            }
+
+            @Override
+            public void onClickLeft(int i) {
+
+            }
+
+            @Override
+            public void onCardSingleTap(int i) {
+
+            }
+
+            @Override
+            public void onCardDoubleTap(int i) {
+
+            }
+
+            @Override
+            public void onCardLongPress(int i) {
+
+            }
+
+            @Override
+            public void onEmptyDeck() {
+
+            }
+        });*/
     }
+
+    /*private void startUserIntent(User user) {
+        Intent intent = new Intent(context, CometChatMessageListActivity.class);
+        intent.putExtra(UIKitConstants.IntentStrings.UID, user.getUid());
+        intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
+        intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
+        intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
+        intent.putExtra(UIKitConstants.IntentStrings.LINK,user.getLink());
+        intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
+        context.startActivity(intent);
+    }*/
 }
