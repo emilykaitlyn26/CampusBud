@@ -7,13 +7,14 @@
         <entry key="app/src/main/res/drawable/gradation_black.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/overlay_black.xml" value="0.1485" />
         <entry key="app/src/main/res/layout/activity_card_adapter.xml" value="0.29210561116536454" />
+        <entry key="app/src/main/res/layout/activity_image.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/activity_launch.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28248291015625004" />
         <entry key="app/src/main/res/layout/activity_my_file_provider.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_parse_application.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.3428741455078125" />
-        <entry key="app/src/main/res/layout/activity_profile_settings.xml" value="0.25767508032115083" />
+        <entry key="app/src/main/res/layout/activity_profile_settings.xml" value="0.5059035349109946" />
         <entry key="app/src/main/res/layout/activity_recycler_adapter.xml" value="0.25921936035156257" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_upload_photo.xml" value="0.1" />
@@ -23,7 +24,7 @@
         <entry key="app/src/main/res/layout/fragment_roommate.xml" value="0.2711029052734375" />
         <entry key="app/src/main/res/layout/gradation_black.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_card.xml" value="0.18132171630859373" />
-        <entry key="app/src/main/res/layout/item_koloda.xml" value="0.2882468811556139" />
+        <entry key="app/src/main/res/layout/item_koloda.xml" value="0.5186385737439222" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/xml/fileprovider.xml" value="0.1" />
         <entry key="uikit/src/main/res-components/calls/layout/activity_cometchat_callmanager.xml" value="0.17135416666666667" />

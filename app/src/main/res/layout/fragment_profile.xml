@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/tvBioInput"
         android:layout_width="349dp"
-        android:layout_height="74dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toEndOf="@+id/tvBio"
@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/tvActivitiesInput"
         android:layout_width="310dp"
-        android:layout_height="38dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         app:layout_constraintStart_toEndOf="@+id/tvActivities"
@@ -231,7 +231,7 @@
     <TextView
         android:id="@+id/tvInterestsInput"
         android:layout_width="311dp"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         app:layout_constraintStart_toEndOf="@+id/tvInterests"
@@ -247,5 +247,48 @@
         android:text="Bio: "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvActivitiesInput" />
+
+    <ImageView
+        android:id="@+id/ivImage1"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="15dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@+id/ivImage2"
+        app:layout_constraintTop_toBottomOf="@+id/tvBioInput"
+        tools:src="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/ivImage2"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="18dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBioInput"
+        tools:src="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/ivImage3"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="18dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@+id/ivImage2"
+        app:layout_constraintTop_toBottomOf="@+id/tvBioInput"
+        tools:src="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btnRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="147dp"
+        android:layout_marginTop="16dp"
+        android:text="Refresh"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivImage2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

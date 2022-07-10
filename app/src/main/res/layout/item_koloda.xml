@@ -24,34 +24,36 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/white" />
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="193dp"
+        android:id="@+id/ivRImage1"
+        android:layout_width="170dp"
         android:layout_height="202dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="186dp"
+        android:id="@+id/ivRImage2"
+        android:layout_width="170dp"
         android:layout_height="102dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@+id/ivRImage1"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="186dp"
+        android:id="@+id/ivRImage3"
+        android:layout_width="170dp"
         android:layout_height="100dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@+id/ivRImage1"
+        app:layout_constraintTop_toBottomOf="@+id/ivRImage2"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -62,7 +64,7 @@
         android:layout_marginTop="4dp"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/ivRImage1"
         tools:text="Emily Kania" />
 
     <TextView
@@ -83,7 +85,7 @@
         android:layout_marginTop="9dp"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/tvRName"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/ivRImage1"
         tools:text="Junior" />
 
     <TextView
@@ -265,4 +267,13 @@
         app:layout_constraintStart_toEndOf="@+id/tvRBio"
         app:layout_constraintTop_toBottomOf="@+id/tvRActivitiesInput"
         tools:text="This is my bio" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="118dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

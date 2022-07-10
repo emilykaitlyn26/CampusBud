@@ -10,11 +10,13 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -27,12 +29,15 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.example.campusbud.fragments.ProfileFragment;
 import com.parse.Parse;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -47,13 +52,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class ProfileSettings extends AppCompatActivity {
 
     public EditText etName;
     public EditText etMajor;
-    public EditText etNewUsername;
-    public EditText etNewPassword;
     public EditText etTimeMorning;
     public EditText etTimeNight;
     public EditText etInterests;
@@ -61,21 +65,23 @@ public class ProfileSettings extends AppCompatActivity {
     public EditText etBio;
     public Button btnSubmit;
     public ImageView ivCreatePicture;
-    public TextView tvCleanliness;
-    public TextView tvSmoke;
-    public TextView tvDrink;
-    public TextView tvRoomUse;
-    public TextView tvTimeMorning;
-    public TextView tvTimeNight;
     public ImageView ivProfileImage1;
     public ImageView ivProfileImage2;
     public ImageView ivProfileImage3;
 
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
-    private File photoFile;
-    public String photoFileName = "photo.jpg";
+
+    private File photoFile1;
+    private File photoFile2;
+    private File photoFile3;
+    private File photoFileProfile;
+    public String profilePhotoName = "profilephoto.jpg";
+    public String photo1Name = "photo1.jpg";
+    public String photo2Name = "photo2.jpg";
+    public String photo3Name = "photo3.jpg";
 
     public User user;
+    public ParseUser parseUser;
 
     private final String TAG = "ProfileSettings";
 
@@ -111,8 +117,6 @@ public class ProfileSettings extends AppCompatActivity {
     public String interests;
     public String activities;
     public String bio;
-    String username;
-    String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +124,7 @@ public class ProfileSettings extends AppCompatActivity {
         setContentView(R.layout.activity_profile_settings);
 
         user = CometChat.getLoggedInUser();
+        parseUser = ParseUser.getCurrentUser();
 
         radioYearGroup = findViewById(R.id.radioYearGroup);
         ivCreatePicture = findViewById(R.id.ivCreatePicture);
@@ -203,28 +208,28 @@ public class ProfileSettings extends AppCompatActivity {
         ivCreatePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                optionsMenu();
+                optionsMenu("Profile");
             }
         });
 
         ivProfileImage1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                optionsMenu();
+                optionsMenu("Image1");
             }
         });
 
         ivProfileImage2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                optionsMenu();
+                optionsMenu("Image2");
             }
         });
 
         ivProfileImage3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                optionsMenu();
+                optionsMenu("Image3");
             }
         });
 
@@ -262,8 +267,24 @@ public class ProfileSettings extends AppCompatActivity {
                 }
                 user.setMetadata(metadata);
                 updateUser(user);
+                saveImages(parseUser, photoFileProfile, photoFile1, photoFile2, photoFile3);
                 finish();
             }
+        });
+    }
+
+    public void saveImages(ParseUser currentUser, File profileFile, File file1, File file2, File file3) {
+        Image image = new Image();
+        image.setProfileImage(new ParseFile(profileFile));
+        image.setImage1(new ParseFile(file1));
+        image.setImage2(new ParseFile(file2));
+        image.setImage3(new ParseFile(file3));
+        image.setUser(currentUser);
+        image.saveInBackground(e -> {
+            if (e != null) {
+                Log.e(TAG, "Error while saving", e);
+            }
+            Log.i(TAG, "Post save was successful!");
         });
     }
 
@@ -280,7 +301,7 @@ public class ProfileSettings extends AppCompatActivity {
         });
     }
 
-    public void optionsMenu() {
+    public void optionsMenu(String image) {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Photo");
@@ -288,11 +309,9 @@ public class ProfileSettings extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo")) {
-                    launchCamera();
-                    //saveImage(user, photoFile);
+                    launchCamera(image);
                 } else if (options[item].equals("Choose from Gallery")) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, 2);
+                    getImageFromAlbum(image);
                 } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
@@ -303,11 +322,66 @@ public class ProfileSettings extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+        if (requestCode == 30) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFileProfile.getAbsolutePath());
                 ivCreatePicture.setImageBitmap(takenImage);
+                ivCreatePicture.setRotation((float) 90.0);
             }
+        } else if (requestCode == 2) {
+            if (resultCode == RESULT_OK && data != null) {
+                Uri imageUri = data.getData();
+                ivCreatePicture.setImageURI(imageUri);
+            }
+        }
+        if (requestCode == 3) {
+            if (resultCode == RESULT_OK) {
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile1.getAbsolutePath());
+                ivProfileImage1.setImageBitmap(takenImage);
+                ivProfileImage1.setRotation((float) 90.0);
+            }
+        } else if (requestCode == 4) {
+            if (resultCode == RESULT_OK && data != null) {
+                Uri imageUri = data.getData();
+                ivProfileImage1.setImageURI(imageUri);
+            }
+        }
+        if (requestCode == 5) {
+            if (resultCode == RESULT_OK) {
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile2.getAbsolutePath());
+                ivProfileImage2.setImageBitmap(takenImage);
+                ivProfileImage2.setRotation((float) 90.0);
+            }
+        } else if (requestCode == 6) {
+            if (resultCode == RESULT_OK && data != null) {
+                Uri imageUri = data.getData();
+                ivProfileImage2.setImageURI(imageUri);
+            }
+        }
+        if (requestCode == 7) {
+            if (resultCode == RESULT_OK) {
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile3.getAbsolutePath());
+                ivProfileImage3.setImageBitmap(takenImage);
+                ivProfileImage3.setRotation((float) 90.0);
+            }
+        } else if (requestCode == 8) {
+            if (resultCode == RESULT_OK && data != null) {
+                Uri imageUri = data.getData();
+                ivProfileImage3.setImageURI(imageUri);
+            }
+        }
+    }
+
+    private void getImageFromAlbum(String image) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (image.equals("Profile")) {
+            startActivityForResult(intent, 2);
+        } else if (image.equals("Image1")) {
+            startActivityForResult(intent, 4);
+        } else if (image.equals("Image2")) {
+            startActivityForResult(intent, 6);
+        } else if (image.equals("Image3")) {
+            startActivityForResult(intent, 8);
         }
     }
 
@@ -319,14 +393,30 @@ public class ProfileSettings extends AppCompatActivity {
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
-    public void launchCamera() {
+    public void launchCamera(String image) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoFile = getPhotoFileUri(photoFileName);
-        //String authority = this.getPackageName() + ".fileprovider";
-        //Uri fileProvider = FileProvider.getUriForFile(this, authority, photoFile);
-        //intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
         if (intent.resolveActivity(this.getPackageManager()) != null) {
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+            if (image.equals("Profile")) {
+                photoFileProfile = getPhotoFileUri(profilePhotoName);
+                Uri fileProviderp = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", photoFileProfile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProviderp);
+                startActivityForResult(intent, 30);
+            } else if (image.equals("Image1")) {
+                photoFile1 = getPhotoFileUri(photo1Name);
+                Uri fileProvider1 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", photoFile1);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider1);
+                startActivityForResult(intent, 3);
+            } else if (image.equals("Image2")) {
+                photoFile2 = getPhotoFileUri(photo2Name);
+                Uri fileProvider2 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", photoFile2);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider2);
+                startActivityForResult(intent, 5);
+            } else if (image.equals("Image3")) {
+                photoFile3 = getPhotoFileUri(photo3Name);
+                Uri fileProvider3 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", photoFile3);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider3);
+                startActivityForResult(intent, 7);
+            }
         }
     }
 }

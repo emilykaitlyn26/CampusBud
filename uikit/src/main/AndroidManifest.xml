@@ -75,9 +75,9 @@
             </intent-filter>
         </activity>
 
-        <meta-data
+        <!--<meta-data
             android:name="com.cometchat.pro.uikit"
-            android:value="${file_provider}" />
+            android:value="${file_provider}" />-->
 
         <activity
             android:name=".ui_components.groups.create_group.CometChatCreateGroupActivity"
@@ -114,7 +114,7 @@
             android:parentActivityName=".ui_components.cometchat_ui.CometChatUI"
             android:screenOrientation="portrait" />
 
-        <provider
+        <!--<provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${file_provider}.provider"
             android:exported="false"
@@ -122,7 +122,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
-        </provider>
+        </provider>-->
 
         <receiver
             android:name=".ui_components.calls.call_manager.ongoing_call.OngoingCallBroadcast"

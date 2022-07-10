@@ -9,27 +9,37 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardAdapter extends BaseAdapter {
 
     private Context context;
-    private List<User> userProfiles;
+    public List<User> userProfiles;
+    public List<Image> images;
+    public User userProfile;
+    public int index;
 
     private final String TAG = "CardAdapter";
 
-    public ImageView image1;
-    public ImageView image2;
-    public ImageView image3;
+    public ImageView ivRImage1;
+    public ImageView ivRImage2;
+    public ImageView ivRImage3;
     public TextView tvRoommateName;
     public ImageView ivBackground;
     public TextView tvEnd;
@@ -45,9 +55,10 @@ public class CardAdapter extends BaseAdapter {
     public TextView tvRActivitiesInput;
     public TextView tvRBioInput;
 
-    public CardAdapter(Context context, List<User> userProfiles) {
+    public CardAdapter(Context context, List<User> userProfiles, List<Image> images) {
         this.context = context;
         this.userProfiles = userProfiles;
+        this.images = images;
     }
 
     @Override
@@ -87,7 +98,7 @@ public class CardAdapter extends BaseAdapter {
         if (convertView == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_koloda, parent, false);
             queryProfiles();
-            User userProfile = userProfiles.get(position);
+            userProfile = userProfiles.get(position);
             Log.d(TAG, "user: " + userProfile);
             try {
                 setup(userProfile, view);
@@ -119,6 +130,9 @@ public class CardAdapter extends BaseAdapter {
         tvRInterestsInput = v.findViewById(R.id.tvRInterestsInput);
         tvRActivitiesInput = v.findViewById(R.id.tvRActivitiesInput);
         tvRBioInput = v.findViewById(R.id.tvRBioInput);
+        ivRImage1 = v.findViewById(R.id.ivRImage1);
+        ivRImage2 = v.findViewById(R.id.ivRImage2);
+        ivRImage3 = v.findViewById(R.id.ivRImage3);
 
         tvRoommateName.setText(metadata.getString("name"));
         tvRYear.setText(metadata.getString("year"));
@@ -132,7 +146,26 @@ public class CardAdapter extends BaseAdapter {
         tvRInterestsInput.setText(roommateProfile.getString("interests"));
         tvRActivitiesInput.setText(roommateProfile.getString("activities"));
         tvRBioInput.setText(roommateProfile.getString("bio"));
+
+        if (images.size() > 0) {
+            for (int i = images.size() - 1; i >= 0; i--) {
+                ParseUser parseUser = images.get(i).getUser();
+                String parseUID = parseUser.getObjectId().toLowerCase();
+                String cometUID = userProfile.getUid();
+                if(parseUID.equals(cometUID)) {
+                    index = i;
+                    break;
+                }
+            }
+            context = ivRImage1.getContext();
+            ParseFile image1file = images.get(index).getImage1Url();
+            Glide.with(context).load(image1file.getUrl()).into(ivRImage1);
+            context = ivRImage2.getContext();
+            ParseFile image2file = (images.get(index)).getImage2Url();
+            Glide.with(context).load(image2file.getUrl()).into(ivRImage2);
+            context = ivRImage3.getContext();
+            ParseFile image3file = (images.get(index)).getImage3Url();
+            Glide.with(context).load(image3file.getUrl()).into(ivRImage3);
+        }
     }
-
-
 }
