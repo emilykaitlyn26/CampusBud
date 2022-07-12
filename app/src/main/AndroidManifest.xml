@@ -27,6 +27,18 @@
         android:theme="@style/Theme.CapstoneApp"
         tools:targetApi="31">
         <activity
+            android:name=".SetCollegeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".State"
+            android:exported="false" />
+        <activity
+            android:name=".University"
+            android:exported="false" />
+        <activity
+            android:name=".AutoTextField"
+            android:exported="false" />
+        <activity
             android:name=".Image"
             android:exported="false" />
 

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,26 +16,35 @@ import android.widget.Toast;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
 
     public final String TAG = "SignUpActivity";
-    public static final String authKey = "c523b47dfef8a387d934b40bbcf7d7bc5fe2c0ee";
 
     public EditText etNewUsername;
     public EditText etNewPassword;
-    public EditText etCollege;
-    public String college;
-    public Button btnSignUp;
-    public JSONObject metadata = new JSONObject();
+    public EditText etState;
+    public String collegeState;
+    public Button btnContinue;
+    public String selectedState;
+
+    public List<State> stateList;
+    public List<String> allStates;
+    ArrayAdapter<String> stateadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +53,33 @@ public class SignUpActivity extends AppCompatActivity {
 
         etNewUsername = findViewById(R.id.etNewUsername);
         etNewPassword = findViewById(R.id.etNewPassword);
-        etCollege = findViewById(R.id.etCollege);
-        btnSignUp = findViewById(R.id.btnSignUp);
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
+        //etState = findViewById(R.id.etState);
+        allStates = new ArrayList<>();
+        stateList = new ArrayList<State>();
+        queryStates();
+
+        stateadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, allStates);
+        AutoCompleteTextView stateTextView = (AutoCompleteTextView) findViewById(R.id.selectState);
+        stateTextView.setThreshold(1);
+        stateTextView.setAdapter(stateadapter);
+
+        stateTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedState = (String) parent.getItemAtPosition(position);
+            }
+        });
+
+        btnContinue = findViewById(R.id.btnContinue);
+        btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "onClick sign up button");
                 String username = etNewUsername.getText().toString();
                 String password = etNewPassword.getText().toString();
-                college = etCollege.getText().toString();
-                if (!username.trim().equals("") && !password.trim().equals("")) {
-                    try {
-                        signUpUser(username, password);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                //collegeState = etState.getText().toString();
+                if (!username.trim().equals("") && !password.trim().equals("") && selectedState != null) {
+                    collegeSignUp(username, password, selectedState, stateList);
                 } else {
                     Toast.makeText(SignUpActivity.this, "Username/ password cannot be empty", Toast.LENGTH_SHORT).show();
                 }
@@ -63,102 +87,32 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void signUpUser(String username, String password) throws IOException {
-        Log.i(TAG, "Attempting to sign up user" + username);
-        if (ParseUser.getCurrentUser() != null) {
-            ParseUser.getCurrentUser().logOut();
-        }
-        ParseUser parseUser = new ParseUser();
-        parseUser.setUsername(username);
-        parseUser.setPassword(password);
-        parseUser.signUpInBackground(e -> {
-            if (e != null) {
-                Log.e(TAG, "Issue with sign up", e);
-                Toast.makeText(this, "Issue with sign up", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String UID = parseUser.getObjectId();
-            User user = new User();
-            user.setUid(UID);
-            user.setName(username);
-
-            CometChat.createUser(user, authKey, new CometChat.CallbackListener<User>() {
-                @Override
-                public void onSuccess(User user) {
-                    Log.d("createUser", user.toString());
-                }
-
-                @Override
-                public void onError(CometChatException e) {
-                    Log.e("createUser", e.getMessage());
-                }
-            });
-
-            loginUser(username, password);
-            Toast.makeText(SignUpActivity.this, "Success", Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    public void setCollege() throws JSONException {
-        User newUser = CometChat.getLoggedInUser();
-        metadata.put("college", college);
-        newUser.setMetadata(metadata);
-        updateUser(newUser);
-    }
-
-    public void updateUser(User user) {
-        CometChat.updateCurrentUserDetails(user, new CometChat.CallbackListener<User>() {
+    public void queryStates() {
+        ParseQuery<State> query = ParseQuery.getQuery(State.class);
+        query.findInBackground(new FindCallback<State>() {
             @Override
-            public void onSuccess(User user) {
-                Log.d(TAG, user.toString());
-            }
-            @Override
-            public void onError(CometChatException e) {
-                Log.d(TAG, e.getMessage());
-            }
-        });
-    }
-
-    private void loginUser(String username, String password) {
-        Log.i(TAG, "Attempting to login user" + username);
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
+            public void done(List<State> objects, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with login", e);
-                    Toast.makeText(SignUpActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Issue with getting states", e);
                     return;
                 }
-                ParseUser parseUser = ParseUser.getCurrentUser();
-                String UID = parseUser.getObjectId();
-
-                if (CometChat.getLoggedInUser() == null) {
-                    CometChat.login(UID, authKey, new CometChat.CallbackListener<User>() {
-                        @Override
-                        public void onSuccess(User user) {
-                            Log.d(TAG, "Login Successful : " + user.toString());
-                            try {
-                                setCollege();
-                            } catch (JSONException ex) {
-                                ex.printStackTrace();
-                            }
-                            goMainActivity();
-                        }
-
-                        @Override
-                        public void onError(CometChatException e) {
-                            Log.d(TAG, "Login failed with exception: " + e.getMessage());
-                        }
-                    });
+                stateList.addAll(objects);
+                for (int i = 0; i < stateList.size(); i++) {
+                    ParseObject collegeObject = stateList.get(i);
+                    String name = collegeObject.getString("name");
+                    allStates.add(name);
                 }
-                Toast.makeText(SignUpActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                stateadapter.notifyDataSetChanged();
             }
         });
     }
 
-    private void goMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+    public void collegeSignUp(String username, String password, String selectedState, List<State> stateList) {
+        Intent intent = new Intent(this, SetCollegeActivity.class);
+        intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        intent.putExtra("state", selectedState);
+        intent.putExtra("list", (Serializable) stateList);
         startActivity(intent);
-        finish();
     }
 }

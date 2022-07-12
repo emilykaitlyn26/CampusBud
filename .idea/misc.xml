@@ -6,6 +6,7 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/gradation_black.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/overlay_black.xml" value="0.1485" />
+        <entry key="app/src/main/res/layout/activity_auto_text_field.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_card_adapter.xml" value="0.29210561116536454" />
         <entry key="app/src/main/res/layout/activity_image.xml" value="0.3333333333333333" />
         <entry key="app/src/main/res/layout/activity_launch.xml" value="0.1" />
@@ -16,7 +17,10 @@
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.3428741455078125" />
         <entry key="app/src/main/res/layout/activity_profile_settings.xml" value="0.5059035349109946" />
         <entry key="app/src/main/res/layout/activity_recycler_adapter.xml" value="0.25921936035156257" />
-        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.29339294433593754" />
+        <entry key="app/src/main/res/layout/activity_set_college.xml" value="0.17343292236328126" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.33567352294921876" />
+        <entry key="app/src/main/res/layout/activity_state.xml" value="0.2784615384615385" />
+        <entry key="app/src/main/res/layout/activity_university.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_upload_photo.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.3594573974609375" />
         <entry key="app/src/main/res/layout/fragment_cometchat_conversationlist.xml" value="0.28177083333333336" />
