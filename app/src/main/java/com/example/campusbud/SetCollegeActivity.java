@@ -59,7 +59,6 @@ public class SetCollegeActivity extends AppCompatActivity {
 
         if (list.size() == 56) {
             for (int i = 0; i < list.size(); i++) {
-                //if (list.get(i).get.equals(state)) {
                 stateObject = list.get(i);
                 String stateName = stateObject.getString("name");
                 if (stateName.equals(state)) {
@@ -91,7 +90,6 @@ public class SetCollegeActivity extends AppCompatActivity {
             AutoCompleteTextView uniTextView = (AutoCompleteTextView) findViewById(R.id.chooseCollege);
             uniTextView.setThreshold(3);
             uniTextView.setAdapter(uniadapter);
-
             uniTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

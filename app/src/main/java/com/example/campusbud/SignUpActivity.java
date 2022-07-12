@@ -37,8 +37,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     public EditText etNewUsername;
     public EditText etNewPassword;
-    public EditText etState;
-    public String collegeState;
     public Button btnContinue;
     public String selectedState;
 
@@ -53,16 +51,15 @@ public class SignUpActivity extends AppCompatActivity {
 
         etNewUsername = findViewById(R.id.etNewUsername);
         etNewPassword = findViewById(R.id.etNewPassword);
-        //etState = findViewById(R.id.etState);
+        AutoCompleteTextView stateTextView = (AutoCompleteTextView) findViewById(R.id.selectState);
+        stateadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, allStates);
         allStates = new ArrayList<>();
         stateList = new ArrayList<State>();
+
         queryStates();
 
-        stateadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, allStates);
-        AutoCompleteTextView stateTextView = (AutoCompleteTextView) findViewById(R.id.selectState);
         stateTextView.setThreshold(1);
         stateTextView.setAdapter(stateadapter);
-
         stateTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,7 +74,6 @@ public class SignUpActivity extends AppCompatActivity {
                 Log.i(TAG, "onClick sign up button");
                 String username = etNewUsername.getText().toString();
                 String password = etNewPassword.getText().toString();
-                //collegeState = etState.getText().toString();
                 if (!username.trim().equals("") && !password.trim().equals("") && selectedState != null) {
                     collegeSignUp(username, password, selectedState, stateList);
                 } else {
