@@ -152,30 +152,6 @@ public class ProfileFragment extends Fragment {
                     tvInterestsInput.setText(roommateProfile.getString("interests"));
                     tvActivitiesInput.setText(roommateProfile.getString("activities"));
                     tvBioInput.setText(roommateProfile.getString("bio"));
-                    /*if (roommateProfile.has("image1uri")) {
-                        //context = ivImage1.getContext();
-                        String image1uri = roommateProfile.getString("image1uri");
-                        Glide.with(context).load(image1uri).into(ivImage1);
-                        //Log.d(TAG, "image1uri is: " + image1uri);
-                        //ivImage1.setImageURI(image1uri);
-                    } else if (roommateProfile.has("image1bit")) {
-                        String imageString = roommateProfile.getString("image1bit");
-                        ivImage1.setImageBitmap(BitmapFactory.decodeFile(imageString));
-                    }
-                    if (roommateProfile.has("image2uri")) {
-                        Uri image2uri = Uri.parse(roommateProfile.getString("image2uri"));
-                        ivImage2.setImageURI(image2uri);
-                    } else if (roommateProfile.has("image2bit")) {
-                        String imageString = roommateProfile.getString("image2bit");
-                        ivImage2.setImageBitmap(BitmapFactory.decodeFile(imageString));
-                    }
-                    if (roommateProfile.has("image3uri")) {
-                        Uri image3uri = Uri.parse(roommateProfile.getString("image3uri"));
-                        ivImage3.setImageURI(image3uri);
-                    } else if (roommateProfile.has("image3bit")) {
-                        String imageString = roommateProfile.getString("image3bit");
-                        ivImage3.setImageBitmap(BitmapFactory.decodeFile(imageString));
-                    }*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
