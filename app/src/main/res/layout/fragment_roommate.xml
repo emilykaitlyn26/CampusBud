@@ -1,43 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.yalantis.library.Koloda xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/koloda"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
-
-<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.RoommateFragment"/>-->
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<?xml version="1.0" encoding="utf-8"?>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >-->
-
-
-    <!--<com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/cardStackView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:padding="8dp"
+    <TextView
+        android:id="@+id/tvEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End of Profiles"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- <androidx.recyclerview.widget.RecyclerView
-         android:id="@+id/rvRoommate"
-         android:layout_width="409dp"
-         android:layout_height="729dp"
-         app:layout_constraintBottom_toBottomOf="parent"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toTopOf="parent" />
- </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.yalantis.library.Koloda
+            android:id="@+id/koloda"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.yalantis.library.Koloda>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 

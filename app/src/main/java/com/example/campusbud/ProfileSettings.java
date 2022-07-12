@@ -85,7 +85,6 @@ public class ProfileSettings extends AppCompatActivity {
 
     private final String TAG = "ProfileSettings";
 
-    public JSONObject metadata = new JSONObject();
     public JSONArray roommateProfileArray = new JSONArray();
     public JSONObject roommateProfile = new JSONObject();
 
@@ -244,6 +243,7 @@ public class ProfileSettings extends AppCompatActivity {
                 interests = etInterests.getText().toString();
                 activities = etActivities.getText().toString();
                 bio = etBio.getText().toString();
+                JSONObject metadata = user.getMetadata();
 
                 try {
                     metadata.put("name", name);
@@ -265,7 +265,6 @@ public class ProfileSettings extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                user.setMetadata(metadata);
                 updateUser(user);
                 saveImages(parseUser, photoFileProfile, photoFile1, photoFile2, photoFile3);
                 finish();

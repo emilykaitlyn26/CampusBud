@@ -168,7 +168,7 @@ public class CardAdapter extends BaseAdapter {
                 ParseUser parseUser = images.get(i).getUser();
                 String parseUID = parseUser.getObjectId().toLowerCase();
                 String cometUID = userProfile.getUid();
-                if(parseUID.equals(cometUID)) {
+                if (parseUID.equals(cometUID)) {
                     index = i;
                     break;
                 }
@@ -176,75 +176,15 @@ public class CardAdapter extends BaseAdapter {
             context = ivRImage1.getContext();
             ParseFile image1file = images.get(index).getImage1Url();
             Glide.with(context).load(image1file.getUrl()).into(ivRImage1);
+            Log.d(TAG, "Loaded Image 1");
             context = ivRImage2.getContext();
             ParseFile image2file = (images.get(index)).getImage2Url();
             Glide.with(context).load(image2file.getUrl()).into(ivRImage2);
+            Log.d(TAG, "Loaded Image 2");
             context = ivRImage3.getContext();
             ParseFile image3file = (images.get(index)).getImage3Url();
             Glide.with(context).load(image3file.getUrl()).into(ivRImage3);
+            Log.d(TAG, "Loaded Image 3");
         }
-
-        /*koloda.setKolodaListener(new KolodaListener() {
-            @Override
-            public void onNewTopCard(int i) {
-
-            }
-
-            @Override
-            public void onCardDrag(int i, @NonNull View view, float v) {
-
-            }
-
-            @Override
-            public void onCardSwipedLeft(int i) {
-
-            }
-
-            @Override
-            public void onCardSwipedRight(int i) {
-                startUserIntent(userProfile);
-            }
-
-            @Override
-            public void onClickRight(int i) {
-
-            }
-
-            @Override
-            public void onClickLeft(int i) {
-
-            }
-
-            @Override
-            public void onCardSingleTap(int i) {
-
-            }
-
-            @Override
-            public void onCardDoubleTap(int i) {
-
-            }
-
-            @Override
-            public void onCardLongPress(int i) {
-
-            }
-
-            @Override
-            public void onEmptyDeck() {
-
-            }
-        });*/
     }
-
-    /*private void startUserIntent(User user) {
-        Intent intent = new Intent(context, CometChatMessageListActivity.class);
-        intent.putExtra(UIKitConstants.IntentStrings.UID, user.getUid());
-        intent.putExtra(UIKitConstants.IntentStrings.AVATAR, user.getAvatar());
-        intent.putExtra(UIKitConstants.IntentStrings.STATUS, user.getStatus());
-        intent.putExtra(UIKitConstants.IntentStrings.NAME, user.getName());
-        intent.putExtra(UIKitConstants.IntentStrings.LINK,user.getLink());
-        intent.putExtra(UIKitConstants.IntentStrings.TYPE, CometChatConstants.RECEIVER_TYPE_USER);
-        context.startActivity(intent);
-    }*/
 }

@@ -39,7 +39,6 @@ public class RoommateFragment extends Fragment {
     public List<Image> allImages;
     public User currentUser;
     public int position;
-    public List<User> getUser;
 
     private final String TAG = "RoommateFragment";
 
@@ -56,10 +55,8 @@ public class RoommateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         koloda = view.findViewById(R.id.koloda);
-        getUser = new ArrayList<>();
         allUsers = new ArrayList<>();
         allImages = new ArrayList<>();
-        queryProfiles();
         queryUsers();
         queryImages();
         cardAdapter = new CardAdapter(getContext(), koloda, allUsers, allImages);
@@ -84,7 +81,7 @@ public class RoommateFragment extends Fragment {
 
             @Override
             public void onCardSwipedRight(int i) {
-                currentUser = getUser.get(position);
+                currentUser = allUsers.get(position);
                 startUserIntent(currentUser);
                 position += 1;
             }
@@ -151,7 +148,6 @@ public class RoommateFragment extends Fragment {
 
     public void queryImages() {
         ParseQuery<Image> query = ParseQuery.getQuery(Image.class);
-        //query.whereContains("User", userProfile.getUid());
         query.findInBackground(new FindCallback<Image>() {
             @Override
             public void done(List<Image> objects, ParseException e) {
@@ -161,22 +157,6 @@ public class RoommateFragment extends Fragment {
                 }
                 allImages.addAll(objects);
                 cardAdapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    protected void queryProfiles() {
-        UsersRequest usersRequest = new UsersRequest.UsersRequestBuilder().build();
-        usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
-            @Override
-            public void onSuccess(List<User> users) {
-                getUser = users;
-                Log.d(TAG, "User list received: " + users.size());
-                Log.d(TAG, "Users" + users);
-            }
-            @Override
-            public void onError(CometChatException e) {
-                Log.d(TAG, "User list fetching failed with exception: " + e.getMessage());
             }
         });
     }

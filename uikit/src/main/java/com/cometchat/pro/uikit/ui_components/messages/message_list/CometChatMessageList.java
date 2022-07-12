@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -376,7 +377,11 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_cometchat_messagelist, container, false);
-        initViewComponent(view);
+        try {
+            initViewComponent(view);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return view;
     }
 
@@ -386,7 +391,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
      *
      * @param view
      */
-    private void initViewComponent(View view) {
+    private void initViewComponent(View view) throws JSONException {
 
         setHasOptionsMenu(true);
 
@@ -1665,7 +1670,11 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                                 }
                             }
                         });
-                        setAvatar();
+                        try {
+                            setAvatar();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     name = user.getName();
                     tvName.setText(name);
@@ -1681,9 +1690,15 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
         });
     }
 
-    private void setAvatar() {
-        if (avatarUrl != null && !avatarUrl.isEmpty())
+    private void setAvatar() throws JSONException {
+        JSONObject metadata = loggedInUser.getMetadata();
+        if (avatarUrl != null && !avatarUrl.isEmpty()) {
             userAvatar.setAvatar(avatarUrl);
+        }
+        else if (metadata.has("profileImage")) {
+            String profileImageUrl = metadata.getString("profileImage");
+            userAvatar.setAvatar(profileImageUrl);
+        }
         else {
             userAvatar.setInitials(name);
         }
@@ -1709,7 +1724,11 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                     if (context != null) {
                         userAvatar.setAvatar(getActivity().getResources().getDrawable(R.drawable.ic_account), avatarUrl);
                     }
-                    setAvatar();
+                    try {
+                        setAvatar();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }

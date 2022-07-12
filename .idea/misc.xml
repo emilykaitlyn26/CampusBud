@@ -16,15 +16,15 @@
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.3428741455078125" />
         <entry key="app/src/main/res/layout/activity_profile_settings.xml" value="0.5059035349109946" />
         <entry key="app/src/main/res/layout/activity_recycler_adapter.xml" value="0.25921936035156257" />
-        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.29339294433593754" />
         <entry key="app/src/main/res/layout/activity_upload_photo.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.3594573974609375" />
         <entry key="app/src/main/res/layout/fragment_cometchat_conversationlist.xml" value="0.28177083333333336" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.3203084309895833" />
-        <entry key="app/src/main/res/layout/fragment_roommate.xml" value="0.2711029052734375" />
+        <entry key="app/src/main/res/layout/fragment_roommate.xml" value="0.10107421875" />
         <entry key="app/src/main/res/layout/gradation_black.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_card.xml" value="0.18132171630859373" />
-        <entry key="app/src/main/res/layout/item_koloda.xml" value="0.5186385737439222" />
+        <entry key="app/src/main/res/layout/item_koloda.xml" value="0.3688442211055276" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.33229166666666665" />
         <entry key="app/src/main/res/xml/fileprovider.xml" value="0.1" />
         <entry key="uikit/src/main/res-components/calls/layout/activity_cometchat_callmanager.xml" value="0.17135416666666667" />

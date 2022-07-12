@@ -17,6 +17,9 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -26,7 +29,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     public EditText etNewUsername;
     public EditText etNewPassword;
+    public EditText etCollege;
+    public String college;
     public Button btnSignUp;
+    public JSONObject metadata = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         etNewUsername = findViewById(R.id.etNewUsername);
         etNewPassword = findViewById(R.id.etNewPassword);
+        etCollege = findViewById(R.id.etCollege);
         btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Log.i(TAG, "onClick sign up button");
                 String username = etNewUsername.getText().toString();
                 String password = etNewPassword.getText().toString();
+                college = etCollege.getText().toString();
                 if (!username.trim().equals("") && !password.trim().equals("")) {
                     try {
                         signUpUser(username, password);
@@ -91,6 +99,26 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    public void setCollege() throws JSONException {
+        User newUser = CometChat.getLoggedInUser();
+        metadata.put("college", college);
+        newUser.setMetadata(metadata);
+        updateUser(newUser);
+    }
+
+    public void updateUser(User user) {
+        CometChat.updateCurrentUserDetails(user, new CometChat.CallbackListener<User>() {
+            @Override
+            public void onSuccess(User user) {
+                Log.d(TAG, user.toString());
+            }
+            @Override
+            public void onError(CometChatException e) {
+                Log.d(TAG, e.getMessage());
+            }
+        });
+    }
+
     private void loginUser(String username, String password) {
         Log.i(TAG, "Attempting to login user" + username);
         ParseUser.logInInBackground(username, password, new LogInCallback() {
@@ -109,6 +137,11 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(User user) {
                             Log.d(TAG, "Login Successful : " + user.toString());
+                            try {
+                                setCollege();
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
                             goMainActivity();
                         }
 
