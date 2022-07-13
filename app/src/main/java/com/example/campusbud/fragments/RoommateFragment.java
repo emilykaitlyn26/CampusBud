@@ -29,8 +29,13 @@ import com.parse.ParseQuery;
 import com.yalantis.library.Koloda;
 import com.yalantis.library.KolodaListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RoommateFragment extends Fragment {
 
@@ -39,6 +44,7 @@ public class RoommateFragment extends Fragment {
     public List<Image> allImages;
     public User currentUser;
     public int position;
+    public List<User> getUser;
 
     private final String TAG = "RoommateFragment";
 
@@ -55,8 +61,10 @@ public class RoommateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         koloda = view.findViewById(R.id.koloda);
+        getUser = new ArrayList<>();
         allUsers = new ArrayList<>();
         allImages = new ArrayList<>();
+        queryProfiles();
         queryUsers();
         queryImages();
         cardAdapter = new CardAdapter(getContext(), koloda, allUsers, allImages);
@@ -81,7 +89,7 @@ public class RoommateFragment extends Fragment {
 
             @Override
             public void onCardSwipedRight(int i) {
-                currentUser = allUsers.get(position);
+                currentUser = getUser.get(position);
                 startUserIntent(currentUser);
                 position += 1;
             }
@@ -134,10 +142,30 @@ public class RoommateFragment extends Fragment {
         usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
             @Override
             public void onSuccess(List<User> users) {
-                allUsers.addAll(users);
+                User loggedInUser = CometChat.getLoggedInUser();
+                JSONObject currentUserMetadata = loggedInUser.getMetadata();
+                for (int i = 0; i < users.size(); i++) {
+                    User user = users.get(i);
+                    JSONObject userMetadata = user.getMetadata();
+                    boolean switched = false;
+                    try {
+                        switched = userMetadata.getBoolean("ifSwitched");
+                        if (switched) {
+                            String userCollege = userMetadata.getString("college");
+                            String currentUserCollege = currentUserMetadata.getString("college");
+                            if (userCollege.equals(currentUserCollege)) {
+                                String userGender = userMetadata.getString("gender");
+                                String currentUserGender = currentUserMetadata.getString("gender");
+                                if (userGender.equals(currentUserGender)) {
+                                    allUsers.add(user);
+                                }
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 cardAdapter.notifyDataSetChanged();
-                Log.d(TAG, "User list received: " + users.size());
-                Log.d(TAG, "Users" + users);
             }
             @Override
             public void onError(CometChatException e) {
@@ -157,6 +185,22 @@ public class RoommateFragment extends Fragment {
                 }
                 allImages.addAll(objects);
                 cardAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    protected void queryProfiles() {
+        UsersRequest usersRequest = new UsersRequest.UsersRequestBuilder().build();
+        usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
+            @Override
+            public void onSuccess(List<User> users) {
+                getUser = users;
+                Log.d(TAG, "User list received: " + users.size());
+                Log.d(TAG, "Users" + users);
+            }
+            @Override
+            public void onError(CometChatException e) {
+                Log.d(TAG, "User list fetching failed with exception: " + e.getMessage());
             }
         });
     }

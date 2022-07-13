@@ -53,7 +53,6 @@ public class CardAdapter extends BaseAdapter {
     public ImageView ivRImage3;
     public TextView tvRoommateName;
     public ImageView ivBackground;
-    public TextView tvEnd;
     public TextView tvRMajor;
     public TextView tvRYear;
     public TextView tvRCleanlinessInput;
@@ -89,28 +88,11 @@ public class CardAdapter extends BaseAdapter {
         return 0;
     }
 
-    protected void queryProfiles() {
-        UsersRequest usersRequest = new UsersRequest.UsersRequestBuilder().build();
-        usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
-            @Override
-            public void onSuccess(List<User> users) {
-                userProfiles = users;
-                Log.d(TAG, "User list received: " + users.size());
-                Log.d(TAG, "Users" + users);
-            }
-            @Override
-            public void onError(CometChatException e) {
-                Log.d(TAG, "User list fetching failed with exception: " + e.getMessage());
-            }
-        });
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_koloda, parent, false);
-            queryProfiles();
             userProfile = userProfiles.get(position);
             Log.d(TAG, "user: " + userProfile);
 
@@ -132,7 +114,6 @@ public class CardAdapter extends BaseAdapter {
         JSONObject roommateProfile = roommateProfileArray.getJSONObject(0);
 
         ivBackground = v.findViewById(R.id.ivBackground);
-        tvEnd = v.findViewById(R.id.tvEnd);
         tvRoommateName = v.findViewById(R.id.tvRName);
         ivBackground = v.findViewById(R.id.ivBackground);
         tvRMajor = v.findViewById(R.id.tvRMajor);

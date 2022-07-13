@@ -69,8 +69,6 @@ public class ProfileSettings extends AppCompatActivity {
     public ImageView ivProfileImage2;
     public ImageView ivProfileImage3;
 
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
-
     private File photoFile1;
     private File photoFile2;
     private File photoFile3;
@@ -145,16 +143,12 @@ public class ProfileSettings extends AppCompatActivity {
         ivProfileImage2 = findViewById(R.id.ivProfileImage2);
         ivProfileImage3 = findViewById(R.id.ivProfileImage3);
 
-        /*roommateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        roommateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (roommateSwitch.isChecked()) {
-                    switchState = true;
-                } else {
-                    switchState = false;
-                }
+                switchState = roommateSwitch.isChecked();
             }
-        });*/
+        });
 
         radioYearGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -250,6 +244,7 @@ public class ProfileSettings extends AppCompatActivity {
                     metadata.put("year", year);
                     metadata.put("major", major);
                     metadata.put("gender", gender);
+                    metadata.put("ifSwitched", switchState);
                     roommateProfile.put("time_sleep", timeSleep);
                     roommateProfile.put("time_wake", timeWake);
                     roommateProfile.put("interests", interests);
@@ -330,6 +325,16 @@ public class ProfileSettings extends AppCompatActivity {
         } else if (requestCode == 2) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri imageUri = data.getData();
+                /*String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(imageUri, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String currentPhotoPath = cursor.getString(columnIndex);
+                cursor.close();
+                File image = new File(currentPhotoPath);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                Bitmap selectedImage = BitmapFactory.decodeFile(image.getAbsolutePath(), options);
+                ivCreatePicture.setImageBitmap(selectedImage);*/
                 ivCreatePicture.setImageURI(imageUri);
             }
         }
