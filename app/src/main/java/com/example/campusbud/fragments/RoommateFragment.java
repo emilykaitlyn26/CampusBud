@@ -67,7 +67,7 @@ public class RoommateFragment extends Fragment {
     public int userDrinkingValue;
     public int loggedInDrinkingValue;
 
-    public double rating; // total rating score tbd
+    public double rating;
     public double year;
     public double cleanliness;
     public double drinking;
@@ -98,11 +98,13 @@ public class RoommateFragment extends Fragment {
         ratings = new ArrayList<>();
         sortedUsers = new ArrayList<>();
         allImages = new ArrayList<>();
+        cardAdapter = new CardAdapter(getContext(), koloda, sortedUsers, allImages);
+        koloda.setAdapter(cardAdapter);
         queryProfiles();
         queryUsers();
         queryImages();
-        cardAdapter = new CardAdapter(getContext(), koloda, sortedUsers, allImages);
-        koloda.setAdapter(cardAdapter);
+        //cardAdapter = new CardAdapter(getContext(), koloda, sortedUsers, allImages);
+        //koloda.setAdapter(cardAdapter);
         Log.d(TAG, "profiles: " + allUsers);
 
         koloda.setKolodaListener(new KolodaListener() {
@@ -207,7 +209,6 @@ public class RoommateFragment extends Fragment {
                     sortedUsers.add(allUsers.get(maxIndex));
                     ratings.set(maxIndex, 0.0);
                 }
-                //Collections.reverse(sortedUsers);
                 cardAdapter.notifyDataSetChanged();
             }
             @Override
@@ -246,10 +247,6 @@ public class RoommateFragment extends Fragment {
                 Log.d(TAG, "User list fetching failed with exception: " + e.getMessage());
             }
         });
-    }
-
-    public void matching(List<User> allUsers) {
-
     }
 
     public double rate(User user) throws JSONException, java.text.ParseException {
@@ -433,18 +430,5 @@ public class RoommateFragment extends Fragment {
 
         rating = year + cleanliness + smoking + drinking + roomUse + timeSleep + timeWake;
         return rating;
-    }
-
-    public void updateUser(User user) {
-        CometChat.updateCurrentUserDetails(user, new CometChat.CallbackListener<User>() {
-            @Override
-            public void onSuccess(User user) {
-                Log.d(TAG, user.toString());
-            }
-            @Override
-            public void onError(CometChatException e) {
-                Log.d(TAG, e.getMessage());
-            }
-        });
     }
 }

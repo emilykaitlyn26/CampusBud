@@ -64,8 +64,6 @@ public class ProfileSettings extends AppCompatActivity {
 
     public EditText etName;
     public EditText etMajor;
-    public EditText etTimeMorning;
-    public EditText etTimeNight;
     public EditText etInterests;
     public EditText etActivities;
     public EditText etBio;
@@ -263,8 +261,6 @@ public class ProfileSettings extends AppCompatActivity {
 
                 name = etName.getText().toString();
                 major = etMajor.getText().toString();
-                //timeSleep = etTimeNight.getText().toString();
-                //timeWake = etTimeMorning.getText().toString();
                 interests = etInterests.getText().toString();
                 activities = etActivities.getText().toString();
                 bio = etBio.getText().toString();
