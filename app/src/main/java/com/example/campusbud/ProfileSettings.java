@@ -20,6 +20,9 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -44,8 +47,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Time;
 import java.text.DateFormat;
@@ -86,6 +92,10 @@ public class ProfileSettings extends AppCompatActivity {
     public JSONArray roommateProfileArray = new JSONArray();
     public JSONObject roommateProfile = new JSONObject();
 
+    public String[] times = {"12:00am", "1:00am", "2:00am", "3:00am", "4:00am", "5:00am", "6:00am", "7:00am", "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5.00pm", "6:00pm", "7.00pm", "8:00pm", "9:00pm", "10:00pm", "11:00pm"};
+    ArrayAdapter<String> sleeptimeadapter;
+    ArrayAdapter<String> waketimeadapter;
+
     public RadioGroup radioYearGroup;
     public RadioButton radioYearButton;
     public Switch roommateSwitch;
@@ -123,12 +133,19 @@ public class ProfileSettings extends AppCompatActivity {
         user = CometChat.getLoggedInUser();
         parseUser = ParseUser.getCurrentUser();
 
+        AutoCompleteTextView sleepTextView = (AutoCompleteTextView) findViewById(R.id.etTimeNight);
+        AutoCompleteTextView wakeTextView = (AutoCompleteTextView) findViewById(R.id.etTimeMorning);
+        sleeptimeadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, times);
+        waketimeadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, times);
+        sleepTextView.setThreshold(1);
+        sleepTextView.setAdapter(sleeptimeadapter);
+        wakeTextView.setThreshold(1);
+        wakeTextView.setAdapter(waketimeadapter);
+
         radioYearGroup = findViewById(R.id.radioYearGroup);
         ivCreatePicture = findViewById(R.id.ivCreatePicture);
         etName = findViewById(R.id.etName);
         etMajor = findViewById(R.id.etMajor);
-        etTimeMorning = findViewById(R.id.etTimeMorning);
-        etTimeNight = findViewById(R.id.etTimeNight);
         btnSubmit = findViewById(R.id.btnSubmit);
         roommateSwitch = findViewById(R.id.roommateSwitch);
         rgCleanliness = findViewById(R.id.rgCleanliness);
@@ -198,6 +215,20 @@ public class ProfileSettings extends AppCompatActivity {
             }
         });
 
+        wakeTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                timeWake = (String) parent.getItemAtPosition(position);
+            }
+        });
+
+        sleepTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                timeSleep = (String) parent.getItemAtPosition(position);
+            }
+        });
+
         ivCreatePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,8 +263,8 @@ public class ProfileSettings extends AppCompatActivity {
 
                 name = etName.getText().toString();
                 major = etMajor.getText().toString();
-                timeSleep = etTimeNight.getText().toString();
-                timeWake = etTimeMorning.getText().toString();
+                //timeSleep = etTimeNight.getText().toString();
+                //timeWake = etTimeMorning.getText().toString();
                 interests = etInterests.getText().toString();
                 activities = etActivities.getText().toString();
                 bio = etBio.getText().toString();
@@ -325,16 +356,7 @@ public class ProfileSettings extends AppCompatActivity {
         } else if (requestCode == 2) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri imageUri = data.getData();
-                /*String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContentResolver().query(imageUri, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String currentPhotoPath = cursor.getString(columnIndex);
-                cursor.close();
-                File image = new File(currentPhotoPath);
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                Bitmap selectedImage = BitmapFactory.decodeFile(image.getAbsolutePath(), options);
-                ivCreatePicture.setImageBitmap(selectedImage);*/
+                photoFileProfile = new File(String.valueOf(imageUri));
                 ivCreatePicture.setImageURI(imageUri);
             }
         }
@@ -347,6 +369,7 @@ public class ProfileSettings extends AppCompatActivity {
         } else if (requestCode == 4) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri imageUri = data.getData();
+                photoFile1 = new File(String.valueOf(imageUri));
                 ivProfileImage1.setImageURI(imageUri);
             }
         }
@@ -359,6 +382,7 @@ public class ProfileSettings extends AppCompatActivity {
         } else if (requestCode == 6) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri imageUri = data.getData();
+                photoFile2 = new File(String.valueOf(imageUri));
                 ivProfileImage2.setImageURI(imageUri);
             }
         }
@@ -371,6 +395,7 @@ public class ProfileSettings extends AppCompatActivity {
         } else if (requestCode == 8) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri imageUri = data.getData();
+                photoFile3 = new File(String.valueOf(imageUri));
                 ivProfileImage3.setImageURI(imageUri);
             }
         }

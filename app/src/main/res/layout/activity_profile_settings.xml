@@ -344,7 +344,7 @@
 
     </RadioGroup>
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/etTimeNight"
         android:layout_width="57dp"
         android:layout_height="34dp"
@@ -354,7 +354,7 @@
         app:layout_constraintStart_toEndOf="@+id/tvTimeNight"
         app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/etTimeMorning"
         android:layout_width="57dp"
         android:layout_height="34dp"
