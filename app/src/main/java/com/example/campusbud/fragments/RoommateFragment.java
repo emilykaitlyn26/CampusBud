@@ -81,6 +81,19 @@ public class RoommateFragment extends Fragment {
     public List<User> allUsers;
     public List<User> sortedUsers;
     List<Double> ratings;
+    JSONObject metadata;
+
+    private JSONArray userActivity;
+    private JSONArray userYearActivity;
+    private JSONObject userYearValues;
+    private JSONArray userCleanlinessActivity;
+    private JSONObject userCleanlinessValues;
+    private JSONArray userSmokingActivity;
+    private JSONObject userSmokingValues;
+    private JSONArray userDrinkingActivity;
+    private JSONObject userDrinkingValues;
+    private JSONArray userRoomUseActivity;
+    private JSONObject userRoomUseValues;
 
     public RoommateFragment() {}
 
@@ -92,19 +105,35 @@ public class RoommateFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        metadata = currentUser.getMetadata();
+        try {
+            JSONArray userActivity = metadata.getJSONArray("user_activity");
+            JSONArray userYearActivity = userActivity.getJSONArray(0);
+            JSONObject userYearValues = userYearActivity.getJSONObject(0);
+            JSONArray userCleanlinessActivity = userActivity.getJSONArray(1);
+            JSONObject userCleanlinessValues = userCleanlinessActivity.getJSONObject(0);
+            JSONArray userSmokingActivity = userActivity.getJSONArray(3);
+            JSONObject userSmokingValues = userSmokingActivity.getJSONObject(0);
+            JSONArray userDrinkingActivity = userActivity.getJSONArray(4);
+            JSONObject userDrinkingValues = userDrinkingActivity.getJSONObject(0);
+            JSONArray userRoomUseActivity = userActivity.getJSONArray(5);
+            JSONObject userRoomUseValues = userRoomUseActivity.getJSONObject(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         koloda = view.findViewById(R.id.koloda);
         getUser = new ArrayList<>();
         allUsers = new ArrayList<>();
         ratings = new ArrayList<>();
         sortedUsers = new ArrayList<>();
         allImages = new ArrayList<>();
-        cardAdapter = new CardAdapter(getContext(), koloda, sortedUsers, allImages);
-        koloda.setAdapter(cardAdapter);
         queryProfiles();
         queryUsers();
         queryImages();
-        //cardAdapter = new CardAdapter(getContext(), koloda, sortedUsers, allImages);
-        //koloda.setAdapter(cardAdapter);
+        cardAdapter = new CardAdapter(getContext(), koloda, sortedUsers, allImages);
+        koloda.setAdapter(cardAdapter);
         Log.d(TAG, "profiles: " + allUsers);
 
         koloda.setKolodaListener(new KolodaListener() {
@@ -120,12 +149,19 @@ public class RoommateFragment extends Fragment {
 
             @Override
             public void onCardSwipedLeft(int i) {
+                currentUser = getUser.get(position);
+                try {
+                    updateUserLeft(currentUser);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 position += 1;
             }
 
             @Override
             public void onCardSwipedRight(int i) {
                 currentUser = getUser.get(position);
+                updateUserRight(currentUser);
                 startUserIntent(currentUser);
                 position += 1;
             }
@@ -430,5 +466,15 @@ public class RoommateFragment extends Fragment {
 
         rating = year + cleanliness + smoking + drinking + roomUse + timeSleep + timeWake;
         return rating;
+    }
+
+    public void updateUserLeft(User currentUser) throws JSONException {
+        JSONObject currentUserData = currentUser.getMetadata();
+        JSONArray currentUserRoommateProfile = currentUserData.getJSONArray("roommate_profile");
+        JSONObject currentUserRoommateData = currentUserRoommateProfile.getJSONObject(0);
+    }
+
+    public void updateUserRight(User currentUser) {
+
     }
 }

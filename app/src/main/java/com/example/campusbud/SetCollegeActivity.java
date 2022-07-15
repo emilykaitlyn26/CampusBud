@@ -23,11 +23,13 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SetCollegeActivity extends AppCompatActivity {
@@ -40,6 +42,22 @@ public class SetCollegeActivity extends AppCompatActivity {
     public String selectedCollege;
     public Button btnSignUp;
     public JSONObject metadata = new JSONObject();
+    //public List<List<Integer>> userActivity;
+    public JSONArray userActivity = new JSONArray();
+    public JSONArray userYearActivity = new JSONArray();
+    public JSONObject userYearValues = new JSONObject();
+    public JSONArray userCleanlinessActivity = new JSONArray();
+    public JSONObject userCleanlinessValues = new JSONObject();
+    public JSONArray userSmokingActivity = new JSONArray();
+    public JSONObject userSmokingValues = new JSONObject();
+    public JSONArray userDrinkingActivity = new JSONArray();
+    public JSONObject userDrinkingValues = new JSONObject();
+    public JSONArray userRoomUseActivity = new JSONArray();
+    public JSONObject userRoomUseValues = new JSONObject();
+    public JSONArray userSleepTimeActivity = new JSONArray();
+    public JSONArray userWakeTimeActivity = new JSONArray();
+
+    User newUser = CometChat.getLoggedInUser();
 
     private static final String TAG = "SetCollegeActivity";
     public static final String authKey = "c523b47dfef8a387d934b40bbcf7d7bc5fe2c0ee";
@@ -56,6 +74,9 @@ public class SetCollegeActivity extends AppCompatActivity {
 
         listColleges = new ArrayList<>();
         universityNames = new ArrayList<>();
+        /*userActivity = new ArrayList<>(
+                Arrays.asList(Arrays.asList(0, 0, 0, 0), Arrays.asList(0, 0, 0, 0), Arrays.asList(0, 0, 0), Arrays.asList(0, 0, 0), Arrays.asList(0, 0, 0, 0), Arrays.asList(0, 0, 0, 0), Arrays.asList(0, 0, 0, 0))
+        );*/
 
         if (list.size() == 56) {
             for (int i = 0; i < list.size(); i++) {
@@ -167,6 +188,7 @@ public class SetCollegeActivity extends AppCompatActivity {
                             Log.d(TAG, "Login Successful : " + user.toString());
                             try {
                                 setCollege();
+                                setUserActivity();
                             } catch (JSONException ex) {
                                 ex.printStackTrace();
                             }
@@ -185,10 +207,41 @@ public class SetCollegeActivity extends AppCompatActivity {
     }
 
     public void setCollege() throws JSONException {
-        User newUser = CometChat.getLoggedInUser();
         metadata.put("college", selectedCollege);
         newUser.setMetadata(metadata);
         updateUser(newUser);
+    }
+
+    public void setUserActivity() throws JSONException {
+        userYearValues.put("freshman", 0);
+        userYearValues.put("sophomore", 0);
+        userYearValues.put("junior", 0);
+        userYearValues.put("senior", 0);
+        userYearActivity.put(userYearValues);
+        userCleanlinessValues.put("organized", 0);
+        userCleanlinessValues.put("casual", 0);
+        userCleanlinessValues.put("occasionally_messy", 0);
+        userCleanlinessValues.put("messy", 0);
+        userCleanlinessActivity.put(userCleanlinessValues);
+        userSmokingValues.put("yes", 0);
+        userSmokingValues.put("sometimes", 0);
+        userSmokingValues.put("no", 0);
+        userSmokingActivity.put(userSmokingValues);
+        userDrinkingValues.put("yes", 0);
+        userDrinkingValues.put("sometimes", 0);
+        userDrinkingValues.put("no", 0);
+        userDrinkingActivity.put(userDrinkingValues);
+        userRoomUseValues.put("social_space", 0);
+        userRoomUseValues.put("study_space", 0);
+        userRoomUseValues.put("sleeping_space", 0);
+        userRoomUseValues.put("all_above", 0);
+        userRoomUseActivity.put(userRoomUseValues);
+        userActivity.put(userYearActivity);
+        userActivity.put(userCleanlinessActivity);
+        userActivity.put(userSmokingActivity);
+        userActivity.put(userDrinkingActivity);
+        userActivity.put(userRoomUseActivity);
+        metadata.put("user_activity", userActivity);
     }
 
     public void updateUser(User user) {
