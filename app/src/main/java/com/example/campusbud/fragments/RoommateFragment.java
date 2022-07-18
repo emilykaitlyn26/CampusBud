@@ -51,7 +51,6 @@ public class RoommateFragment extends Fragment {
     public List<Image> allImages;
     public User currentUser;
     public int position;
-    public List<User> getUser;
 
     public double max = 0.7;
     public double average = 0.5;
@@ -75,6 +74,8 @@ public class RoommateFragment extends Fragment {
     public double roomUse;
     public double timeSleep;
     public double timeWake;
+
+    private int increment;
 
     private final String TAG = "RoommateFragment";
 
@@ -108,28 +109,26 @@ public class RoommateFragment extends Fragment {
 
         metadata = currentUser.getMetadata();
         try {
-            JSONArray userActivity = metadata.getJSONArray("user_activity");
-            JSONArray userYearActivity = userActivity.getJSONArray(0);
-            JSONObject userYearValues = userYearActivity.getJSONObject(0);
-            JSONArray userCleanlinessActivity = userActivity.getJSONArray(1);
-            JSONObject userCleanlinessValues = userCleanlinessActivity.getJSONObject(0);
-            JSONArray userSmokingActivity = userActivity.getJSONArray(3);
-            JSONObject userSmokingValues = userSmokingActivity.getJSONObject(0);
-            JSONArray userDrinkingActivity = userActivity.getJSONArray(4);
-            JSONObject userDrinkingValues = userDrinkingActivity.getJSONObject(0);
-            JSONArray userRoomUseActivity = userActivity.getJSONArray(5);
-            JSONObject userRoomUseValues = userRoomUseActivity.getJSONObject(0);
+            userActivity = metadata.getJSONArray("user_activity");
+            userYearActivity = userActivity.getJSONArray(0);
+            userYearValues = userYearActivity.getJSONObject(0);
+            userCleanlinessActivity = userActivity.getJSONArray(1);
+            userCleanlinessValues = userCleanlinessActivity.getJSONObject(0);
+            userSmokingActivity = userActivity.getJSONArray(3);
+            userSmokingValues = userSmokingActivity.getJSONObject(0);
+            userDrinkingActivity = userActivity.getJSONArray(4);
+            userDrinkingValues = userDrinkingActivity.getJSONObject(0);
+            userRoomUseActivity = userActivity.getJSONArray(5);
+            userRoomUseValues = userRoomUseActivity.getJSONObject(0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         koloda = view.findViewById(R.id.koloda);
-        getUser = new ArrayList<>();
         allUsers = new ArrayList<>();
         ratings = new ArrayList<>();
         sortedUsers = new ArrayList<>();
         allImages = new ArrayList<>();
-        queryProfiles();
         queryUsers();
         queryImages();
         cardAdapter = new CardAdapter(getContext(), koloda, sortedUsers, allImages);
@@ -149,7 +148,7 @@ public class RoommateFragment extends Fragment {
 
             @Override
             public void onCardSwipedLeft(int i) {
-                currentUser = getUser.get(position);
+                currentUser = sortedUsers.get(position);
                 try {
                     updateUserLeft(currentUser);
                 } catch (JSONException e) {
@@ -160,8 +159,12 @@ public class RoommateFragment extends Fragment {
 
             @Override
             public void onCardSwipedRight(int i) {
-                currentUser = getUser.get(position);
-                updateUserRight(currentUser);
+                currentUser = sortedUsers.get(position);
+                try {
+                    updateUserRight(currentUser);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 startUserIntent(currentUser);
                 position += 1;
             }
@@ -265,22 +268,6 @@ public class RoommateFragment extends Fragment {
                 }
                 allImages.addAll(objects);
                 cardAdapter.notifyDataSetChanged();
-            }
-        });
-    }
-
-    protected void queryProfiles() {
-        UsersRequest usersRequest = new UsersRequest.UsersRequestBuilder().build();
-        usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
-            @Override
-            public void onSuccess(List<User> users) {
-                getUser = users;
-                Log.d(TAG, "User list received: " + users.size());
-                Log.d(TAG, "Users" + users);
-            }
-            @Override
-            public void onError(CometChatException e) {
-                Log.d(TAG, "User list fetching failed with exception: " + e.getMessage());
             }
         });
     }
@@ -468,13 +455,124 @@ public class RoommateFragment extends Fragment {
         return rating;
     }
 
-    public void updateUserLeft(User currentUser) throws JSONException {
+    public void updateUser(User currentUser, int increment) throws JSONException {
         JSONObject currentUserData = currentUser.getMetadata();
         JSONArray currentUserRoommateProfile = currentUserData.getJSONArray("roommate_profile");
         JSONObject currentUserRoommateData = currentUserRoommateProfile.getJSONObject(0);
+
+        String currentUserYear = currentUserData.getString("year");
+        if (currentUserYear.equals("Freshman")) {
+            int currYearVal = userYearValues.getInt("freshman");
+            currYearVal += increment;
+            userYearValues.remove("freshman");
+            userYearValues.put("freshman", currYearVal);
+        } else if (currentUserYear.equals("Sophomore")) {
+            int currYearVal = userYearValues.getInt("sophomore");
+            currYearVal += increment;
+            userYearValues.remove("sophomore");
+            userYearValues.put("sophomore", currYearVal);
+        } else if (currentUserYear.equals("Junior")) {
+            int currYearVal = userYearValues.getInt("junior");
+            currYearVal += increment;
+            userYearValues.remove("junior");
+            userYearValues.put("junior", currYearVal);
+        } else if (currentUserYear.equals("Senior")) {
+            int currYearVal = userYearValues.getInt("senior");
+            currYearVal += increment;
+            userYearValues.remove("senior");
+            userYearValues.put("senior", currYearVal);
+        }
+
+        String currentUserCleanliness = currentUserRoommateData.getString("cleanliness");
+        if (currentUserCleanliness.equals("Organized")) {
+            int currCleanlinessVal = userCleanlinessValues.getInt("organized");
+            currCleanlinessVal += increment;
+            userCleanlinessValues.remove("organized");
+            userCleanlinessValues.put("organized", currCleanlinessVal);
+        } else if (currentUserCleanliness.equals("Casual")) {
+            int currCleanlinessVal = userCleanlinessValues.getInt("casual");
+            currCleanlinessVal += increment;
+            userCleanlinessValues.remove("casual");
+            userCleanlinessValues.put("casual", currCleanlinessVal);
+        } else if (currentUserCleanliness.equals("Occasionally messy")) {
+            int currCleanlinessVal = userCleanlinessValues.getInt("occasionally_messy");
+            currCleanlinessVal += increment;
+            userCleanlinessValues.remove("occasionally_messy");
+            userCleanlinessValues.put("occasionally_messy", currCleanlinessVal);
+        } else if (currentUserCleanliness.equals("Messy")) {
+            int currCleanlinessVal = userCleanlinessValues.getInt("messy");
+            currCleanlinessVal += increment;
+            userCleanlinessValues.remove("messy");
+            userCleanlinessValues.put("messy", currCleanlinessVal);
+        }
+
+        String currentUserSmoking = currentUserRoommateData.getString("if_smoke");
+        if (currentUserSmoking.equals("Yes")) {
+            int currSmokingVal = userSmokingValues.getInt("yes");
+            currSmokingVal += increment;
+            userSmokingValues.remove("yes");
+            userSmokingValues.put("yes", currSmokingVal);
+        } else if (currentUserSmoking.equals("Sometimes")) {
+            int currSmokingVal = userSmokingValues.getInt("sometimes");
+            currSmokingVal += increment;
+            userSmokingValues.remove("sometimes");
+            userSmokingValues.put("sometimes", currSmokingVal);
+        } else if (currentUserSmoking.equals("No")) {
+            int currSmokingVal = userSmokingValues.getInt("no");
+            currSmokingVal += increment;
+            userSmokingValues.remove("no");
+            userSmokingValues.put("no", currSmokingVal);
+        }
+
+        String currentUserDrinking = currentUserRoommateData.getString("if_drink");
+        if (currentUserDrinking.equals("Yes")) {
+            int currDrinkingVal = userDrinkingValues.getInt("yes");
+            currDrinkingVal += increment;
+            userDrinkingValues.remove("yes");
+            userDrinkingValues.put("yes", currDrinkingVal);
+        } else if (currentUserDrinking.equals("Sometimes")) {
+            int currDrinkingVal = userDrinkingValues.getInt("sometimes");
+            currDrinkingVal += increment;
+            userDrinkingValues.remove("sometimes");
+            userDrinkingValues.put("sometimes", currDrinkingVal);
+        } else if (currentUserDrinking.equals("No")) {
+            int currDrinkingVal = userDrinkingValues.getInt("no");
+            currDrinkingVal += increment;
+            userDrinkingValues.remove("no");
+            userDrinkingValues.put("no", currDrinkingVal);
+        }
+
+        String currentUserRoomUse = currentUserRoommateData.getString("room_use");
+        if (currentUserRoomUse.equals("Social Space")) {
+            int currRoomUseVal = userRoomUseValues.getInt("social_space");
+            currRoomUseVal += increment;
+            userRoomUseValues.remove("social_space");
+            userRoomUseValues.put("social_space", currRoomUseVal);
+        } else if (currentUserRoomUse.equals("Study Space")) {
+            int currRoomUseVal = userRoomUseValues.getInt("study_space");
+            currRoomUseVal += increment;
+            userRoomUseValues.remove("study_space");
+            userRoomUseValues.put("study_space", currRoomUseVal);
+        } else if (currentUserRoomUse.equals("Sleeping Space")) {
+            int currRoomUseVal = userCleanlinessValues.getInt("sleeping_space");
+            currRoomUseVal += increment;
+            userRoomUseValues.remove("sleeping_space");
+            userRoomUseValues.put("sleeping_space", currRoomUseVal);
+        } else if (currentUserRoomUse.equals("All of the Above")) {
+            int currRoomUseVal = userCleanlinessValues.getInt("all_above");
+            currRoomUseVal += increment;
+            userRoomUseValues.remove("all_above");
+            userRoomUseValues.put("all_above", currRoomUseVal);
+        }
     }
 
-    public void updateUserRight(User currentUser) {
+    public void updateUserLeft(User currentUser) throws JSONException {
+        increment = -1;
+        updateUser(currentUser, increment);
+    }
 
+    public void updateUserRight(User currentUser) throws JSONException {
+        increment = 1;
+        updateUser(currentUser, increment);
     }
 }

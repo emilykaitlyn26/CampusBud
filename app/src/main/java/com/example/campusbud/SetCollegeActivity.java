@@ -57,8 +57,6 @@ public class SetCollegeActivity extends AppCompatActivity {
     public JSONArray userSleepTimeActivity = new JSONArray();
     public JSONArray userWakeTimeActivity = new JSONArray();
 
-    User newUser = CometChat.getLoggedInUser();
-
     private static final String TAG = "SetCollegeActivity";
     public static final String authKey = "c523b47dfef8a387d934b40bbcf7d7bc5fe2c0ee";
 
@@ -207,12 +205,14 @@ public class SetCollegeActivity extends AppCompatActivity {
     }
 
     public void setCollege() throws JSONException {
+        User newUser = CometChat.getLoggedInUser();
         metadata.put("college", selectedCollege);
         newUser.setMetadata(metadata);
         updateUser(newUser);
     }
 
     public void setUserActivity() throws JSONException {
+        User newUser = CometChat.getLoggedInUser();
         userYearValues.put("freshman", 0);
         userYearValues.put("sophomore", 0);
         userYearValues.put("junior", 0);
@@ -242,6 +242,7 @@ public class SetCollegeActivity extends AppCompatActivity {
         userActivity.put(userDrinkingActivity);
         userActivity.put(userRoomUseActivity);
         metadata.put("user_activity", userActivity);
+        updateUser(newUser);
     }
 
     public void updateUser(User user) {

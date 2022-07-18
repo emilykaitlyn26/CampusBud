@@ -49,14 +49,14 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        queryStates();
+        allStates = new ArrayList<>();
+        stateList = new ArrayList<State>();
+
         etNewUsername = findViewById(R.id.etNewUsername);
         etNewPassword = findViewById(R.id.etNewPassword);
         AutoCompleteTextView stateTextView = (AutoCompleteTextView) findViewById(R.id.selectState);
         stateadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, allStates);
-        allStates = new ArrayList<>();
-        stateList = new ArrayList<State>();
-
-        queryStates();
 
         stateTextView.setThreshold(1);
         stateTextView.setAdapter(stateadapter);

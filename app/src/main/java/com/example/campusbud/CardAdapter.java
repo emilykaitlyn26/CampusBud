@@ -156,9 +156,6 @@ public class CardAdapter extends BaseAdapter {
             }
             context = ivRImage1.getContext();
             ParseFile image1file = images.get(index).getImage1Url();
-            if (image1file.getUrl() == null) {
-                Log.d(TAG, "Image URL null");
-            }
             Log.d(TAG, "Image URL: " + image1file.getUrl());
             Glide.with(context).load(image1file.getUrl()).into(ivRImage1);
             Log.d(TAG, "Loaded Image 1");
@@ -170,9 +167,6 @@ public class CardAdapter extends BaseAdapter {
             ParseFile image3file = (images.get(index)).getImage3Url();
             Glide.with(context).load(image3file.getUrl()).into(ivRImage3);
             Log.d(TAG, "Loaded Image 3");
-        }
-        else {
-            Log.d(TAG, "List of images is 0");
         }
     }
 }
