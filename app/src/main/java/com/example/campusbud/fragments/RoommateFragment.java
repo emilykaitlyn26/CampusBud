@@ -57,6 +57,25 @@ public class RoommateFragment extends Fragment {
     public double below = 0.3;
     public double lowest = 0.1;
 
+    private double yearMax;
+    private double yearAverage;
+    private double yearBelow;
+    private double yearLowest;
+    private double cleanMax;
+    private double cleanAverage;
+    private double cleanBelow;
+    private double cleanLowest;
+    private double smokingMax;
+    private double smokingAverage;
+    private double smokingBelow;
+    private double drinkingMax;
+    private double drinkingAverage;
+    private double drinkingBelow;
+    private double roomMax;
+    private double roomAverage;
+    private double roomBelow;
+    private double roomLowest;
+
     public int userYearValue;
     public int loggedInYearValue;
     public int userCleanlinessValue;
@@ -76,6 +95,7 @@ public class RoommateFragment extends Fragment {
     public double timeWake;
 
     private int increment;
+    private int deckIncrement = 0;
 
     private final String TAG = "RoommateFragment";
 
@@ -196,7 +216,6 @@ public class RoommateFragment extends Fragment {
 
             @Override
             public void onEmptyDeck() {
-
             }
         });
     }
@@ -233,7 +252,7 @@ public class RoommateFragment extends Fragment {
                                 String currentUserGender = currentUserMetadata.getString("gender");
                                 if (userGender.equals(currentUserGender)) {
                                     allUsers.add(user);
-                                    double userRate  = rate(user);
+                                    double userRate = rate(user);
                                     ratings.add(userRate);
                                 }
                             }
@@ -248,6 +267,7 @@ public class RoommateFragment extends Fragment {
                     sortedUsers.add(allUsers.get(maxIndex));
                     ratings.set(maxIndex, 0.0);
                 }
+                deckIncrement += 1;
                 cardAdapter.notifyDataSetChanged();
             }
             @Override
@@ -574,5 +594,396 @@ public class RoommateFragment extends Fragment {
     public void updateUserRight(User currentUser) throws JSONException {
         increment = 1;
         updateUser(currentUser, increment);
+    }
+
+    public void changeRatings(User currentUser) throws JSONException {
+        JSONObject currentUserData = currentUser.getMetadata();
+        JSONArray currentUserRates = currentUserData.getJSONArray("rate_values");
+        JSONObject currentUserRateValues = currentUserRates.getJSONObject(0);
+
+        JSONArray activity = currentUserData.getJSONArray("user_activity");
+        JSONArray yearActivityArray = activity.getJSONArray(0);
+        JSONObject yearActivity = yearActivityArray.getJSONObject(0);
+        int freshValue = yearActivity.getInt("freshman");
+        int sophValue = yearActivity.getInt("sophomore");
+        int junValue = yearActivity.getInt("junior");
+        int senValue = yearActivity.getInt("senior");
+        List<Integer> yearArray = new ArrayList<Integer>(Arrays.asList(freshValue, sophValue, junValue, senValue));
+        Integer[] tempYearArray = {freshValue, sophValue, junValue, senValue};
+        int ycount = 0;
+        for (int i = 0; i < yearArray.size(); i++) {
+            int max = (int) Collections.max(yearArray);
+            int indexOfMax = Arrays.asList(tempYearArray).indexOf(max);
+            if (indexOfMax == 0) {
+                if (ycount == 0) {
+                    if (yearMax < 0.9) {
+                        yearMax += 0.05;
+                    }
+                } else if (ycount == 1) {
+                    if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
+                        yearAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
+                        yearBelow -= 0.02;
+                    }
+                } else if (ycount == 3) {
+                    if (yearLowest < yearBelow && yearLowest > 0.5) {
+                        yearLowest -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 1) {
+                if (ycount == 0) {
+                    if (yearMax < 0.9) {
+                        yearMax += 0.05;
+                    }
+                } else if (ycount == 1) {
+                    if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
+                        yearAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
+                        yearBelow -= 0.02;
+                    }
+                } else if (ycount == 3) {
+                    if (yearLowest < yearBelow && yearLowest > 0.5) {
+                        yearLowest -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 2) {
+                if (ycount == 0) {
+                    if (yearMax < 0.9) {
+                        yearMax += 0.05;
+                    }
+                } else if (ycount == 1) {
+                    if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
+                        yearAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
+                        yearBelow -= 0.02;
+                    }
+                } else if (ycount == 3) {
+                    if (yearLowest < yearBelow && yearLowest > 0.5) {
+                        yearLowest -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 3) {
+                if (ycount == 0) {
+                    if (yearMax < 0.9) {
+                        yearMax += 0.05;
+                    }
+                } else if (ycount == 1) {
+                    if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
+                        yearAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
+                        yearBelow -= 0.02;
+                    }
+                } else if (ycount == 3) {
+                    if (yearLowest < yearBelow && yearLowest > 0.5) {
+                        yearLowest -= 0.05;
+                    }
+                }
+            }
+            yearArray.remove(max);
+            ycount += 1;
+        }
+
+        JSONArray cleanlinessActivityArray = activity.getJSONArray(1);
+        JSONObject cleanlinessActivity = cleanlinessActivityArray.getJSONObject(0);
+        int organizedValue = cleanlinessActivity.getInt("organized");
+        int casualValue = cleanlinessActivity.getInt("casual");
+        int occMessyValue = cleanlinessActivity.getInt("occasionally_messy");
+        int messyValue = cleanlinessActivity.getInt("messy");
+        List<Integer> cleanlinessArray = new ArrayList<Integer>(Arrays.asList(organizedValue, casualValue, occMessyValue, messyValue));
+        Integer[] tempCleanlinessArray = {organizedValue, casualValue, occMessyValue, messyValue};
+        int clcount = 0;
+        for (int i = 0; i < cleanlinessArray.size(); i++) {
+            int max = (int) Collections.max(cleanlinessArray);
+            int indexOfMax = Arrays.asList(tempCleanlinessArray).indexOf(max);
+            if (indexOfMax == 0) {
+                if (clcount == 0) {
+                    if (cleanMax < 0.9) {
+                        cleanMax += 0.05;
+                    }
+                } else if (clcount == 1) {
+                    if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
+                        cleanAverage += 0.02;
+                    }
+                } else if (clcount == 2) {
+                    if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
+                        cleanBelow -= 0.02;
+                    }
+                } else if (clcount == 3) {
+                    if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
+                        cleanLowest -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 1) {
+                if (clcount == 0) {
+                    if (cleanMax < 0.9) {
+                        cleanMax += 0.05;
+                    }
+                } else if (clcount == 1) {
+                    if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
+                        cleanAverage += 0.02;
+                    }
+                } else if (clcount == 2) {
+                    if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
+                        cleanBelow -= 0.02;
+                    }
+                } else if (clcount == 3) {
+                    if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
+                        cleanLowest -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 2) {
+                if (clcount == 0) {
+                    if (cleanMax < 0.9) {
+                        cleanMax += 0.05;
+                    }
+                } else if (clcount == 1) {
+                    if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
+                        cleanAverage += 0.02;
+                    }
+                } else if (clcount == 2) {
+                    if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
+                        cleanBelow -= 0.02;
+                    }
+                } else if (clcount == 3) {
+                    if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
+                        cleanLowest -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 3) {
+                if (clcount == 0) {
+                    if (cleanMax < 0.9) {
+                        cleanMax += 0.05;
+                    }
+                } else if (clcount == 1) {
+                    if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
+                        cleanAverage += 0.02;
+                    }
+                } else if (clcount == 2) {
+                    if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
+                        cleanBelow -= 0.02;
+                    }
+                } else if (clcount == 3) {
+                    if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
+                        cleanLowest -= 0.05;
+                    }
+                }
+            }
+            cleanlinessArray.remove(max);
+            clcount += 1;
+        }
+
+        JSONArray smokingActivityArray = activity.getJSONArray(2);
+        JSONObject smokingActivity = smokingActivityArray.getJSONObject(0);
+        int yesValue = smokingActivity.getInt("yes");
+        int noValue = smokingActivity.getInt("no");
+        int sometimesValue = smokingActivity.getInt("sometimes");
+        List<Integer> smokingArray = new ArrayList<Integer>(Arrays.asList(yesValue, noValue, sometimesValue));
+        Integer[] tempSmokingArray = {yesValue, noValue, sometimesValue};
+        int scount = 0;
+        for (int i = 0; i < smokingArray.size(); i++) {
+            int max = (int) Collections.max(smokingArray);
+            int indexOfMax = Arrays.asList(tempSmokingArray).indexOf(max);
+            if (indexOfMax == 0) {
+                if (scount == 0) {
+                    if (smokingMax < 0.9) {
+                        smokingMax += 0.05;
+                    }
+                } else if (ycount == 1) {
+                    if (smokingAverage < (smokingMax + 0.02) && smokingAverage > smokingBelow) {
+                        smokingAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (smokingBelow < smokingAverage && smokingBelow > 0.05) {
+                        yearBelow -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 1) {
+                if (scount == 0) {
+                    if (smokingMax < 0.9) {
+                        smokingMax += 0.05;
+                    }
+                } else if (ycount == 1) {
+                    if (smokingAverage < (smokingMax + 0.02) && smokingAverage > smokingBelow) {
+                        smokingAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (smokingBelow < smokingAverage && smokingBelow > 0.05) {
+                        yearBelow -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 2) {
+                if (scount == 0) {
+                    if (smokingMax < 0.9) {
+                        smokingMax += 0.05;
+                    }
+                } else if (ycount == 1) {
+                    if (smokingAverage < (smokingMax + 0.02) && smokingAverage > smokingBelow) {
+                        smokingAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (smokingBelow < smokingAverage && smokingBelow > 0.05) {
+                        smokingBelow -= 0.05;
+                    }
+                }
+            }
+            smokingArray.remove(max);
+            scount += 1;
+        }
+
+        JSONArray drinkingActivityArray = activity.getJSONArray(3);
+        JSONObject drinkingActivity = drinkingActivityArray.getJSONObject(0);
+        int yesdValue = drinkingActivity.getInt("yes");
+        int nodValue = drinkingActivity.getInt("no");
+        int sometimesdValue = drinkingActivity.getInt("sometimes");
+        List<Integer> drinkingArray = new ArrayList<Integer>(Arrays.asList(yesdValue, nodValue, sometimesdValue));
+        Integer[] tempDrinkingArray = {yesdValue, nodValue, sometimesdValue};
+        int dcount = 0;
+        for (int i = 0; i < drinkingArray.size(); i++) {
+            int max = (int) Collections.max(drinkingArray);
+            int indexOfMax = Arrays.asList(tempDrinkingArray).indexOf(max);
+            if (indexOfMax == 0) {
+                if (dcount == 0) {
+                    if (drinkingMax < 0.9) {
+                        drinkingMax += 0.05;
+                    }
+                } else if (dcount == 1) {
+                    if (drinkingAverage < (drinkingMax + 0.02) && drinkingAverage > drinkingBelow) {
+                        drinkingAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (drinkingBelow < drinkingAverage && drinkingBelow > 0.05) {
+                        drinkingBelow -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 1) {
+                if (dcount == 0) {
+                    if (drinkingMax < 0.9) {
+                        drinkingMax += 0.05;
+                    }
+                } else if (dcount == 1) {
+                    if (drinkingAverage < (drinkingMax + 0.02) && drinkingAverage > drinkingBelow) {
+                        drinkingAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (drinkingBelow < drinkingAverage && drinkingBelow > 0.05) {
+                        drinkingBelow -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 2) {
+                if (dcount == 0) {
+                    if (drinkingMax < 0.9) {
+                        drinkingMax += 0.05;
+                    }
+                } else if (dcount == 1) {
+                    if (drinkingAverage < (drinkingMax + 0.02) && drinkingAverage > drinkingBelow) {
+                        drinkingAverage += 0.02;
+                    }
+                } else if (ycount == 2) {
+                    if (drinkingBelow < drinkingAverage && drinkingBelow > 0.05) {
+                        drinkingBelow -= 0.05;
+                    }
+                }
+            }
+            drinkingArray.remove(max);
+            dcount += 1;
+        }
+
+        JSONArray roomActivityArray = activity.getJSONArray(4);
+        JSONObject roomActivity = roomActivityArray.getJSONObject(0);
+        int socialValue = roomActivity.getInt("social_space");
+        int studyValue = roomActivity.getInt("study_space");
+        int sleepingValue = roomActivity.getInt("sleeping_space");
+        int allValue = roomActivity.getInt("all_above");
+        List<Integer> roomArray = new ArrayList<Integer>(Arrays.asList(socialValue, studyValue, sleepingValue, allValue));
+        Integer[] tempRoomArray = {socialValue, studyValue, sleepingValue, allValue};
+        int rcount = 0;
+        for (int i = 0; i < roomArray.size(); i++) {
+            int max = (int) Collections.max(roomArray);
+            int indexOfMax = Arrays.asList(tempRoomArray).indexOf(max);
+            if (indexOfMax == 0) {
+                if (rcount == 0) {
+                    if (roomMax < 0.9) {
+                        roomMax += 0.05;
+                    }
+                } else if (rcount == 1) {
+                    if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
+                        roomAverage += 0.02;
+                    }
+                } else if (rcount == 2) {
+                    if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
+                        roomBelow -= 0.02;
+                    }
+                } else if (rcount == 3) {
+                    if (roomLowest < roomBelow && roomLowest > 0.5) {
+                        roomLowest -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 1) {
+                if (rcount == 0) {
+                    if (roomMax < 0.9) {
+                        roomMax += 0.05;
+                    }
+                } else if (rcount == 1) {
+                    if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
+                        roomAverage += 0.02;
+                    }
+                } else if (rcount == 2) {
+                    if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
+                        roomBelow -= 0.02;
+                    }
+                } else if (rcount == 3) {
+                    if (roomLowest < roomBelow && roomLowest > 0.5) {
+                        roomLowest -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 2) {
+                if (rcount == 0) {
+                    if (roomMax < 0.9) {
+                        roomMax += 0.05;
+                    }
+                } else if (rcount == 1) {
+                    if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
+                        roomAverage += 0.02;
+                    }
+                } else if (rcount == 2) {
+                    if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
+                        roomBelow -= 0.02;
+                    }
+                } else if (rcount == 3) {
+                    if (roomLowest < roomBelow && roomLowest > 0.5) {
+                        roomLowest -= 0.05;
+                    }
+                }
+            } else if (indexOfMax == 3) {
+                if (rcount == 0) {
+                    if (roomMax < 0.9) {
+                        roomMax += 0.05;
+                    }
+                } else if (rcount == 1) {
+                    if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
+                        roomAverage += 0.02;
+                    }
+                } else if (rcount == 2) {
+                    if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
+                        roomBelow -= 0.02;
+                    }
+                } else if (rcount == 3) {
+                    if (roomLowest < roomBelow && roomLowest > 0.5) {
+                        roomLowest -= 0.05;
+                    }
+                }
+            }
+            roomArray.remove(max);
+            rcount += 1;
+        }
+
     }
 }

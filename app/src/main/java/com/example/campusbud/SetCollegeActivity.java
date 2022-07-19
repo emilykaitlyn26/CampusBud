@@ -56,6 +56,8 @@ public class SetCollegeActivity extends AppCompatActivity {
     public JSONObject userRoomUseValues = new JSONObject();
     public JSONArray userSleepTimeActivity = new JSONArray();
     public JSONArray userWakeTimeActivity = new JSONArray();
+    public JSONArray userRates = new JSONArray();
+    public JSONObject userRateValues = new JSONObject();
 
     private static final String TAG = "SetCollegeActivity";
     public static final String authKey = "c523b47dfef8a387d934b40bbcf7d7bc5fe2c0ee";
@@ -242,6 +244,27 @@ public class SetCollegeActivity extends AppCompatActivity {
         userActivity.put(userDrinkingActivity);
         userActivity.put(userRoomUseActivity);
         metadata.put("user_activity", userActivity);
+
+        userRateValues.put("year_max", 0.7);
+        userRateValues.put("year_average", 0.5);
+        userRateValues.put("year_below", 0.3);
+        userRateValues.put("year_lowest", 0.1);
+        userRateValues.put("clean_max", 0.7);
+        userRateValues.put("clean_average", 0.5);
+        userRateValues.put("clean_below", 0.3);
+        userRateValues.put("clean_lowest", 0.1);
+        userRateValues.put("smoke_max", 0.7);
+        userRateValues.put("smoke_average", 0.5);
+        userRateValues.put("smoke_below", 0.3);
+        userRateValues.put("drink_max", 0.7);
+        userRateValues.put("drink_average", 0.5);
+        userRateValues.put("drink_below", 0.3);
+        userRateValues.put("room_max", 0.7);
+        userRateValues.put("room_average", 0.5);
+        userRateValues.put("room_below", 0.3);
+        userRateValues.put("room_lowest", 0.1);
+        userRates.put(userRateValues);
+        metadata.put("rate_values", userRates);
         updateUser(newUser);
     }
 
