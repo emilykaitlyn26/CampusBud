@@ -50,6 +50,7 @@ public class RoommateFragment extends Fragment {
     public CardAdapter cardAdapter;
     public List<Image> allImages;
     public User currentUser;
+    public User loggedInUser;
     public int position;
 
     public double max = 0.7;
@@ -95,7 +96,7 @@ public class RoommateFragment extends Fragment {
     public double timeWake;
 
     private int increment;
-    private int deckIncrement = 0;
+    private int numRefreshed;
 
     private final String TAG = "RoommateFragment";
 
@@ -127,18 +128,20 @@ public class RoommateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        metadata = currentUser.getMetadata();
+        loggedInUser = CometChat.getLoggedInUser();
+        metadata = loggedInUser.getMetadata();
         try {
+            numRefreshed = metadata.getInt("num_refreshed");
             userActivity = metadata.getJSONArray("user_activity");
             userYearActivity = userActivity.getJSONArray(0);
             userYearValues = userYearActivity.getJSONObject(0);
             userCleanlinessActivity = userActivity.getJSONArray(1);
             userCleanlinessValues = userCleanlinessActivity.getJSONObject(0);
-            userSmokingActivity = userActivity.getJSONArray(3);
+            userSmokingActivity = userActivity.getJSONArray(2);
             userSmokingValues = userSmokingActivity.getJSONObject(0);
-            userDrinkingActivity = userActivity.getJSONArray(4);
+            userDrinkingActivity = userActivity.getJSONArray(3);
             userDrinkingValues = userDrinkingActivity.getJSONObject(0);
-            userRoomUseActivity = userActivity.getJSONArray(5);
+            userRoomUseActivity = userActivity.getJSONArray(4);
             userRoomUseValues = userRoomUseActivity.getJSONObject(0);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -252,8 +255,14 @@ public class RoommateFragment extends Fragment {
                                 String currentUserGender = currentUserMetadata.getString("gender");
                                 if (userGender.equals(currentUserGender)) {
                                     allUsers.add(user);
-                                    double userRate = rate(user);
-                                    ratings.add(userRate);
+                                    if (numRefreshed == 0) {
+                                        double userRate = rate(user);
+                                        ratings.add(userRate);
+                                    } else {
+                                        changeRatings(loggedInUser);
+                                        double userRate = alteredRank(user);
+                                        ratings.add(userRate);
+                                    }
                                 }
                             }
                         }
@@ -267,8 +276,13 @@ public class RoommateFragment extends Fragment {
                     sortedUsers.add(allUsers.get(maxIndex));
                     ratings.set(maxIndex, 0.0);
                 }
-                deckIncrement += 1;
-                cardAdapter.notifyDataSetChanged();
+                numRefreshed += 1;
+                try {
+                    metadata.put("num_refreshed", numRefreshed);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                updateUser(loggedInUser);
             }
             @Override
             public void onError(CometChatException e) {
@@ -475,7 +489,7 @@ public class RoommateFragment extends Fragment {
         return rating;
     }
 
-    public void updateUser(User currentUser, int increment) throws JSONException {
+    public void updateActivity(User currentUser, int increment) throws JSONException {
         JSONObject currentUserData = currentUser.getMetadata();
         JSONArray currentUserRoommateProfile = currentUserData.getJSONArray("roommate_profile");
         JSONObject currentUserRoommateData = currentUserRoommateProfile.getJSONObject(0);
@@ -486,21 +500,25 @@ public class RoommateFragment extends Fragment {
             currYearVal += increment;
             userYearValues.remove("freshman");
             userYearValues.put("freshman", currYearVal);
+            updateUser(loggedInUser);
         } else if (currentUserYear.equals("Sophomore")) {
             int currYearVal = userYearValues.getInt("sophomore");
             currYearVal += increment;
             userYearValues.remove("sophomore");
             userYearValues.put("sophomore", currYearVal);
+            updateUser(loggedInUser);
         } else if (currentUserYear.equals("Junior")) {
             int currYearVal = userYearValues.getInt("junior");
             currYearVal += increment;
             userYearValues.remove("junior");
             userYearValues.put("junior", currYearVal);
+            updateUser(loggedInUser);
         } else if (currentUserYear.equals("Senior")) {
             int currYearVal = userYearValues.getInt("senior");
             currYearVal += increment;
             userYearValues.remove("senior");
             userYearValues.put("senior", currYearVal);
+            updateUser(loggedInUser);
         }
 
         String currentUserCleanliness = currentUserRoommateData.getString("cleanliness");
@@ -509,21 +527,26 @@ public class RoommateFragment extends Fragment {
             currCleanlinessVal += increment;
             userCleanlinessValues.remove("organized");
             userCleanlinessValues.put("organized", currCleanlinessVal);
+            updateUser(loggedInUser);
+            updateUser(currentUser);
         } else if (currentUserCleanliness.equals("Casual")) {
             int currCleanlinessVal = userCleanlinessValues.getInt("casual");
             currCleanlinessVal += increment;
             userCleanlinessValues.remove("casual");
             userCleanlinessValues.put("casual", currCleanlinessVal);
+            updateUser(loggedInUser);
         } else if (currentUserCleanliness.equals("Occasionally messy")) {
             int currCleanlinessVal = userCleanlinessValues.getInt("occasionally_messy");
             currCleanlinessVal += increment;
             userCleanlinessValues.remove("occasionally_messy");
             userCleanlinessValues.put("occasionally_messy", currCleanlinessVal);
+            updateUser(loggedInUser);
         } else if (currentUserCleanliness.equals("Messy")) {
             int currCleanlinessVal = userCleanlinessValues.getInt("messy");
             currCleanlinessVal += increment;
             userCleanlinessValues.remove("messy");
             userCleanlinessValues.put("messy", currCleanlinessVal);
+            updateUser(loggedInUser);
         }
 
         String currentUserSmoking = currentUserRoommateData.getString("if_smoke");
@@ -532,16 +555,19 @@ public class RoommateFragment extends Fragment {
             currSmokingVal += increment;
             userSmokingValues.remove("yes");
             userSmokingValues.put("yes", currSmokingVal);
+            updateUser(loggedInUser);
         } else if (currentUserSmoking.equals("Sometimes")) {
             int currSmokingVal = userSmokingValues.getInt("sometimes");
             currSmokingVal += increment;
             userSmokingValues.remove("sometimes");
             userSmokingValues.put("sometimes", currSmokingVal);
+            updateUser(loggedInUser);
         } else if (currentUserSmoking.equals("No")) {
             int currSmokingVal = userSmokingValues.getInt("no");
             currSmokingVal += increment;
             userSmokingValues.remove("no");
             userSmokingValues.put("no", currSmokingVal);
+            updateUser(loggedInUser);
         }
 
         String currentUserDrinking = currentUserRoommateData.getString("if_drink");
@@ -550,16 +576,19 @@ public class RoommateFragment extends Fragment {
             currDrinkingVal += increment;
             userDrinkingValues.remove("yes");
             userDrinkingValues.put("yes", currDrinkingVal);
+            updateUser(loggedInUser);
         } else if (currentUserDrinking.equals("Sometimes")) {
             int currDrinkingVal = userDrinkingValues.getInt("sometimes");
             currDrinkingVal += increment;
             userDrinkingValues.remove("sometimes");
             userDrinkingValues.put("sometimes", currDrinkingVal);
+            updateUser(loggedInUser);
         } else if (currentUserDrinking.equals("No")) {
             int currDrinkingVal = userDrinkingValues.getInt("no");
             currDrinkingVal += increment;
             userDrinkingValues.remove("no");
             userDrinkingValues.put("no", currDrinkingVal);
+            updateUser(loggedInUser);
         }
 
         String currentUserRoomUse = currentUserRoommateData.getString("room_use");
@@ -568,38 +597,60 @@ public class RoommateFragment extends Fragment {
             currRoomUseVal += increment;
             userRoomUseValues.remove("social_space");
             userRoomUseValues.put("social_space", currRoomUseVal);
+            updateUser(loggedInUser);
         } else if (currentUserRoomUse.equals("Study Space")) {
             int currRoomUseVal = userRoomUseValues.getInt("study_space");
             currRoomUseVal += increment;
             userRoomUseValues.remove("study_space");
             userRoomUseValues.put("study_space", currRoomUseVal);
+            updateUser(loggedInUser);
         } else if (currentUserRoomUse.equals("Sleeping Space")) {
             int currRoomUseVal = userCleanlinessValues.getInt("sleeping_space");
             currRoomUseVal += increment;
             userRoomUseValues.remove("sleeping_space");
             userRoomUseValues.put("sleeping_space", currRoomUseVal);
+            updateUser(loggedInUser);
         } else if (currentUserRoomUse.equals("All of the Above")) {
             int currRoomUseVal = userCleanlinessValues.getInt("all_above");
             currRoomUseVal += increment;
             userRoomUseValues.remove("all_above");
             userRoomUseValues.put("all_above", currRoomUseVal);
+            updateUser(loggedInUser);
         }
     }
 
     public void updateUserLeft(User currentUser) throws JSONException {
         increment = -1;
-        updateUser(currentUser, increment);
+        updateActivity(currentUser, increment);
     }
 
     public void updateUserRight(User currentUser) throws JSONException {
         increment = 1;
-        updateUser(currentUser, increment);
+        updateActivity(currentUser, increment);
     }
 
     public void changeRatings(User currentUser) throws JSONException {
         JSONObject currentUserData = currentUser.getMetadata();
         JSONArray currentUserRates = currentUserData.getJSONArray("rate_values");
         JSONObject currentUserRateValues = currentUserRates.getJSONObject(0);
+        yearMax = currentUserRateValues.getDouble("year_max");
+        yearAverage = currentUserRateValues.getDouble("year_average");
+        yearBelow = currentUserRateValues.getDouble("year_below");
+        yearLowest = currentUserRateValues.getDouble("year_lowest");
+        cleanMax = currentUserRateValues.getDouble("clean_max");
+        cleanAverage = currentUserRateValues.getDouble("clean_average");
+        cleanBelow = currentUserRateValues.getDouble("clean_below");
+        cleanLowest = currentUserRateValues.getDouble("clean_lowest");
+        drinkingMax = currentUserRateValues.getDouble("drink_max");
+        drinkingAverage = currentUserRateValues.getDouble("drink_average");
+        drinkingBelow = currentUserRateValues.getDouble("drink_below");
+        smokingMax = currentUserRateValues.getDouble("smoke_max");
+        smokingAverage = currentUserRateValues.getDouble("smoke_average");
+        smokingBelow = currentUserRateValues.getDouble("smoke_below");
+        roomMax = currentUserRateValues.getDouble("room_max");
+        roomAverage = currentUserRateValues.getDouble("room_average");
+        roomBelow = currentUserRateValues.getDouble("room_below");
+        roomLowest = currentUserRateValues.getDouble("room_lowest");
 
         JSONArray activity = currentUserData.getJSONArray("user_activity");
         JSONArray yearActivityArray = activity.getJSONArray(0);
@@ -611,83 +662,115 @@ public class RoommateFragment extends Fragment {
         List<Integer> yearArray = new ArrayList<Integer>(Arrays.asList(freshValue, sophValue, junValue, senValue));
         Integer[] tempYearArray = {freshValue, sophValue, junValue, senValue};
         int ycount = 0;
-        for (int i = 0; i < yearArray.size(); i++) {
+        for (int i = 0; i < tempYearArray.length; i++) {
             int max = (int) Collections.max(yearArray);
             int indexOfMax = Arrays.asList(tempYearArray).indexOf(max);
             if (indexOfMax == 0) {
                 if (ycount == 0) {
-                    if (yearMax < 0.9) {
+                    if (yearMax > yearAverage && yearMax < 0.9) {
                         yearMax += 0.05;
+                        currentUserRateValues.put("year_max", yearMax);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 1) {
                     if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
                         yearAverage += 0.02;
+                        currentUserRateValues.put("year_average", yearAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
                         yearBelow -= 0.02;
+                        currentUserRateValues.put("year_below", yearBelow);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 3) {
                     if (yearLowest < yearBelow && yearLowest > 0.5) {
                         yearLowest -= 0.05;
+                        currentUserRateValues.put("year_lowest", yearLowest);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 1) {
                 if (ycount == 0) {
-                    if (yearMax < 0.9) {
+                    if (yearMax > yearAverage && yearMax < 0.9) {
                         yearMax += 0.05;
+                        currentUserRateValues.put("year_max", yearMax);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 1) {
                     if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
                         yearAverage += 0.02;
+                        currentUserRateValues.put("year_average", yearAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
                         yearBelow -= 0.02;
+                        currentUserRateValues.put("year_below", yearBelow);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 3) {
                     if (yearLowest < yearBelow && yearLowest > 0.5) {
                         yearLowest -= 0.05;
+                        currentUserRateValues.put("year_lowest", yearLowest);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 2) {
                 if (ycount == 0) {
-                    if (yearMax < 0.9) {
+                    if (yearMax > yearAverage && yearMax < 0.9) {
                         yearMax += 0.05;
+                        currentUserRateValues.put("year_max", yearMax);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 1) {
                     if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
                         yearAverage += 0.02;
+                        currentUserRateValues.put("year_average", yearAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
                         yearBelow -= 0.02;
+                        currentUserRateValues.put("year_below", yearBelow);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 3) {
                     if (yearLowest < yearBelow && yearLowest > 0.5) {
                         yearLowest -= 0.05;
+                        currentUserRateValues.put("year_lowest", yearLowest);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 3) {
                 if (ycount == 0) {
-                    if (yearMax < 0.9) {
+                    if (yearMax > yearAverage && yearMax < 0.9) {
                         yearMax += 0.05;
+                        currentUserRateValues.put("year_max", yearMax);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 1) {
                     if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
                         yearAverage += 0.02;
+                        currentUserRateValues.put("year_average", yearAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
                         yearBelow -= 0.02;
+                        currentUserRateValues.put("year_below", yearBelow);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 3) {
                     if (yearLowest < yearBelow && yearLowest > 0.5) {
                         yearLowest -= 0.05;
+                        currentUserRateValues.put("year_lowest", yearLowest);
+                        updateUser(currentUser);
                     }
                 }
             }
-            yearArray.remove(max);
+            yearArray.set(indexOfMax, -9999);
             ycount += 1;
         }
 
@@ -700,83 +783,115 @@ public class RoommateFragment extends Fragment {
         List<Integer> cleanlinessArray = new ArrayList<Integer>(Arrays.asList(organizedValue, casualValue, occMessyValue, messyValue));
         Integer[] tempCleanlinessArray = {organizedValue, casualValue, occMessyValue, messyValue};
         int clcount = 0;
-        for (int i = 0; i < cleanlinessArray.size(); i++) {
+        for (int i = 0; i < tempCleanlinessArray.length; i++) {
             int max = (int) Collections.max(cleanlinessArray);
             int indexOfMax = Arrays.asList(tempCleanlinessArray).indexOf(max);
             if (indexOfMax == 0) {
                 if (clcount == 0) {
-                    if (cleanMax < 0.9) {
+                    if (cleanMax > cleanAverage && cleanMax < 0.9) {
                         cleanMax += 0.05;
+                        currentUserRateValues.put("clean_max", cleanMax);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 1) {
                     if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
                         cleanAverage += 0.02;
+                        currentUserRateValues.put("clean_average", cleanAverage);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 2) {
                     if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
                         cleanBelow -= 0.02;
+                        currentUserRateValues.put("clean_below", cleanBelow);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 3) {
                     if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
                         cleanLowest -= 0.05;
+                        currentUserRateValues.put("clean_lowest", cleanLowest);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 1) {
                 if (clcount == 0) {
-                    if (cleanMax < 0.9) {
+                    if (cleanMax > cleanAverage && cleanMax < 0.9) {
                         cleanMax += 0.05;
+                        currentUserRateValues.put("clean_max", cleanMax);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 1) {
                     if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
                         cleanAverage += 0.02;
+                        currentUserRateValues.put("clean_average", cleanAverage);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 2) {
                     if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
                         cleanBelow -= 0.02;
+                        currentUserRateValues.put("clean_below", cleanBelow);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 3) {
                     if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
                         cleanLowest -= 0.05;
+                        currentUserRateValues.put("clean_lowest", cleanLowest);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 2) {
                 if (clcount == 0) {
-                    if (cleanMax < 0.9) {
+                    if (cleanMax > cleanAverage && cleanMax < 0.9) {
                         cleanMax += 0.05;
+                        currentUserRateValues.put("clean_max", cleanMax);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 1) {
                     if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
                         cleanAverage += 0.02;
+                        currentUserRateValues.put("clean_average", cleanAverage);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 2) {
                     if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
                         cleanBelow -= 0.02;
+                        currentUserRateValues.put("clean_below", cleanBelow);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 3) {
                     if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
                         cleanLowest -= 0.05;
+                        currentUserRateValues.put("clean_lowest", cleanLowest);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 3) {
                 if (clcount == 0) {
-                    if (cleanMax < 0.9) {
+                    if (cleanMax > cleanAverage && cleanMax < 0.9) {
                         cleanMax += 0.05;
+                        currentUserRateValues.put("clean_max", cleanMax);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 1) {
                     if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
                         cleanAverage += 0.02;
+                        currentUserRateValues.put("clean_average", cleanAverage);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 2) {
                     if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
                         cleanBelow -= 0.02;
+                        currentUserRateValues.put("clean_below", cleanBelow);
+                        updateUser(currentUser);
                     }
                 } else if (clcount == 3) {
                     if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
                         cleanLowest -= 0.05;
+                        currentUserRateValues.put("clean_lowest", cleanLowest);
+                        updateUser(currentUser);
                     }
                 }
             }
-            cleanlinessArray.remove(max);
+            cleanlinessArray.set(indexOfMax, -99999);
             clcount += 1;
         }
 
@@ -793,48 +908,66 @@ public class RoommateFragment extends Fragment {
             int indexOfMax = Arrays.asList(tempSmokingArray).indexOf(max);
             if (indexOfMax == 0) {
                 if (scount == 0) {
-                    if (smokingMax < 0.9) {
+                    if (smokingMax > smokingAverage && smokingMax < 0.9) {
                         smokingMax += 0.05;
+                        currentUserRateValues.put("smoke_max", smokingMax);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 1) {
                     if (smokingAverage < (smokingMax + 0.02) && smokingAverage > smokingBelow) {
                         smokingAverage += 0.02;
+                        currentUserRateValues.put("smoke_average", smokingAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (smokingBelow < smokingAverage && smokingBelow > 0.05) {
                         yearBelow -= 0.05;
+                        currentUserRateValues.put("smoke_below", smokingBelow);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 1) {
                 if (scount == 0) {
-                    if (smokingMax < 0.9) {
+                    if (smokingMax > smokingAverage && smokingMax < 0.9) {
                         smokingMax += 0.05;
+                        currentUserRateValues.put("smoke_max", smokingMax);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 1) {
                     if (smokingAverage < (smokingMax + 0.02) && smokingAverage > smokingBelow) {
                         smokingAverage += 0.02;
+                        currentUserRateValues.put("smoke_average", smokingAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (smokingBelow < smokingAverage && smokingBelow > 0.05) {
                         yearBelow -= 0.05;
+                        currentUserRateValues.put("smoke_below", smokingBelow);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 2) {
                 if (scount == 0) {
-                    if (smokingMax < 0.9) {
+                    if (smokingMax > smokingAverage && smokingMax < 0.9) {
                         smokingMax += 0.05;
+                        currentUserRateValues.put("smoke_max", smokingMax);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 1) {
                     if (smokingAverage < (smokingMax + 0.02) && smokingAverage > smokingBelow) {
                         smokingAverage += 0.02;
+                        currentUserRateValues.put("smoke_average", smokingAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (smokingBelow < smokingAverage && smokingBelow > 0.05) {
                         smokingBelow -= 0.05;
+                        currentUserRateValues.put("smoke_below", smokingBelow);
+                        updateUser(currentUser);
                     }
                 }
             }
-            smokingArray.remove(max);
+            smokingArray.set(indexOfMax, -9999);
             scount += 1;
         }
 
@@ -851,48 +984,66 @@ public class RoommateFragment extends Fragment {
             int indexOfMax = Arrays.asList(tempDrinkingArray).indexOf(max);
             if (indexOfMax == 0) {
                 if (dcount == 0) {
-                    if (drinkingMax < 0.9) {
+                    if (drinkingMax > drinkingAverage && drinkingMax < 0.9) {
                         drinkingMax += 0.05;
+                        currentUserRateValues.put("drink_max", drinkingMax);
+                        updateUser(currentUser);
                     }
                 } else if (dcount == 1) {
                     if (drinkingAverage < (drinkingMax + 0.02) && drinkingAverage > drinkingBelow) {
                         drinkingAverage += 0.02;
+                        currentUserRateValues.put("drink_average", drinkingAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (drinkingBelow < drinkingAverage && drinkingBelow > 0.05) {
                         drinkingBelow -= 0.05;
+                        currentUserRateValues.put("drink_below", drinkingBelow);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 1) {
                 if (dcount == 0) {
-                    if (drinkingMax < 0.9) {
+                    if (drinkingMax > drinkingAverage && drinkingMax < 0.9) {
                         drinkingMax += 0.05;
+                        currentUserRateValues.put("drink_max", drinkingMax);
+                        updateUser(currentUser);
                     }
                 } else if (dcount == 1) {
                     if (drinkingAverage < (drinkingMax + 0.02) && drinkingAverage > drinkingBelow) {
                         drinkingAverage += 0.02;
+                        currentUserRateValues.put("drink_average", drinkingAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (drinkingBelow < drinkingAverage && drinkingBelow > 0.05) {
                         drinkingBelow -= 0.05;
+                        currentUserRateValues.put("drink_below", drinkingBelow);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 2) {
                 if (dcount == 0) {
-                    if (drinkingMax < 0.9) {
+                    if (drinkingMax > drinkingAverage && drinkingMax < 0.9) {
                         drinkingMax += 0.05;
+                        currentUserRateValues.put("drink_max", drinkingMax);
+                        updateUser(currentUser);
                     }
                 } else if (dcount == 1) {
                     if (drinkingAverage < (drinkingMax + 0.02) && drinkingAverage > drinkingBelow) {
                         drinkingAverage += 0.02;
+                        currentUserRateValues.put("drink_average", drinkingAverage);
+                        updateUser(currentUser);
                     }
                 } else if (ycount == 2) {
                     if (drinkingBelow < drinkingAverage && drinkingBelow > 0.05) {
                         drinkingBelow -= 0.05;
+                        currentUserRateValues.put("drink_below", drinkingBelow);
+                        updateUser(currentUser);
                     }
                 }
             }
-            drinkingArray.remove(max);
+            drinkingArray.set(indexOfMax, -9999);
             dcount += 1;
         }
 
@@ -910,80 +1061,307 @@ public class RoommateFragment extends Fragment {
             int indexOfMax = Arrays.asList(tempRoomArray).indexOf(max);
             if (indexOfMax == 0) {
                 if (rcount == 0) {
-                    if (roomMax < 0.9) {
+                    if (roomMax > roomAverage && roomMax < 0.9) {
                         roomMax += 0.05;
+                        currentUserRateValues.put("room_max", roomMax);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 1) {
                     if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
                         roomAverage += 0.02;
+                        currentUserRateValues.put("room_average", roomAverage);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 2) {
                     if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
                         roomBelow -= 0.02;
+                        currentUserRateValues.put("room_below", roomBelow);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 3) {
                     if (roomLowest < roomBelow && roomLowest > 0.5) {
                         roomLowest -= 0.05;
+                        currentUserRateValues.put("room_lowest", roomLowest);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 1) {
                 if (rcount == 0) {
-                    if (roomMax < 0.9) {
+                    if (roomMax > roomAverage && roomMax < 0.9) {
                         roomMax += 0.05;
+                        currentUserRateValues.put("room_max", roomMax);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 1) {
                     if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
                         roomAverage += 0.02;
+                        currentUserRateValues.put("room_average", roomAverage);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 2) {
                     if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
                         roomBelow -= 0.02;
+                        currentUserRateValues.put("room_below", roomBelow);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 3) {
                     if (roomLowest < roomBelow && roomLowest > 0.5) {
                         roomLowest -= 0.05;
+                        currentUserRateValues.put("room_lowest", roomLowest);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 2) {
                 if (rcount == 0) {
-                    if (roomMax < 0.9) {
+                    if (roomMax > roomAverage && roomMax < 0.9) {
                         roomMax += 0.05;
+                        currentUserRateValues.put("room_max", roomMax);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 1) {
                     if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
                         roomAverage += 0.02;
+                        currentUserRateValues.put("room_average", roomAverage);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 2) {
                     if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
                         roomBelow -= 0.02;
+                        currentUserRateValues.put("room_below", roomBelow);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 3) {
                     if (roomLowest < roomBelow && roomLowest > 0.5) {
                         roomLowest -= 0.05;
+                        currentUserRateValues.put("room_lowest", roomLowest);
+                        updateUser(currentUser);
                     }
                 }
             } else if (indexOfMax == 3) {
                 if (rcount == 0) {
-                    if (roomMax < 0.9) {
+                    if (roomMax > roomAverage && roomMax < 0.9) {
                         roomMax += 0.05;
+                        currentUserRateValues.put("room_max", roomMax);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 1) {
                     if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
                         roomAverage += 0.02;
+                        currentUserRateValues.put("room_average", roomAverage);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 2) {
                     if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
                         roomBelow -= 0.02;
+                        currentUserRateValues.put("room_below", roomBelow);
+                        updateUser(currentUser);
                     }
                 } else if (rcount == 3) {
                     if (roomLowest < roomBelow && roomLowest > 0.5) {
                         roomLowest -= 0.05;
+                        currentUserRateValues.put("room_lowest", roomLowest);
+                        updateUser(currentUser);
                     }
                 }
             }
-            roomArray.remove(max);
+            roomArray.set(indexOfMax, -9999);
             rcount += 1;
         }
+    }
 
+    public double alteredRank(User currentUser) throws JSONException, java.text.ParseException {
+        User loggedInUser = CometChat.getLoggedInUser();
+        JSONObject loggedInUserInfo = loggedInUser.getMetadata();
+        JSONObject userinfo = currentUser.getMetadata();
+
+        String userYear = userinfo.getString("year");
+        String loggedInYear = loggedInUserInfo.getString("year");
+
+        if (userYear.equals("Senior")) {
+            userYearValue = 4;
+        } else if (userYear.equals("Junior")) {
+            userYearValue = 3;
+        } else if (userYear.equals("Sophomore")) {
+            userYearValue = 2;
+        } else if (userYear.equals("Freshman")) {
+            userYearValue = 1;
+        }
+
+        if (loggedInYear.equals("Senior")) {
+            loggedInYearValue = 4;
+        } else if (loggedInYear.equals("Junior")) {
+            loggedInYearValue = 3;
+        } else if (loggedInYear.equals("Sophomore")) {
+            loggedInYearValue = 2;
+        } else if (loggedInYear.equals("Freshman")) {
+            loggedInYearValue = 1;
+        }
+
+        int yearDifference = Math.abs(userYearValue - loggedInYearValue);
+
+        if (yearDifference == 0) {
+            year = yearMax;
+        } else if (yearDifference == 1) {
+            year = yearAverage;
+        } else if (yearDifference == 2) {
+            year = yearBelow;
+        } else if (yearDifference == 3) {
+            year = yearLowest;
+        }
+
+        JSONArray userRoommateProfile = userinfo.getJSONArray("roommate_profile");
+        JSONArray loggedInRoommateProfile = loggedInUserInfo.getJSONArray("roommate_profile");
+        JSONObject userRoommateData = userRoommateProfile.getJSONObject(0);
+        JSONObject loggedInRoommateData = loggedInRoommateProfile.getJSONObject(0);
+        String userCleanliness = userRoommateData.getString("cleanliness");
+        String loggedInCleanliness = loggedInRoommateData.getString("cleanliness");
+
+        if (userCleanliness.equals("Organized")) {
+            userCleanlinessValue = 4;
+        } else if (userCleanliness.equals("Casual")) {
+            userCleanlinessValue = 3;
+        } else if (userCleanliness.equals("Occasionally messy")) {
+            userCleanlinessValue = 2;
+        } else if (userCleanliness.equals("Messy")) {
+            userCleanlinessValue = 1;
+        }
+
+        if (loggedInCleanliness.equals("Organized")) {
+            loggedInCleanlinessValue = 4;
+        } else if (loggedInCleanliness.equals("Casual")) {
+            loggedInCleanlinessValue = 3;
+        } else if (loggedInCleanliness.equals("Occasionally messy")) {
+            loggedInCleanlinessValue = 2;
+        } else if (loggedInCleanliness.equals("Messy")) {
+            loggedInCleanlinessValue = 1;
+        }
+
+        int cleanlinessDifference = Math.abs(userCleanlinessValue - loggedInCleanlinessValue);
+
+        if (cleanlinessDifference == 0) {
+            cleanliness = cleanMax;
+        } else if (cleanlinessDifference == 1) {
+            cleanliness = cleanAverage;
+        } else if (cleanlinessDifference == 2) {
+            cleanliness = cleanBelow;
+        } else if (cleanlinessDifference == 3) {
+            cleanliness = cleanLowest;
+        }
+
+        String userSmoking = userRoommateData.getString("if_smoke");
+        String loggedInSmoking = loggedInRoommateData.getString("if_smoke");
+
+        if (userSmoking.equals("Yes")) {
+            userSmokingValue = 3;
+        } else if (userSmoking.equals("Sometimes")) {
+            userSmokingValue = 2;
+        } else if (userSmoking.equals("No")) {
+            userSmokingValue = 1;
+        }
+
+        if (loggedInSmoking.equals("Yes")) {
+            loggedInSmokingValue = 3;
+        } else if (loggedInSmoking.equals("Sometimes")) {
+            loggedInSmokingValue = 2;
+        } else if (loggedInSmoking.equals("No")) {
+            loggedInSmokingValue = 1;
+        }
+
+        int smokingDifference = Math.abs(userSmokingValue - loggedInSmokingValue);
+
+        if (smokingDifference == 0) {
+            smoking = smokingMax;
+        } else if (smokingDifference == 1) {
+            smoking = smokingAverage;
+        } else if (smokingDifference == 2) {
+            smoking = smokingBelow;
+        }
+
+        String userDrinking = userRoommateData.getString("if_drink");
+        String loggedInDrinking = loggedInRoommateData.getString("if_drink");
+
+        if (userDrinking.equals("Yes")) {
+            userDrinkingValue = 3;
+        } else if (userDrinking.equals("Sometimes")) {
+            userDrinkingValue = 2;
+        } else if (userDrinking.equals("No")) {
+            userDrinkingValue = 1;
+        }
+
+        if (loggedInDrinking.equals("Yes")) {
+            loggedInDrinkingValue = 3;
+        } else if (loggedInDrinking.equals("Sometimes")) {
+            loggedInDrinkingValue = 2;
+        } else if (loggedInDrinking.equals("No")) {
+            loggedInDrinkingValue = 1;
+        }
+
+        int drinkingDifference = Math.abs(userDrinkingValue - loggedInDrinkingValue);
+
+        if (drinkingDifference == 0) {
+            drinking = drinkingMax;
+        } else if (drinkingDifference == 1) {
+            drinking = drinkingAverage;
+        } else if (drinkingDifference == 2) {
+            drinking = drinkingBelow;
+        }
+
+        String userRoomUse = userRoommateData.getString("room_use");
+        String loggedInRoomUse = loggedInRoommateData.getString("room_use");
+
+        if (userRoomUse.equals(loggedInRoomUse)) {
+            roomUse = roomMax;
+        } else {
+            roomUse = roomAverage;
+        }
+
+        String userTimeSleepString = userRoommateData.getString("time_sleep");
+        String loggedInTimeSleepString = loggedInRoommateData.getString("time_sleep");
+        DateFormat dateFormat = new SimpleDateFormat("hh:mmaa");
+        Date userTimeSleep = dateFormat.parse(userTimeSleepString);
+        Date loggedInTimeSleep = dateFormat.parse(loggedInTimeSleepString);
+        long sleepTimeDifference = Math.abs((userTimeSleep.getTime() - loggedInTimeSleep.getTime()) / (60 * 60 * 1000) % 24);
+
+        if (sleepTimeDifference == 0) {
+            timeSleep = max;
+        } else if (sleepTimeDifference == 1 || sleepTimeDifference == 2) {
+            timeSleep = average;
+        } else if (sleepTimeDifference <= 5) {
+            timeSleep = below;
+        } else {
+            timeSleep = lowest;
+        }
+
+        String userTimeWakeString = userRoommateData.getString("time_wake");
+        String loggedInTimeWakeString = loggedInRoommateData.getString("time_wake");
+        Date userTimeWake = dateFormat.parse(userTimeWakeString);
+        Date loggedInTimeWake = dateFormat.parse(loggedInTimeWakeString);
+        long wakeTimeDifference = Math.abs((userTimeWake.getTime() - loggedInTimeWake.getTime()) / (60 * 60 * 1000) % 24);
+
+        if (wakeTimeDifference == 0) {
+            timeWake = max;
+        } else if (wakeTimeDifference == 1 || wakeTimeDifference == 2) {
+            timeWake = average;
+        } else if (wakeTimeDifference <= 5) {
+            timeWake = below;
+        } else {
+            timeWake = lowest;
+        }
+
+        rating = year + cleanliness + smoking + drinking + roomUse + timeSleep + timeWake;
+        return rating;
+    }
+
+    public void updateUser(User user) {
+        CometChat.updateCurrentUserDetails(user, new CometChat.CallbackListener<User>() {
+            @Override
+            public void onSuccess(User user) {
+                Log.d(TAG, user.toString());
+            }
+            @Override
+            public void onError(CometChatException e) {
+                Log.d(TAG, e.getMessage());
+            }
+        });
     }
 }

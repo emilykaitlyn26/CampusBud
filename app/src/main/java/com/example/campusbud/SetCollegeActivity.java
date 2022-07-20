@@ -192,7 +192,6 @@ public class SetCollegeActivity extends AppCompatActivity {
                             } catch (JSONException ex) {
                                 ex.printStackTrace();
                             }
-                            goMainActivity();
                         }
 
                         @Override
@@ -204,6 +203,7 @@ public class SetCollegeActivity extends AppCompatActivity {
                 Toast.makeText(SetCollegeActivity.this, "Success", Toast.LENGTH_SHORT).show();
             }
         });
+        goMainActivity();
     }
 
     public void setCollege() throws JSONException {
@@ -215,6 +215,7 @@ public class SetCollegeActivity extends AppCompatActivity {
 
     public void setUserActivity() throws JSONException {
         User newUser = CometChat.getLoggedInUser();
+        metadata.put("num_refreshed", 0);
         userYearValues.put("freshman", 0);
         userYearValues.put("sophomore", 0);
         userYearValues.put("junior", 0);
@@ -265,6 +266,7 @@ public class SetCollegeActivity extends AppCompatActivity {
         userRateValues.put("room_lowest", 0.1);
         userRates.put(userRateValues);
         metadata.put("rate_values", userRates);
+        newUser.setMetadata(metadata);
         updateUser(newUser);
     }
 
