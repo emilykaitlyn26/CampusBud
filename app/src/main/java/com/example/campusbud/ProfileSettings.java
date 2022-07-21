@@ -6,8 +6,8 @@ import androidx.core.content.FileProvider;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -251,62 +251,84 @@ public class ProfileSettings extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 30) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(mPhotoFileProfile.getAbsolutePath());
-                mIvCreatePicture.setImageBitmap(takenImage);
+                Bitmap mTakenImage = BitmapFactory.decodeFile(mPhotoFileProfile.getAbsolutePath());
+                mIvCreatePicture.setImageBitmap(mTakenImage);
                 mIvCreatePicture.setRotation((float) 90.0);
             }
         } else if (requestCode == 2) {
             if (resultCode == RESULT_OK && data != null) {
-                Uri imageUri = data.getData();
-                //selectedImagePath = getPath(imageUri);
-                mPhotoFileProfile = new File(String.valueOf(imageUri));
-                mIvCreatePicture.setImageURI(imageUri);
+                Uri mImageUri = data.getData();
+                String[] mFilePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor mCursor = getContentResolver().query(mImageUri, mFilePathColumn, null, null, null);
+                mCursor.moveToFirst();
+                int mColumnIndex = mCursor.getColumnIndex(mFilePathColumn[0]);
+                String mCurrentPhotoPath = mCursor.getString(mColumnIndex);
+                mCursor.close();
+                mPhotoFileProfile = new File(mCurrentPhotoPath);
+                mIvCreatePicture.setImageURI(mImageUri);
             }
         }
         if (requestCode == 3) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(mPhotoFile1.getAbsolutePath());
-                mIvProfileImage1.setImageBitmap(takenImage);
+                Bitmap mTakenImage = BitmapFactory.decodeFile(mPhotoFile1.getAbsolutePath());
+                mIvProfileImage1.setImageBitmap(mTakenImage);
                 mIvProfileImage1.setRotation((float) 90.0);
             }
         } else if (requestCode == 4) {
             if (resultCode == RESULT_OK && data != null) {
-                Uri imageUri = data.getData();
-                mPhotoFile1 = new File(String.valueOf(imageUri));
-                mIvProfileImage1.setImageURI(imageUri);
+                Uri mImageUri = data.getData();
+                String[] mFilePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor mCursor = getContentResolver().query(mImageUri, mFilePathColumn, null, null, null);
+                mCursor.moveToFirst();
+                int columnIndex = mCursor.getColumnIndex(mFilePathColumn[0]);
+                String mCurrentPhotoPath = mCursor.getString(columnIndex);
+                mCursor.close();
+                mPhotoFile1 = new File(mCurrentPhotoPath);
+                mIvProfileImage1.setImageURI(mImageUri);
             }
         }
         if (requestCode == 5) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(mPhotoFile2.getAbsolutePath());
-                mIvProfileImage2.setImageBitmap(takenImage);
+                Bitmap mTakenImage = BitmapFactory.decodeFile(mPhotoFile2.getAbsolutePath());
+                mIvProfileImage2.setImageBitmap(mTakenImage);
                 mIvProfileImage2.setRotation((float) 90.0);
             }
         } else if (requestCode == 6) {
             if (resultCode == RESULT_OK && data != null) {
-                Uri imageUri = data.getData();
-                mPhotoFile2 = new File(String.valueOf(imageUri));
-                mIvProfileImage2.setImageURI(imageUri);
+                Uri mImageUri = data.getData();
+                String[] mFilePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor mCursor = getContentResolver().query(mImageUri, mFilePathColumn, null, null, null);
+                mCursor.moveToFirst();
+                int columnIndex = mCursor.getColumnIndex(mFilePathColumn[0]);
+                String mCurrentPhotoPath = mCursor.getString(columnIndex);
+                mCursor.close();
+                mPhotoFile2 = new File(mCurrentPhotoPath);
+                mIvProfileImage2.setImageURI(mImageUri);
             }
         }
         if (requestCode == 7) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(mPhotoFile3.getAbsolutePath());
-                mIvProfileImage3.setImageBitmap(takenImage);
+                Bitmap mTakenImage = BitmapFactory.decodeFile(mPhotoFile3.getAbsolutePath());
+                mIvProfileImage3.setImageBitmap(mTakenImage);
                 mIvProfileImage3.setRotation((float) 90.0);
             }
         } else if (requestCode == 8) {
             if (resultCode == RESULT_OK && data != null) {
-                Uri imageUri = data.getData();
-                mPhotoFile3 = new File(String.valueOf(imageUri));
-                mIvProfileImage3.setImageURI(imageUri);
+                Uri mImageUri = data.getData();
+                String[] mFilePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor mCursor = getContentResolver().query(mImageUri, mFilePathColumn, null, null, null);
+                mCursor.moveToFirst();
+                int mColumnIndex = mCursor.getColumnIndex(mFilePathColumn[0]);
+                String mCurrentPhotoPath = mCursor.getString(mColumnIndex);
+                mCursor.close();
+                mPhotoFile3 = new File(mCurrentPhotoPath);
+                mIvProfileImage3.setImageURI(mImageUri);
             }
         }
     }
 
     private void getImageFromAlbum(String image) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        //intent.setType("image/*");
         switch (image) {
             case "Profile":
                 startActivityForResult(intent, 2);
