@@ -39,43 +39,23 @@ import java.util.List;
 
 public class CardAdapter extends BaseAdapter {
 
-    private Context context;
-    public List<User> userProfiles;
-    public List<Image> images;
-    public User userProfile;
-    public int index;
-    public Koloda koloda;
+    private Context mContext;
+    private final List<User> mUserProfiles;
+    private final List<Image> mImages;
+    private User mUserProfile;
+    private int mIndex;
 
     private final String TAG = "CardAdapter";
 
-    public ImageView ivRImage1;
-    public ImageView ivRImage2;
-    public ImageView ivRImage3;
-    public TextView tvRoommateName;
-    public ImageView ivBackground;
-    public TextView tvRMajor;
-    public TextView tvRYear;
-    public TextView tvRCleanlinessInput;
-    public TextView tvRSmokingInput;
-    public TextView tvRDrinkingInput;
-    public TextView tvRRoomUseInput;
-    public TextView tvRTimeSleepInput;
-    public TextView tvRTimeWakeInput;
-    public TextView tvRInterestsInput;
-    public TextView tvRActivitiesInput;
-    public TextView tvRBioInput;
-
-
-    public CardAdapter(Context context, Koloda koloda, List<User> userProfiles, List<Image> images) {
-        this.context = context;
-        this.koloda = koloda;
-        this.userProfiles = userProfiles;
-        this.images = images;
+    public CardAdapter(Context context, List<User> userProfiles, List<Image> images) {
+        this.mContext = context;
+        this.mUserProfiles = userProfiles;
+        this.mImages = images;
     }
 
     @Override
     public int getCount() {
-        return userProfiles.size();
+        return mUserProfiles.size();
     }
 
     @Override
@@ -90,82 +70,82 @@ public class CardAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view;
+        View mView;
         if (convertView == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_koloda, parent, false);
-            userProfile = userProfiles.get(position);
-            Log.d(TAG, "user: " + userProfile);
+            mView = LayoutInflater.from(mContext).inflate(R.layout.item_koloda, parent, false);
+            mUserProfile = mUserProfiles.get(position);
+            Log.d(TAG, "user: " + mUserProfile);
 
             try {
-                setup(userProfile, view);
+                setup(mUserProfile, mView);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         } else {
-            view = convertView;
+            mView = convertView;
         }
-        return view;
+        return mView;
     }
 
-    public void setup(User userProfile, View v) throws JSONException {
+    private void setup(User userProfile, View v) throws JSONException {
         JSONObject metadata = userProfile.getMetadata();
         JSONArray roommateProfileArray = metadata.getJSONArray("roommate_profile");
         JSONObject roommateProfile = roommateProfileArray.getJSONObject(0);
 
-        ivBackground = v.findViewById(R.id.ivBackground);
-        tvRoommateName = v.findViewById(R.id.tvRName);
-        ivBackground = v.findViewById(R.id.ivBackground);
-        tvRMajor = v.findViewById(R.id.tvRMajor);
-        tvRYear = v.findViewById(R.id.tvRYear);
-        tvRCleanlinessInput = v.findViewById(R.id.tvRCleanlinessInput);
-        tvRSmokingInput = v.findViewById(R.id.tvRSmokingInput);
-        tvRDrinkingInput = v.findViewById(R.id.tvRDrinkingInput);
-        tvRRoomUseInput = v.findViewById(R.id.tvRRoomUseInput);
-        tvRTimeSleepInput = v.findViewById(R.id.tvRTimeSleepInput);
-        tvRTimeWakeInput = v.findViewById(R.id.tvRTimeWakeInput);
-        tvRInterestsInput = v.findViewById(R.id.tvRInterestsInput);
-        tvRActivitiesInput = v.findViewById(R.id.tvRActivitiesInput);
-        tvRBioInput = v.findViewById(R.id.tvRBioInput);
-        ivRImage1 = v.findViewById(R.id.ivRImage1);
-        ivRImage2 = v.findViewById(R.id.ivRImage2);
-        ivRImage3 = v.findViewById(R.id.ivRImage3);
+        ImageView mIvBackground = v.findViewById(R.id.ivBackground);
+        TextView mTvRoommateName = v.findViewById(R.id.tvRName);
+        mIvBackground = v.findViewById(R.id.ivBackground);
+        TextView mTvRMajor = v.findViewById(R.id.tvRMajor);
+        TextView mTvRYear = v.findViewById(R.id.tvRYear);
+        TextView mTvRCleanlinessInput = v.findViewById(R.id.tvRCleanlinessInput);
+        TextView mTvRSmokingInput = v.findViewById(R.id.tvRSmokingInput);
+        TextView mTvRDrinkingInput = v.findViewById(R.id.tvRDrinkingInput);
+        TextView mTvRRoomUseInput = v.findViewById(R.id.tvRRoomUseInput);
+        TextView mTvRTimeSleepInput = v.findViewById(R.id.tvRTimeSleepInput);
+        TextView mTvRTimeWakeInput = v.findViewById(R.id.tvRTimeWakeInput);
+        TextView mTvRInterestsInput = v.findViewById(R.id.tvRInterestsInput);
+        TextView mTvRActivitiesInput = v.findViewById(R.id.tvRActivitiesInput);
+        TextView mTvRBioInput = v.findViewById(R.id.tvRBioInput);
+        ImageView mIvRImage1 = v.findViewById(R.id.ivRImage1);
+        ImageView mIvRImage2 = v.findViewById(R.id.ivRImage2);
+        ImageView mIvRImage3 = v.findViewById(R.id.ivRImage3);
 
-        tvRoommateName.setText(metadata.getString("name"));
-        tvRYear.setText(metadata.getString("year"));
-        tvRMajor.setText(metadata.getString("major"));
-        tvRCleanlinessInput.setText(roommateProfile.getString("cleanliness"));
-        tvRSmokingInput.setText(roommateProfile.getString("if_smoke"));
-        tvRDrinkingInput.setText(roommateProfile.getString("if_drink"));
-        tvRRoomUseInput.setText(roommateProfile.getString("room_use"));
-        tvRTimeSleepInput.setText(roommateProfile.getString("time_sleep"));
-        tvRTimeWakeInput.setText(roommateProfile.getString("time_wake"));
-        tvRInterestsInput.setText(roommateProfile.getString("interests"));
-        tvRActivitiesInput.setText(roommateProfile.getString("activities"));
-        tvRBioInput.setText(roommateProfile.getString("bio"));
+        mTvRoommateName.setText(metadata.getString("name"));
+        mTvRYear.setText(metadata.getString("year"));
+        mTvRMajor.setText(metadata.getString("major"));
+        mTvRCleanlinessInput.setText(roommateProfile.getString("cleanliness"));
+        mTvRSmokingInput.setText(roommateProfile.getString("if_smoke"));
+        mTvRDrinkingInput.setText(roommateProfile.getString("if_drink"));
+        mTvRRoomUseInput.setText(roommateProfile.getString("room_use"));
+        mTvRTimeSleepInput.setText(roommateProfile.getString("time_sleep"));
+        mTvRTimeWakeInput.setText(roommateProfile.getString("time_wake"));
+        mTvRInterestsInput.setText(roommateProfile.getString("interests"));
+        mTvRActivitiesInput.setText(roommateProfile.getString("activities"));
+        mTvRBioInput.setText(roommateProfile.getString("bio"));
 
-        if (images.size() > 0) {
-            for (int i = images.size() - 1; i >= 0; i--) {
-                ParseUser parseUser = images.get(i).getUser();
-                String parseUID = parseUser.getObjectId().toLowerCase();
-                String cometUID = userProfile.getUid();
-                if (parseUID.equals(cometUID)) {
-                    index = i;
+        if (mImages.size() > 0) {
+            for (int i = mImages.size() - 1; i >= 0; i--) {
+                ParseUser mParseUser = mImages.get(i).getUser();
+                String mParseUID = mParseUser.getObjectId().toLowerCase();
+                String mCometUID = mUserProfile.getUid();
+                if (mParseUID.equals(mCometUID)) {
+                    mIndex = i;
                     break;
                 }
             }
-            context = ivRImage1.getContext();
-            ParseFile image1file = images.get(index).getImage1Url();
-            Log.d(TAG, "Image URL: " + image1file.getUrl());
-            Glide.with(context).load(image1file.getUrl()).into(ivRImage1);
+            mContext = mIvRImage1.getContext();
+            ParseFile mImage1file = mImages.get(mIndex).getImage1Url();
+            Log.d(TAG, "Image URL: " + mImage1file.getUrl());
+            Glide.with(mContext).load(mImage1file.getUrl()).into(mIvRImage1);
             Log.d(TAG, "Loaded Image 1");
-            context = ivRImage2.getContext();
-            ParseFile image2file = (images.get(index)).getImage2Url();
-            Glide.with(context).load(image2file.getUrl()).into(ivRImage2);
+            mContext = mIvRImage2.getContext();
+            ParseFile image2file = (mImages.get(mIndex)).getImage2Url();
+            Glide.with(mContext).load(image2file.getUrl()).into(mIvRImage2);
             Log.d(TAG, "Loaded Image 2");
-            context = ivRImage3.getContext();
-            ParseFile image3file = (images.get(index)).getImage3Url();
-            Glide.with(context).load(image3file.getUrl()).into(ivRImage3);
+            mContext = mIvRImage3.getContext();
+            ParseFile image3file = (mImages.get(mIndex)).getImage3Url();
+            Glide.with(mContext).load(image3file.getUrl()).into(mIvRImage3);
             Log.d(TAG, "Loaded Image 3");
         }
     }

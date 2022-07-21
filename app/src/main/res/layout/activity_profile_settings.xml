@@ -34,7 +34,7 @@
         android:id="@+id/tvTimeNight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="When do you sleep?"
         app:layout_constraintStart_toStartOf="parent"
@@ -346,7 +346,7 @@
 
     <AutoCompleteTextView
         android:id="@+id/etTimeNight"
-        android:layout_width="57dp"
+        android:layout_width="65dp"
         android:layout_height="34dp"
         android:ems="10"
         android:textAppearance="?android:attr/textAppearanceSmallInverse"
@@ -356,7 +356,7 @@
 
     <AutoCompleteTextView
         android:id="@+id/etTimeMorning"
-        android:layout_width="57dp"
+        android:layout_width="65dp"
         android:layout_height="34dp"
         android:ems="10"
         android:textAppearance="?android:attr/textAppearanceSmallInverse"

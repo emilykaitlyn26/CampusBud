@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class LaunchActivity extends AppCompatActivity {
 
-    public final String TAG = "LaunchActivity";
+    private static final String TAG = "LaunchActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,10 +17,10 @@ public class LaunchActivity extends AppCompatActivity {
 
         Thread splashScreenStarter =  new Thread(() ->{
             try {
-                int delay = 0;
-                while (delay < 1000) {
+                int mDelay = 0;
+                while (mDelay < 1000) {
                     Thread.sleep(150);
-                    delay = delay + 100;
+                    mDelay = mDelay + 100;
                 }
                 startActivity(new Intent(LaunchActivity.this, LoginActivity.class));
             } catch (InterruptedException e) {

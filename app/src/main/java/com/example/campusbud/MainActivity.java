@@ -1,5 +1,6 @@
 package com.example.campusbud;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,10 +33,6 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String appID = "212415705e6b5f7e";
-    private String region = "us";
-    public String authKey = "c523b47dfef8a387d934b40bbcf7d7bc5fe2c0ee";
-
     private final String TAG = "MainActivity";
 
     @Override
@@ -43,35 +40,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
+        BottomNavigationView mBottomNavigationView = findViewById(R.id.bottomNavigation);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager mFragmentManager = getSupportFragmentManager();
         
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
+                Fragment mFragment;
                 switch (item.getItemId()) {
                     case R.id.action_chat:
                         Toast.makeText(MainActivity.this, "Chat", Toast.LENGTH_SHORT).show();
-                        fragment = new CometChatConversationList();
+                        mFragment = new CometChatConversationList();
                         break;
                     case R.id.action_profile:
                         Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
-                        fragment = new ProfileFragment();
+                        mFragment = new ProfileFragment();
                         break;
                     case R.id.action_matching:
                     default:
                         Toast.makeText(MainActivity.this, "Roommates", Toast.LENGTH_SHORT).show();
-                        fragment = new RoommateFragment();
+                        mFragment = new RoommateFragment();
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                mFragmentManager.beginTransaction().replace(R.id.flContainer, mFragment).commit();
                 return true;
             }
         });
-        
-        bottomNavigationView.setSelectedItemId(R.id.action_profile);
+        mBottomNavigationView.setSelectedItemId(R.id.action_profile);
     }
 
     @Override

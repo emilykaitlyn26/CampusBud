@@ -1,5 +1,6 @@
 package com.example.campusbud.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,14 +18,11 @@ import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.core.UsersRequest;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
-import com.cometchat.pro.uikit.ui_components.cometchat_ui.CometChatUI;
 import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.example.campusbud.CardAdapter;
 import com.example.campusbud.Image;
 import com.example.campusbud.R;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.yalantis.library.Koloda;
 import com.yalantis.library.KolodaListener;
@@ -34,88 +32,72 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RoommateFragment extends Fragment {
 
     public Koloda koloda;
     public CardAdapter cardAdapter;
     public List<Image> allImages;
-    public User currentUser;
-    public User loggedInUser;
-    public int position;
+    private User mCurrentUser;
+    private User mLoggedInUser;
+    private int mPosition;
 
-    public double max = 0.7;
-    public double average = 0.5;
-    public double below = 0.3;
-    public double lowest = 0.1;
+    private double mYearMax;
+    private double mYearAverage;
+    private double mYearBelow;
+    private double mYearLowest;
+    private double mCleanMax;
+    private double mCleanAverage;
+    private double mCleanBelow;
+    private double mCleanLowest;
+    private double mSmokingMax;
+    private double mSmokingAverage;
+    private double mSmokingBelow;
+    private double mDrinkingMax;
+    private double mDrinkingAverage;
+    private double mDrinkingBelow;
+    private double mRoomMax;
+    private double mRoomAverage;
 
-    private double yearMax;
-    private double yearAverage;
-    private double yearBelow;
-    private double yearLowest;
-    private double cleanMax;
-    private double cleanAverage;
-    private double cleanBelow;
-    private double cleanLowest;
-    private double smokingMax;
-    private double smokingAverage;
-    private double smokingBelow;
-    private double drinkingMax;
-    private double drinkingAverage;
-    private double drinkingBelow;
-    private double roomMax;
-    private double roomAverage;
-    private double roomBelow;
-    private double roomLowest;
+    private int mUserYearValue;
+    private int mLoggedInYearValue;
+    private int mUserCleanlinessValue;
+    private int mLoggedInCleanlinessValue;
+    private int mUserSmokingValue;
+    private int mLoggedInSmokingValue;
+    private int mUserDrinkingValue;
+    private int mLoggedInDrinkingValue;
 
-    public int userYearValue;
-    public int loggedInYearValue;
-    public int userCleanlinessValue;
-    public int loggedInCleanlinessValue;
-    public int userSmokingValue;
-    public int loggedInSmokingValue;
-    public int userDrinkingValue;
-    public int loggedInDrinkingValue;
+    private double mYear;
+    private double mCleanliness;
+    private double mDrinking;
+    private double mSmoking;
+    private double mRoomUse;
+    private double mTimeSleep;
+    private double mTimeWake;
 
-    public double rating;
-    public double year;
-    public double cleanliness;
-    public double drinking;
-    public double smoking;
-    public double roomUse;
-    public double timeSleep;
-    public double timeWake;
+    private int mIncrement;
+    private int mNumRefreshed;
 
-    private int increment;
-    private int numRefreshed;
+    private static final String TAG = "RoommateFragment";
 
-    private final String TAG = "RoommateFragment";
-
-    public List<User> allUsers;
+    private List<User> mAllUsers;
     public List<User> sortedUsers;
-    List<Double> ratings;
-    JSONObject metadata;
+    private List<Double> mRatings;
+    private JSONObject mMetadata;
 
-    private JSONArray userActivity;
-    private JSONArray userYearActivity;
-    private JSONObject userYearValues;
-    private JSONArray userCleanlinessActivity;
-    private JSONObject userCleanlinessValues;
-    private JSONArray userSmokingActivity;
-    private JSONObject userSmokingValues;
-    private JSONArray userDrinkingActivity;
-    private JSONObject userDrinkingValues;
-    private JSONArray userRoomUseActivity;
-    private JSONObject userRoomUseValues;
+    private JSONObject mUserYearValues;
+    private JSONObject mUserCleanlinessValues;
+    private JSONObject mUserSmokingValues;
+    private JSONObject mUserDrinkingValues;
+    private JSONObject mUserRoomUseValues;
 
     public RoommateFragment() {}
 
@@ -128,98 +110,73 @@ public class RoommateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loggedInUser = CometChat.getLoggedInUser();
-        metadata = loggedInUser.getMetadata();
+        mLoggedInUser = CometChat.getLoggedInUser();
+        mMetadata = mLoggedInUser.getMetadata();
         try {
-            numRefreshed = metadata.getInt("num_refreshed");
-            userActivity = metadata.getJSONArray("user_activity");
-            userYearActivity = userActivity.getJSONArray(0);
-            userYearValues = userYearActivity.getJSONObject(0);
-            userCleanlinessActivity = userActivity.getJSONArray(1);
-            userCleanlinessValues = userCleanlinessActivity.getJSONObject(0);
-            userSmokingActivity = userActivity.getJSONArray(2);
-            userSmokingValues = userSmokingActivity.getJSONObject(0);
-            userDrinkingActivity = userActivity.getJSONArray(3);
-            userDrinkingValues = userDrinkingActivity.getJSONObject(0);
-            userRoomUseActivity = userActivity.getJSONArray(4);
-            userRoomUseValues = userRoomUseActivity.getJSONObject(0);
+            mNumRefreshed = mMetadata.getInt("num_refreshed");
+            JSONArray mUserActivity = mMetadata.getJSONArray("user_activity");
+            JSONArray mUserYearActivity = mUserActivity.getJSONArray(0);
+            mUserYearValues = mUserYearActivity.getJSONObject(0);
+            JSONArray mUserCleanlinessActivity = mUserActivity.getJSONArray(1);
+            mUserCleanlinessValues = mUserCleanlinessActivity.getJSONObject(0);
+            JSONArray mUserSmokingActivity = mUserActivity.getJSONArray(2);
+            mUserSmokingValues = mUserSmokingActivity.getJSONObject(0);
+            JSONArray mUserDrinkingActivity = mUserActivity.getJSONArray(3);
+            mUserDrinkingValues = mUserDrinkingActivity.getJSONObject(0);
+            JSONArray mUserRoomUseActivity = mUserActivity.getJSONArray(4);
+            mUserRoomUseValues = mUserRoomUseActivity.getJSONObject(0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         koloda = view.findViewById(R.id.koloda);
-        allUsers = new ArrayList<>();
-        ratings = new ArrayList<>();
+        mAllUsers = new ArrayList<>();
+        mRatings = new ArrayList<>();
         sortedUsers = new ArrayList<>();
         allImages = new ArrayList<>();
         queryUsers();
-        queryImages();
-        cardAdapter = new CardAdapter(getContext(), koloda, sortedUsers, allImages);
+        cardAdapter = new CardAdapter(getContext(), sortedUsers, allImages);
         koloda.setAdapter(cardAdapter);
-        Log.d(TAG, "profiles: " + allUsers);
+        Log.d(TAG, "profiles: " + mAllUsers);
 
         koloda.setKolodaListener(new KolodaListener() {
             @Override
-            public void onNewTopCard(int i) {
-
-            }
-
+            public void onNewTopCard(int i) {}
             @Override
-            public void onCardDrag(int i, @NonNull View view, float v) {
-
-            }
-
+            public void onCardDrag(int i, @NonNull View view, float v) {}
             @Override
             public void onCardSwipedLeft(int i) {
-                currentUser = sortedUsers.get(position);
+                mCurrentUser = sortedUsers.get(mPosition);
                 try {
-                    updateUserLeft(currentUser);
+                    updateUserLeft(mCurrentUser);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                position += 1;
+                mPosition += 1;
             }
-
             @Override
             public void onCardSwipedRight(int i) {
-                currentUser = sortedUsers.get(position);
+                mCurrentUser = sortedUsers.get(mPosition);
                 try {
-                    updateUserRight(currentUser);
+                    updateUserRight(mCurrentUser);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                startUserIntent(currentUser);
-                position += 1;
+                startUserIntent(mCurrentUser);
+                mPosition += 1;
             }
-
             @Override
-            public void onClickRight(int i) {
-
-            }
-
+            public void onClickRight(int i) {}
             @Override
-            public void onClickLeft(int i) {
-
-            }
-
+            public void onClickLeft(int i) {}
             @Override
-            public void onCardSingleTap(int i) {
-
-            }
-
+            public void onCardSingleTap(int i) {}
             @Override
-            public void onCardDoubleTap(int i) {
-
-            }
-
+            public void onCardDoubleTap(int i) {}
             @Override
-            public void onCardLongPress(int i) {
-
-            }
-
+            public void onCardLongPress(int i) {}
             @Override
-            public void onEmptyDeck() {
-            }
+            public void onEmptyDeck() {}
         });
     }
 
@@ -234,1125 +191,1064 @@ public class RoommateFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void queryUsers() {
-        UsersRequest usersRequest = new UsersRequest.UsersRequestBuilder().build();
-        usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
-            @Override
-            public void onSuccess(List<User> users) {
-                User loggedInUser = CometChat.getLoggedInUser();
-                JSONObject currentUserMetadata = loggedInUser.getMetadata();
-                for (int i = 0; i < users.size(); i++) {
-                    User user = users.get(i);
-                    JSONObject userMetadata = user.getMetadata();
-                    boolean switched = false;
-                    try {
-                        switched = userMetadata.getBoolean("ifSwitched");
-                        if (switched) {
-                            String userCollege = userMetadata.getString("college");
-                            String currentUserCollege = currentUserMetadata.getString("college");
-                            if (userCollege.equals(currentUserCollege)) {
-                                String userGender = userMetadata.getString("gender");
-                                String currentUserGender = currentUserMetadata.getString("gender");
-                                if (userGender.equals(currentUserGender)) {
-                                    allUsers.add(user);
-                                    if (numRefreshed == 0) {
-                                        double userRate = rate(user);
-                                        ratings.add(userRate);
-                                    } else {
-                                        changeRatings(loggedInUser);
-                                        double userRate = alteredRank(user);
-                                        ratings.add(userRate);
+    private void queryUsers() {
+        ParseQuery<Image> query = ParseQuery.getQuery(Image.class);
+        query.findInBackground((objects, e) -> {
+            allImages.addAll(objects);
+            UsersRequest usersRequest = new UsersRequest.UsersRequestBuilder().build();
+            usersRequest.fetchNext(new CometChat.CallbackListener<List<User>>() {
+                @Override
+                public void onSuccess(List<User> users) {
+                    for (int i = 0; i < users.size(); i++) {
+                        User mUser = users.get(i);
+                        JSONObject mUserMetadata = mUser.getMetadata();
+                        try {
+                            boolean mSwitched = mUserMetadata.getBoolean("ifSwitched");
+                            if (mSwitched) {
+                                String mUserCollege = mUserMetadata.getString("college");
+                                String mCurrentUserCollege = mMetadata.getString("college");
+                                if (mUserCollege.equals(mCurrentUserCollege)) {
+                                    String mUserGender = mUserMetadata.getString("gender");
+                                    String mCurrentUserGender = mMetadata.getString("gender");
+                                    if (mUserGender.equals(mCurrentUserGender)) {
+                                        mAllUsers.add(mUser);
+                                        if (mNumRefreshed > 0) {
+                                            changeRatings();
+                                        }
+                                        double mUserRate = rate(mUser);
+                                        mRatings.add(mUserRate);
                                     }
                                 }
                             }
+                        } catch (JSONException | ParseException jsonException) {
+                            jsonException.printStackTrace();
                         }
-                    } catch (JSONException | java.text.ParseException e) {
+                    }
+                    for (int i = 0; i < mRatings.size(); i++) {
+                        double mMaxValue = Collections.max(mRatings);
+                        int mMaxIndex = mRatings.indexOf(mMaxValue);
+                        sortedUsers.add(mAllUsers.get(mMaxIndex));
+                        mRatings.set(mMaxIndex, 0.0);
+                    }
+                    mNumRefreshed += 1;
+                    try {
+                        mMetadata.put("num_refreshed", mNumRefreshed);
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    updateUser(mLoggedInUser);
+                    cardAdapter.notifyDataSetChanged();
                 }
-                for (int i = 0; i < ratings.size(); i++) {
-                    double maxValue = Collections.max(ratings);
-                    int maxIndex = ratings.indexOf(maxValue);
-                    sortedUsers.add(allUsers.get(maxIndex));
-                    ratings.set(maxIndex, 0.0);
+                @Override
+                public void onError(CometChatException e) {
+                    Log.d(TAG, "User list fetching failed with exception: " + e.getMessage());
                 }
-                numRefreshed += 1;
-                try {
-                    metadata.put("num_refreshed", numRefreshed);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                updateUser(loggedInUser);
-            }
-            @Override
-            public void onError(CometChatException e) {
-                Log.d(TAG, "User list fetching failed with exception: " + e.getMessage());
-            }
+            });
         });
     }
 
-    public void queryImages() {
-        ParseQuery<Image> query = ParseQuery.getQuery(Image.class);
-        query.findInBackground(new FindCallback<Image>() {
-            @Override
-            public void done(List<Image> objects, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting images", e);
-                    return;
-                }
-                allImages.addAll(objects);
-                cardAdapter.notifyDataSetChanged();
-            }
-        });
+    private void rateYear(JSONObject userData) throws JSONException{
+        String mUserYear = userData.getString("year");
+        String mLoggedInYear = mMetadata.getString("year");
+
+        switch (mUserYear) {
+            case "Senior":
+                mUserYearValue = 4;
+                break;
+            case "Junior":
+                mUserYearValue = 3;
+                break;
+            case "Sophomore":
+                mUserYearValue = 2;
+                break;
+            case "Freshman":
+                mUserYearValue = 1;
+                break;
+        }
+
+        switch (mLoggedInYear) {
+            case "Senior":
+                mLoggedInYearValue = 4;
+                break;
+            case "Junior":
+                mLoggedInYearValue = 3;
+                break;
+            case "Sophomore":
+                mLoggedInYearValue = 2;
+                break;
+            case "Freshman":
+                mLoggedInYearValue = 1;
+                break;
+        }
+
+        int mYearDifference = Math.abs(mUserYearValue - mLoggedInYearValue);
+
+        if (mYearDifference == 0) {
+            mYear = mYearMax;
+        } else if (mYearDifference == 1) {
+            mYear = mYearAverage;
+        } else if (mYearDifference == 2) {
+            mYear = mYearBelow;
+        } else if (mYearDifference == 3) {
+            mYear = mYearLowest;
+        }
     }
 
-    public double rate(User user) throws JSONException, java.text.ParseException {
-        currentUser = CometChat.getLoggedInUser();
-        JSONObject loggedInUserData = currentUser.getMetadata();
-        JSONObject userData = user.getMetadata();
+    private void rateCleanliness(JSONObject userRoommateData, JSONObject loggedInRoommateData) throws JSONException{
+        String mUserCleanliness = userRoommateData.getString("cleanliness");
+        String mLoggedInCleanliness = loggedInRoommateData.getString("cleanliness");
 
-        String userYear = userData.getString("year");
-        String loggedInYear = loggedInUserData.getString("year");
-
-        if (userYear.equals("Senior")) {
-            userYearValue = 4;
-        } else if (userYear.equals("Junior")) {
-            userYearValue = 3;
-        } else if (userYear.equals("Sophomore")) {
-            userYearValue = 2;
-        } else if (userYear.equals("Freshman")) {
-            userYearValue = 1;
+        switch (mUserCleanliness) {
+            case "Organized":
+                mUserCleanlinessValue = 4;
+                break;
+            case "Casual":
+                mUserCleanlinessValue = 3;
+                break;
+            case "Occasionally messy":
+                mUserCleanlinessValue = 2;
+                break;
+            case "Messy":
+                mUserCleanlinessValue = 1;
+                break;
         }
 
-        if (loggedInYear.equals("Senior")) {
-            loggedInYearValue = 4;
-        } else if (loggedInYear.equals("Junior")) {
-            loggedInYearValue = 3;
-        } else if (loggedInYear.equals("Sophomore")) {
-            loggedInYearValue = 2;
-        } else if (loggedInYear.equals("Freshman")) {
-            loggedInYearValue = 1;
+        switch (mLoggedInCleanliness) {
+            case "Organized":
+                mLoggedInCleanlinessValue = 4;
+                break;
+            case "Casual":
+                mLoggedInCleanlinessValue = 3;
+                break;
+            case "Occasionally messy":
+                mLoggedInCleanlinessValue = 2;
+                break;
+            case "Messy":
+                mLoggedInCleanlinessValue = 1;
+                break;
         }
 
-        int yearDifference = Math.abs(userYearValue - loggedInYearValue);
+        int mCleanlinessDifference = Math.abs(mUserCleanlinessValue - mLoggedInCleanlinessValue);
 
-        if (yearDifference == 0) {
-            year = max;
-        } else if (yearDifference == 1) {
-            year = average;
-        } else if (yearDifference == 2) {
-            year = below;
-        } else if (yearDifference == 3) {
-            year = lowest;
+        if (mCleanlinessDifference == 0) {
+            mCleanliness = mCleanMax;
+        } else if (mCleanlinessDifference == 1) {
+            mCleanliness = mCleanAverage;
+        } else if (mCleanlinessDifference == 2) {
+            mCleanliness = mCleanBelow;
+        } else if (mCleanlinessDifference == 3) {
+            mCleanliness = mCleanLowest;
+        }
+    }
+
+    private void rateSmoking(JSONObject userRoommateData, JSONObject loggedInRoommateData) throws JSONException {
+        String mUserSmoking = userRoommateData.getString("if_smoke");
+        String mLoggedInSmoking = loggedInRoommateData.getString("if_smoke");
+
+        switch (mUserSmoking) {
+            case "Yes":
+                mUserSmokingValue = 3;
+                break;
+            case "Sometimes":
+                mUserSmokingValue = 2;
+                break;
+            case "No":
+                mUserSmokingValue = 1;
+                break;
         }
 
-        JSONArray userRoommateProfile = userData.getJSONArray("roommate_profile");
-        JSONArray loggedInRoommateProfile = loggedInUserData.getJSONArray("roommate_profile");
-        JSONObject userRoommateData = userRoommateProfile.getJSONObject(0);
-        JSONObject loggedInRoommateData = loggedInRoommateProfile.getJSONObject(0);
-        String userCleanliness = userRoommateData.getString("cleanliness");
-        String loggedInCleanliness = loggedInRoommateData.getString("cleanliness");
-
-        if (userCleanliness.equals("Organized")) {
-            userCleanlinessValue = 4;
-        } else if (userCleanliness.equals("Casual")) {
-            userCleanlinessValue = 3;
-        } else if (userCleanliness.equals("Occasionally messy")) {
-            userCleanlinessValue = 2;
-        } else if (userCleanliness.equals("Messy")) {
-            userCleanlinessValue = 1;
+        switch (mLoggedInSmoking) {
+            case "Yes":
+                mLoggedInSmokingValue = 3;
+                break;
+            case "Sometimes":
+                mLoggedInSmokingValue = 2;
+                break;
+            case "No":
+                mLoggedInSmokingValue = 1;
+                break;
         }
 
-        if (loggedInCleanliness.equals("Organized")) {
-            loggedInCleanlinessValue = 4;
-        } else if (loggedInCleanliness.equals("Casual")) {
-            loggedInCleanlinessValue = 3;
-        } else if (loggedInCleanliness.equals("Occasionally messy")) {
-            loggedInCleanlinessValue = 2;
-        } else if (loggedInCleanliness.equals("Messy")) {
-            loggedInCleanlinessValue = 1;
+        int mSmokingDifference = Math.abs(mUserSmokingValue - mLoggedInSmokingValue);
+
+        if (mSmokingDifference == 0) {
+            mSmoking = mSmokingMax;
+        } else if (mSmokingDifference == 1) {
+            mSmoking = mSmokingAverage;
+        } else if (mSmokingDifference == 2) {
+            mSmoking = mSmokingBelow;
+        }
+    }
+
+    private void rateDrinking(JSONObject userRoommateData, JSONObject loggedInRoommateData) throws JSONException {
+        String mUserDrinking = userRoommateData.getString("if_drink");
+        String mLoggedInDrinking = loggedInRoommateData.getString("if_drink");
+
+        switch (mUserDrinking) {
+            case "Yes":
+                mUserDrinkingValue = 3;
+                break;
+            case "Sometimes":
+                mUserDrinkingValue = 2;
+                break;
+            case "No":
+                mUserDrinkingValue = 1;
+                break;
         }
 
-        int cleanlinessDifference = Math.abs(userCleanlinessValue - loggedInCleanlinessValue);
-
-        if (cleanlinessDifference == 0) {
-            cleanliness = max;
-        } else if (cleanlinessDifference == 1) {
-            cleanliness = average;
-        } else if (cleanlinessDifference == 2) {
-            cleanliness = below;
-        } else if (cleanlinessDifference == 3) {
-            cleanliness = lowest;
+        switch (mLoggedInDrinking) {
+            case "Yes":
+                mLoggedInDrinkingValue = 3;
+                break;
+            case "Sometimes":
+                mLoggedInDrinkingValue = 2;
+                break;
+            case "No":
+                mLoggedInDrinkingValue = 1;
+                break;
         }
 
-        String userSmoking = userRoommateData.getString("if_smoke");
-        String loggedInSmoking = loggedInRoommateData.getString("if_smoke");
-
-        if (userSmoking.equals("Yes")) {
-            userSmokingValue = 3;
-        } else if (userSmoking.equals("Sometimes")) {
-            userSmokingValue = 2;
-        } else if (userSmoking.equals("No")) {
-            userSmokingValue = 1;
-        }
-
-        if (loggedInSmoking.equals("Yes")) {
-            loggedInSmokingValue = 3;
-        } else if (loggedInSmoking.equals("Sometimes")) {
-            loggedInSmokingValue = 2;
-        } else if (loggedInSmoking.equals("No")) {
-            loggedInSmokingValue = 1;
-        }
-
-        int smokingDifference = Math.abs(userSmokingValue - loggedInSmokingValue);
-
-        if (smokingDifference == 0) {
-            smoking = max;
-        } else if (smokingDifference == 1) {
-            smoking = average;
-        } else if (smokingDifference == 2) {
-            smoking = below;
-        }
-
-        String userDrinking = userRoommateData.getString("if_drink");
-        String loggedInDrinking = loggedInRoommateData.getString("if_drink");
-
-        if (userDrinking.equals("Yes")) {
-            userDrinkingValue = 3;
-        } else if (userDrinking.equals("Sometimes")) {
-            userDrinkingValue = 2;
-        } else if (userDrinking.equals("No")) {
-            userDrinkingValue = 1;
-        }
-
-        if (loggedInDrinking.equals("Yes")) {
-            loggedInDrinkingValue = 3;
-        } else if (loggedInDrinking.equals("Sometimes")) {
-            loggedInDrinkingValue = 2;
-        } else if (loggedInDrinking.equals("No")) {
-            loggedInDrinkingValue = 1;
-        }
-
-        int drinkingDifference = Math.abs(userDrinkingValue - loggedInDrinkingValue);
+        int drinkingDifference = Math.abs(mUserDrinkingValue - mLoggedInDrinkingValue);
 
         if (drinkingDifference == 0) {
-            drinking = max;
+            mDrinking = mDrinkingMax;
         } else if (drinkingDifference == 1) {
-            drinking = average;
+            mDrinking = mDrinkingAverage;
         } else if (drinkingDifference == 2) {
-            drinking = below;
+            mDrinking = mDrinkingBelow;
         }
+    }
 
-        String userRoomUse = userRoommateData.getString("room_use");
-        String loggedInRoomUse = loggedInRoommateData.getString("room_use");
+    private void rateRoomUse(JSONObject userRoommateData, JSONObject loggedInRoommateData) throws JSONException {
+        String mUserRoomUse = userRoommateData.getString("room_use");
+        String mLoggedInRoomUse = loggedInRoommateData.getString("room_use");
 
-        if (userRoomUse.equals(loggedInRoomUse)) {
-            roomUse = max;
+        if (mUserRoomUse.equals(mLoggedInRoomUse)) {
+            mRoomUse = mRoomMax;
         } else {
-            roomUse = average;
+            mRoomUse = mRoomAverage;
+        }
+    }
+
+    private void rateSleep(JSONObject userRoommateData, JSONObject loggedInRoommateData) throws JSONException, java.text.ParseException {
+        String mUserTimeSleepString = userRoommateData.getString("time_sleep");
+        String mLoggedInTimeSleepString = loggedInRoommateData.getString("time_sleep");
+        @SuppressLint("SimpleDateFormat") DateFormat mDateFormat = new SimpleDateFormat("hh:mmaa");
+        Date mUserTimeSleep = mDateFormat.parse(mUserTimeSleepString);
+        Date mLoggedInTimeSleep = mDateFormat.parse(mLoggedInTimeSleepString);
+        long mSleepTimeDifference = 0;
+        if (mUserTimeSleep != null && mLoggedInTimeSleep != null) {
+            mSleepTimeDifference = Math.abs((mUserTimeSleep.getTime() - mLoggedInTimeSleep.getTime()) / (60 * 60 * 1000) % 24);
         }
 
-        String userTimeSleepString = userRoommateData.getString("time_sleep");
-        String loggedInTimeSleepString = loggedInRoommateData.getString("time_sleep");
-        DateFormat dateFormat = new SimpleDateFormat("hh:mmaa");
-        Date userTimeSleep = dateFormat.parse(userTimeSleepString);
-        Date loggedInTimeSleep = dateFormat.parse(loggedInTimeSleepString);
-        long sleepTimeDifference = Math.abs((userTimeSleep.getTime() - loggedInTimeSleep.getTime()) / (60 * 60 * 1000) % 24);
-
-        if (sleepTimeDifference == 0) {
-            timeSleep = max;
-        } else if (sleepTimeDifference == 1 || sleepTimeDifference == 2) {
-            timeSleep = average;
-        } else if (sleepTimeDifference <= 5) {
-            timeSleep = below;
+        double mMax = 0.7;
+        double mAverage = 0.5;
+        double mBelow = 0.3;
+        double mLowest = 0.1;
+        if (mSleepTimeDifference == 0) {
+            mTimeSleep = mMax;
+        } else if (mSleepTimeDifference == 1 || mSleepTimeDifference == 2) {
+            mTimeSleep = mAverage;
+        } else if (mSleepTimeDifference <= 5) {
+            mTimeSleep = mBelow;
         } else {
-            timeSleep = lowest;
+            mTimeSleep = mLowest;
         }
 
-        String userTimeWakeString = userRoommateData.getString("time_wake");
-        String loggedInTimeWakeString = loggedInRoommateData.getString("time_wake");
-        Date userTimeWake = dateFormat.parse(userTimeWakeString);
-        Date loggedInTimeWake = dateFormat.parse(loggedInTimeWakeString);
-        long wakeTimeDifference = Math.abs((userTimeWake.getTime() - loggedInTimeWake.getTime()) / (60 * 60 * 1000) % 24);
+        String mUserTimeWakeString = userRoommateData.getString("time_wake");
+        String mLoggedInTimeWakeString = loggedInRoommateData.getString("time_wake");
+        Date mUserTimeWake = mDateFormat.parse(mUserTimeWakeString);
+        Date mLoggedInTimeWake = mDateFormat.parse(mLoggedInTimeWakeString);
+        long mWakeTimeDifference = 0;
+        if (mUserTimeWake != null && mLoggedInTimeWake != null) {
+            mWakeTimeDifference = Math.abs((mUserTimeWake.getTime() - mLoggedInTimeWake.getTime()) / (60 * 60 * 1000) % 24);
+        }
 
-        if (wakeTimeDifference == 0) {
-            timeWake = max;
-        } else if (wakeTimeDifference == 1 || wakeTimeDifference == 2) {
-            timeWake = average;
-        } else if (wakeTimeDifference <= 5) {
-            timeWake = below;
+        if (mWakeTimeDifference == 0) {
+            mTimeWake = mMax;
+        } else if (mWakeTimeDifference == 1 || mWakeTimeDifference == 2) {
+            mTimeWake = mAverage;
+        } else if (mWakeTimeDifference <= 5) {
+            mTimeWake = mBelow;
         } else {
-            timeWake = lowest;
-        }
-
-        rating = year + cleanliness + smoking + drinking + roomUse + timeSleep + timeWake;
-        return rating;
-    }
-
-    public void updateActivity(User currentUser, int increment) throws JSONException {
-        JSONObject currentUserData = currentUser.getMetadata();
-        JSONArray currentUserRoommateProfile = currentUserData.getJSONArray("roommate_profile");
-        JSONObject currentUserRoommateData = currentUserRoommateProfile.getJSONObject(0);
-
-        String currentUserYear = currentUserData.getString("year");
-        if (currentUserYear.equals("Freshman")) {
-            int currYearVal = userYearValues.getInt("freshman");
-            currYearVal += increment;
-            userYearValues.remove("freshman");
-            userYearValues.put("freshman", currYearVal);
-            updateUser(loggedInUser);
-        } else if (currentUserYear.equals("Sophomore")) {
-            int currYearVal = userYearValues.getInt("sophomore");
-            currYearVal += increment;
-            userYearValues.remove("sophomore");
-            userYearValues.put("sophomore", currYearVal);
-            updateUser(loggedInUser);
-        } else if (currentUserYear.equals("Junior")) {
-            int currYearVal = userYearValues.getInt("junior");
-            currYearVal += increment;
-            userYearValues.remove("junior");
-            userYearValues.put("junior", currYearVal);
-            updateUser(loggedInUser);
-        } else if (currentUserYear.equals("Senior")) {
-            int currYearVal = userYearValues.getInt("senior");
-            currYearVal += increment;
-            userYearValues.remove("senior");
-            userYearValues.put("senior", currYearVal);
-            updateUser(loggedInUser);
-        }
-
-        String currentUserCleanliness = currentUserRoommateData.getString("cleanliness");
-        if (currentUserCleanliness.equals("Organized")) {
-            int currCleanlinessVal = userCleanlinessValues.getInt("organized");
-            currCleanlinessVal += increment;
-            userCleanlinessValues.remove("organized");
-            userCleanlinessValues.put("organized", currCleanlinessVal);
-            updateUser(loggedInUser);
-            updateUser(currentUser);
-        } else if (currentUserCleanliness.equals("Casual")) {
-            int currCleanlinessVal = userCleanlinessValues.getInt("casual");
-            currCleanlinessVal += increment;
-            userCleanlinessValues.remove("casual");
-            userCleanlinessValues.put("casual", currCleanlinessVal);
-            updateUser(loggedInUser);
-        } else if (currentUserCleanliness.equals("Occasionally messy")) {
-            int currCleanlinessVal = userCleanlinessValues.getInt("occasionally_messy");
-            currCleanlinessVal += increment;
-            userCleanlinessValues.remove("occasionally_messy");
-            userCleanlinessValues.put("occasionally_messy", currCleanlinessVal);
-            updateUser(loggedInUser);
-        } else if (currentUserCleanliness.equals("Messy")) {
-            int currCleanlinessVal = userCleanlinessValues.getInt("messy");
-            currCleanlinessVal += increment;
-            userCleanlinessValues.remove("messy");
-            userCleanlinessValues.put("messy", currCleanlinessVal);
-            updateUser(loggedInUser);
-        }
-
-        String currentUserSmoking = currentUserRoommateData.getString("if_smoke");
-        if (currentUserSmoking.equals("Yes")) {
-            int currSmokingVal = userSmokingValues.getInt("yes");
-            currSmokingVal += increment;
-            userSmokingValues.remove("yes");
-            userSmokingValues.put("yes", currSmokingVal);
-            updateUser(loggedInUser);
-        } else if (currentUserSmoking.equals("Sometimes")) {
-            int currSmokingVal = userSmokingValues.getInt("sometimes");
-            currSmokingVal += increment;
-            userSmokingValues.remove("sometimes");
-            userSmokingValues.put("sometimes", currSmokingVal);
-            updateUser(loggedInUser);
-        } else if (currentUserSmoking.equals("No")) {
-            int currSmokingVal = userSmokingValues.getInt("no");
-            currSmokingVal += increment;
-            userSmokingValues.remove("no");
-            userSmokingValues.put("no", currSmokingVal);
-            updateUser(loggedInUser);
-        }
-
-        String currentUserDrinking = currentUserRoommateData.getString("if_drink");
-        if (currentUserDrinking.equals("Yes")) {
-            int currDrinkingVal = userDrinkingValues.getInt("yes");
-            currDrinkingVal += increment;
-            userDrinkingValues.remove("yes");
-            userDrinkingValues.put("yes", currDrinkingVal);
-            updateUser(loggedInUser);
-        } else if (currentUserDrinking.equals("Sometimes")) {
-            int currDrinkingVal = userDrinkingValues.getInt("sometimes");
-            currDrinkingVal += increment;
-            userDrinkingValues.remove("sometimes");
-            userDrinkingValues.put("sometimes", currDrinkingVal);
-            updateUser(loggedInUser);
-        } else if (currentUserDrinking.equals("No")) {
-            int currDrinkingVal = userDrinkingValues.getInt("no");
-            currDrinkingVal += increment;
-            userDrinkingValues.remove("no");
-            userDrinkingValues.put("no", currDrinkingVal);
-            updateUser(loggedInUser);
-        }
-
-        String currentUserRoomUse = currentUserRoommateData.getString("room_use");
-        if (currentUserRoomUse.equals("Social Space")) {
-            int currRoomUseVal = userRoomUseValues.getInt("social_space");
-            currRoomUseVal += increment;
-            userRoomUseValues.remove("social_space");
-            userRoomUseValues.put("social_space", currRoomUseVal);
-            updateUser(loggedInUser);
-        } else if (currentUserRoomUse.equals("Study Space")) {
-            int currRoomUseVal = userRoomUseValues.getInt("study_space");
-            currRoomUseVal += increment;
-            userRoomUseValues.remove("study_space");
-            userRoomUseValues.put("study_space", currRoomUseVal);
-            updateUser(loggedInUser);
-        } else if (currentUserRoomUse.equals("Sleeping Space")) {
-            int currRoomUseVal = userCleanlinessValues.getInt("sleeping_space");
-            currRoomUseVal += increment;
-            userRoomUseValues.remove("sleeping_space");
-            userRoomUseValues.put("sleeping_space", currRoomUseVal);
-            updateUser(loggedInUser);
-        } else if (currentUserRoomUse.equals("All of the Above")) {
-            int currRoomUseVal = userCleanlinessValues.getInt("all_above");
-            currRoomUseVal += increment;
-            userRoomUseValues.remove("all_above");
-            userRoomUseValues.put("all_above", currRoomUseVal);
-            updateUser(loggedInUser);
+            mTimeWake = mLowest;
         }
     }
 
-    public void updateUserLeft(User currentUser) throws JSONException {
-        increment = -1;
-        updateActivity(currentUser, increment);
+    private double rate(User user) throws JSONException, java.text.ParseException {
+        JSONObject mUserData = user.getMetadata();
+        JSONArray mUserRoommateProfile = mUserData.getJSONArray("roommate_profile");
+        JSONArray mLoggedInRoommateProfile = mMetadata.getJSONArray("roommate_profile");
+        JSONObject mUserRoommateData = mUserRoommateProfile.getJSONObject(0);
+        JSONObject mLoggedInRoommateData = mLoggedInRoommateProfile.getJSONObject(0);
+
+        rateYear(mUserData);
+        rateCleanliness(mUserRoommateData, mLoggedInRoommateData);
+        rateSmoking(mUserRoommateData, mLoggedInRoommateData);
+        rateDrinking(mUserRoommateData, mLoggedInRoommateData);
+        rateRoomUse(mUserRoommateData, mLoggedInRoommateData);
+        rateSleep(mUserRoommateData, mLoggedInRoommateData);
+
+        return mYear + mCleanliness + mSmoking + mDrinking + mRoomUse + mTimeSleep + mTimeWake;
     }
 
-    public void updateUserRight(User currentUser) throws JSONException {
-        increment = 1;
-        updateActivity(currentUser, increment);
+    private void updateYearActivity(JSONObject userData, int increment) throws JSONException {
+        String mCurrentUserYear = userData.getString("year");
+        switch (mCurrentUserYear) {
+            case "Freshman": {
+                int mCurrYearVal = mUserYearValues.getInt("freshman");
+                mCurrYearVal += increment;
+                mUserYearValues.remove("freshman");
+                mUserYearValues.put("freshman", mCurrYearVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Sophomore": {
+                int mCurrYearVal = mUserYearValues.getInt("sophomore");
+                mCurrYearVal += increment;
+                mUserYearValues.remove("sophomore");
+                mUserYearValues.put("sophomore", mCurrYearVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Junior": {
+                int mCurrYearVal = mUserYearValues.getInt("junior");
+                mCurrYearVal += increment;
+                mUserYearValues.remove("junior");
+                mUserYearValues.put("junior", mCurrYearVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Senior": {
+                int mCurrYearVal = mUserYearValues.getInt("senior");
+                mCurrYearVal += increment;
+                mUserYearValues.remove("senior");
+                mUserYearValues.put("senior", mCurrYearVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+        }
     }
 
-    public void changeRatings(User currentUser) throws JSONException {
-        JSONObject currentUserData = currentUser.getMetadata();
-        JSONArray currentUserRates = currentUserData.getJSONArray("rate_values");
+    private void updateCleanlinessActivity(JSONObject roommateData, int increment) throws JSONException{
+        String mCurrentUserCleanliness = roommateData.getString("cleanliness");
+        switch (mCurrentUserCleanliness) {
+            case "Organized": {
+                int mCurrCleanlinessVal = mUserCleanlinessValues.getInt("organized");
+                mCurrCleanlinessVal += increment;
+                mUserCleanlinessValues.remove("organized");
+                mUserCleanlinessValues.put("organized", mCurrCleanlinessVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Casual": {
+                int mCurrCleanlinessVal = mUserCleanlinessValues.getInt("casual");
+                mCurrCleanlinessVal += increment;
+                mUserCleanlinessValues.remove("casual");
+                mUserCleanlinessValues.put("casual", mCurrCleanlinessVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Occasionally messy": {
+                int mCurrCleanlinessVal = mUserCleanlinessValues.getInt("occasionally_messy");
+                mCurrCleanlinessVal += increment;
+                mUserCleanlinessValues.remove("occasionally_messy");
+                mUserCleanlinessValues.put("occasionally_messy", mCurrCleanlinessVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Messy": {
+                int mCurrCleanlinessVal = mUserCleanlinessValues.getInt("messy");
+                mCurrCleanlinessVal += increment;
+                mUserCleanlinessValues.remove("messy");
+                mUserCleanlinessValues.put("messy", mCurrCleanlinessVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+        }
+    }
+
+    private void updateSmokingActivity(JSONObject roommateData, int increment) throws JSONException{
+        String mCurrentUserSmoking = roommateData.getString("if_smoke");
+        switch (mCurrentUserSmoking) {
+            case "Yes": {
+                int mCurrSmokingVal = mUserSmokingValues.getInt("yes");
+                mCurrSmokingVal += increment;
+                mUserSmokingValues.remove("yes");
+                mUserSmokingValues.put("yes", mCurrSmokingVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Sometimes": {
+                int mCurrSmokingVal = mUserSmokingValues.getInt("sometimes");
+                mCurrSmokingVal += increment;
+                mUserSmokingValues.remove("sometimes");
+                mUserSmokingValues.put("sometimes", mCurrSmokingVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "No": {
+                int mCurrSmokingVal = mUserSmokingValues.getInt("no");
+                mCurrSmokingVal += increment;
+                mUserSmokingValues.remove("no");
+                mUserSmokingValues.put("no", mCurrSmokingVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+        }
+    }
+
+    private void updateDrinkingActivity(JSONObject roommateData, int increment) throws JSONException{
+        String mCurrentUserDrinking = roommateData.getString("if_drink");
+        switch (mCurrentUserDrinking) {
+            case "Yes": {
+                int mCurrDrinkingVal = mUserDrinkingValues.getInt("yes");
+                mCurrDrinkingVal += increment;
+                mUserDrinkingValues.remove("yes");
+                mUserDrinkingValues.put("yes", mCurrDrinkingVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Sometimes": {
+                int mCurrDrinkingVal = mUserDrinkingValues.getInt("sometimes");
+                mCurrDrinkingVal += increment;
+                mUserDrinkingValues.remove("sometimes");
+                mUserDrinkingValues.put("sometimes", mCurrDrinkingVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "No": {
+                int mCurrDrinkingVal = mUserDrinkingValues.getInt("no");
+                mCurrDrinkingVal += increment;
+                mUserDrinkingValues.remove("no");
+                mUserDrinkingValues.put("no", mCurrDrinkingVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+        }
+    }
+
+    private void updateRoomUseActivity(JSONObject roommateData, int increment) throws JSONException {
+        String mCurrentUserRoomUse = roommateData.getString("room_use");
+        switch (mCurrentUserRoomUse) {
+            case "Social Space": {
+                int mCurrRoomUseVal = mUserRoomUseValues.getInt("social_space");
+                mCurrRoomUseVal += increment;
+                mUserRoomUseValues.remove("social_space");
+                mUserRoomUseValues.put("social_space", mCurrRoomUseVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Study Space": {
+                int mCurrRoomUseVal = mUserRoomUseValues.getInt("study_space");
+                mCurrRoomUseVal += increment;
+                mUserRoomUseValues.remove("study_space");
+                mUserRoomUseValues.put("study_space", mCurrRoomUseVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "Sleeping Space": {
+                int mCurrRoomUseVal = mUserCleanlinessValues.getInt("sleeping_space");
+                mCurrRoomUseVal += increment;
+                mUserRoomUseValues.remove("sleeping_space");
+                mUserRoomUseValues.put("sleeping_space", mCurrRoomUseVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+            case "All of the Above": {
+                int mCurrRoomUseVal = mUserCleanlinessValues.getInt("all_above");
+                mCurrRoomUseVal += increment;
+                mUserRoomUseValues.remove("all_above");
+                mUserRoomUseValues.put("all_above", mCurrRoomUseVal);
+                updateUser(mLoggedInUser);
+                break;
+            }
+        }
+    }
+
+    private void updateActivity(User currentUser, int increment) throws JSONException {
+        JSONObject mCurrentUserData = currentUser.getMetadata();
+        JSONArray mCurrentUserRoommateProfile = mCurrentUserData.getJSONArray("roommate_profile");
+        JSONObject mCurrentUserRoommateData = mCurrentUserRoommateProfile.getJSONObject(0);
+
+        updateYearActivity(mCurrentUserData, increment);
+        updateCleanlinessActivity(mCurrentUserRoommateData, increment);
+        updateSmokingActivity(mCurrentUserRoommateData, increment);
+        updateDrinkingActivity(mCurrentUserRoommateData, increment);
+        updateRoomUseActivity(mCurrentUserRoommateData, increment);
+    }
+
+    private void updateUserLeft(User currentUser) throws JSONException {
+        mIncrement = -1;
+        updateActivity(currentUser, mIncrement);
+    }
+
+    private void updateUserRight(User currentUser) throws JSONException {
+        mIncrement = 1;
+        updateActivity(currentUser, mIncrement);
+    }
+
+    private void changeYearRates(JSONObject rateValues, JSONArray activity) throws JSONException {
+        mYearMax = rateValues.getDouble("year_max");
+        mYearAverage = rateValues.getDouble("year_average");
+        mYearBelow = rateValues.getDouble("year_below");
+        mYearLowest = rateValues.getDouble("year_lowest");
+
+        JSONArray mYearActivityArray = activity.getJSONArray(0);
+        JSONObject mYearActivity = mYearActivityArray.getJSONObject(0);
+        int mFreshValue = mYearActivity.getInt("freshman");
+        int mSophValue = mYearActivity.getInt("sophomore");
+        int mJunValue = mYearActivity.getInt("junior");
+        int mSenValue = mYearActivity.getInt("senior");
+        List<Integer> mYearArray = new ArrayList<>(Arrays.asList(mFreshValue, mSophValue, mJunValue, mSenValue));
+        Integer[] mTempYearArray = {mFreshValue, mSophValue, mJunValue, mSenValue};
+        int mYcount = 0;
+        for (int i = 0; i < mTempYearArray.length; i++) {
+            int mMax = (int) Collections.max(mYearArray);
+            int mIndexOfMax = Arrays.asList(mTempYearArray).indexOf(mMax);
+            if (mIndexOfMax == 0) {
+                if (mYcount == 0) {
+                    if (mYearMax > mYearAverage && mYearMax < 0.9) {
+                        mYearMax += 0.05;
+                        rateValues.put("year_max", mYearMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 1) {
+                    if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
+                        mYearAverage += 0.02;
+                        rateValues.put("year_average", mYearAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 2) {
+                    if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
+                        mYearBelow -= 0.02;
+                        rateValues.put("year_below", mYearBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 3) {
+                    if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
+                        mYearLowest -= 0.05;
+                        rateValues.put("year_lowest", mYearLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 1) {
+                if (mYcount == 0) {
+                    if (mYearMax > mYearAverage && mYearMax < 0.9) {
+                        mYearMax += 0.05;
+                        rateValues.put("year_max", mYearMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 1) {
+                    if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
+                        mYearAverage += 0.02;
+                        rateValues.put("year_average", mYearAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 2) {
+                    if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
+                        mYearBelow -= 0.02;
+                        rateValues.put("year_below", mYearBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 3) {
+                    if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
+                        mYearLowest -= 0.05;
+                        rateValues.put("year_lowest", mYearLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 2) {
+                if (mYcount == 0) {
+                    if (mYearMax > mYearAverage && mYearMax < 0.9) {
+                        mYearMax += 0.05;
+                        rateValues.put("year_max", mYearMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 1) {
+                    if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
+                        mYearAverage += 0.02;
+                        rateValues.put("year_average", mYearAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 2) {
+                    if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
+                        mYearBelow -= 0.02;
+                        rateValues.put("year_below", mYearBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 3) {
+                    if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
+                        mYearLowest -= 0.05;
+                        rateValues.put("year_lowest", mYearLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 3) {
+                if (mYcount == 0) {
+                    if (mYearMax > mYearAverage && mYearMax < 0.9) {
+                        mYearMax += 0.05;
+                        rateValues.put("year_max", mYearMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 1) {
+                    if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
+                        mYearAverage += 0.02;
+                        rateValues.put("year_average", mYearAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 2) {
+                    if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
+                        mYearBelow -= 0.02;
+                        rateValues.put("year_below", mYearBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mYcount == 3) {
+                    if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
+                        mYearLowest -= 0.05;
+                        rateValues.put("year_lowest", mYearLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            }
+            mYearArray.set(mIndexOfMax, -9999);
+            mYcount += 1;
+        }
+    }
+
+    private void changeCleanlinessRates(JSONObject rateValues, JSONArray activity) throws JSONException {
+        mCleanMax = rateValues.getDouble("clean_max");
+        mCleanAverage = rateValues.getDouble("clean_average");
+        mCleanBelow = rateValues.getDouble("clean_below");
+        mCleanLowest = rateValues.getDouble("clean_lowest");
+
+        JSONArray mCleanlinessActivityArray = activity.getJSONArray(1);
+        JSONObject mCleanlinessActivity = mCleanlinessActivityArray.getJSONObject(0);
+        int mOrganizedValue = mCleanlinessActivity.getInt("organized");
+        int mCasualValue = mCleanlinessActivity.getInt("casual");
+        int mOccMessyValue = mCleanlinessActivity.getInt("occasionally_messy");
+        int mMessyValue = mCleanlinessActivity.getInt("messy");
+        List<Integer> mCleanlinessArray = new ArrayList<>(Arrays.asList(mOrganizedValue, mCasualValue, mOccMessyValue, mMessyValue));
+        Integer[] mTempCleanlinessArray = {mOrganizedValue, mCasualValue, mOccMessyValue, mMessyValue};
+        int mClcount = 0;
+        for (int i = 0; i < mTempCleanlinessArray.length; i++) {
+            int mMax = (int) Collections.max(mCleanlinessArray);
+            int mIndexOfMax = Arrays.asList(mTempCleanlinessArray).indexOf(mMax);
+            if (mIndexOfMax == 0) {
+                if (mClcount == 0) {
+                    if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
+                        mCleanMax += 0.05;
+                        rateValues.put("clean_max", mCleanMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 1) {
+                    if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
+                        mCleanAverage += 0.02;
+                        rateValues.put("clean_average", mCleanAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 2) {
+                    if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
+                        mCleanBelow -= 0.02;
+                        rateValues.put("clean_below", mCleanBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 3) {
+                    if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
+                        mCleanLowest -= 0.05;
+                        rateValues.put("clean_lowest", mCleanLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 1) {
+                if (mClcount == 0) {
+                    if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
+                        mCleanMax += 0.05;
+                        rateValues.put("clean_max", mCleanMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 1) {
+                    if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
+                        mCleanAverage += 0.02;
+                        rateValues.put("clean_average", mCleanAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 2) {
+                    if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
+                        mCleanBelow -= 0.02;
+                        rateValues.put("clean_below", mCleanBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 3) {
+                    if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
+                        mCleanLowest -= 0.05;
+                        rateValues.put("clean_lowest", mCleanLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 2) {
+                if (mClcount == 0) {
+                    if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
+                        mCleanMax += 0.05;
+                        rateValues.put("clean_max", mCleanMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 1) {
+                    if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
+                        mCleanAverage += 0.02;
+                        rateValues.put("clean_average", mCleanAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 2) {
+                    if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
+                        mCleanBelow -= 0.02;
+                        rateValues.put("clean_below", mCleanBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 3) {
+                    if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
+                        mCleanLowest -= 0.05;
+                        rateValues.put("clean_lowest", mCleanLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 3) {
+                if (mClcount == 0) {
+                    if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
+                        mCleanMax += 0.05;
+                        rateValues.put("clean_max", mCleanMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 1) {
+                    if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
+                        mCleanAverage += 0.02;
+                        rateValues.put("clean_average", mCleanAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 2) {
+                    if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
+                        mCleanBelow -= 0.02;
+                        rateValues.put("clean_below", mCleanBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mClcount == 3) {
+                    if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
+                        mCleanLowest -= 0.05;
+                        rateValues.put("clean_lowest", mCleanLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            }
+            mCleanlinessArray.set(mIndexOfMax, -99999);
+            mClcount += 1;
+        }
+    }
+
+    private void changeDrinkingRates(JSONObject rateValues, JSONArray activity) throws JSONException {
+        mDrinkingMax = rateValues.getDouble("drink_max");
+        mDrinkingAverage = rateValues.getDouble("drink_average");
+        mDrinkingBelow = rateValues.getDouble("drink_below");
+
+        JSONArray mDrinkingActivityArray = activity.getJSONArray(3);
+        JSONObject mDrinkingActivity = mDrinkingActivityArray.getJSONObject(0);
+        int mYesdValue = mDrinkingActivity.getInt("yes");
+        int mNodValue = mDrinkingActivity.getInt("no");
+        int mSometimesdValue = mDrinkingActivity.getInt("sometimes");
+        List<Integer> mDrinkingArray = new ArrayList<>(Arrays.asList(mYesdValue, mNodValue, mSometimesdValue));
+        Integer[] mTempDrinkingArray = {mYesdValue, mNodValue, mSometimesdValue};
+        int mDcount = 0;
+        for (int i = 0; i < mDrinkingArray.size(); i++) {
+            int mMax = (int) Collections.max(mDrinkingArray);
+            int mIndexOfMax = Arrays.asList(mTempDrinkingArray).indexOf(mMax);
+            if (mIndexOfMax == 0) {
+                if (mDcount == 0) {
+                    if (mDrinkingMax > mDrinkingAverage && mDrinkingMax < 0.9) {
+                        mDrinkingMax += 0.05;
+                        rateValues.put("drink_max", mDrinkingMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mDcount == 1) {
+                    if (mDrinkingAverage < (mDrinkingMax + 0.02) && mDrinkingAverage > mDrinkingBelow) {
+                        mDrinkingAverage += 0.02;
+                        rateValues.put("drink_average", mDrinkingAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mDcount == 2) {
+                    if (mDrinkingBelow < mDrinkingAverage && mDrinkingBelow > 0.05) {
+                        mDrinkingBelow -= 0.05;
+                        rateValues.put("drink_below", mDrinkingBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 1) {
+                if (mDcount == 0) {
+                    if (mDrinkingMax > mDrinkingAverage && mDrinkingMax < 0.9) {
+                        mDrinkingMax += 0.05;
+                        rateValues.put("drink_max", mDrinkingMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mDcount == 1) {
+                    if (mDrinkingAverage < (mDrinkingMax + 0.02) && mDrinkingAverage > mDrinkingBelow) {
+                        mDrinkingAverage += 0.02;
+                        rateValues.put("drink_average", mDrinkingAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mDcount == 2) {
+                    if (mDrinkingBelow < mDrinkingAverage && mDrinkingBelow > 0.05) {
+                        mDrinkingBelow -= 0.05;
+                        rateValues.put("drink_below", mDrinkingBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 2) {
+                if (mDcount == 0) {
+                    if (mDrinkingMax > mDrinkingAverage && mDrinkingMax < 0.9) {
+                        mDrinkingMax += 0.05;
+                        rateValues.put("drink_max", mDrinkingMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mDcount == 1) {
+                    if (mDrinkingAverage < (mDrinkingMax + 0.02) && mDrinkingAverage > mDrinkingBelow) {
+                        mDrinkingAverage += 0.02;
+                        rateValues.put("drink_average", mDrinkingAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mDcount == 2) {
+                    if (mDrinkingBelow < mDrinkingAverage && mDrinkingBelow > 0.05) {
+                        mDrinkingBelow -= 0.05;
+                        rateValues.put("drink_below", mDrinkingBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            }
+            mDrinkingArray.set(mIndexOfMax, -9999);
+            mDcount += 1;
+        }
+    }
+
+    private void changeSmokingRates(JSONObject rateValues, JSONArray activity) throws JSONException {
+        mSmokingMax = rateValues.getDouble("smoke_max");
+        mSmokingAverage = rateValues.getDouble("smoke_average");
+        mSmokingBelow = rateValues.getDouble("smoke_below");
+
+        JSONArray mSmokingActivityArray = activity.getJSONArray(2);
+        JSONObject mSmokingActivity = mSmokingActivityArray.getJSONObject(0);
+        int mYesValue = mSmokingActivity.getInt("yes");
+        int mNoValue = mSmokingActivity.getInt("no");
+        int mSometimesValue = mSmokingActivity.getInt("sometimes");
+        List<Integer> mSmokingArray = new ArrayList<>(Arrays.asList(mYesValue, mNoValue, mSometimesValue));
+        Integer[] mTempSmokingArray = {mYesValue, mNoValue, mSometimesValue};
+        int mScount = 0;
+        for (int i = 0; i < mSmokingArray.size(); i++) {
+            int max = (int) Collections.max(mSmokingArray);
+            int indexOfMax = Arrays.asList(mTempSmokingArray).indexOf(max);
+            if (indexOfMax == 0) {
+                if (mScount == 0) {
+                    if (mSmokingMax > mSmokingAverage && mSmokingMax < 0.9) {
+                        mSmokingMax += 0.05;
+                        rateValues.put("smoke_max", mSmokingMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mScount == 1) {
+                    if (mSmokingAverage < (mSmokingMax + 0.02) && mSmokingAverage > mSmokingBelow) {
+                        mSmokingAverage += 0.02;
+                        rateValues.put("smoke_average", mSmokingAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mScount == 2) {
+                    if (mSmokingBelow < mSmokingAverage && mSmokingBelow > 0.05) {
+                        mYearBelow -= 0.05;
+                        rateValues.put("smoke_below", mSmokingBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (indexOfMax == 1) {
+                if (mScount == 0) {
+                    if (mSmokingMax > mSmokingAverage && mSmokingMax < 0.9) {
+                        mSmokingMax += 0.05;
+                        rateValues.put("smoke_max", mSmokingMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mScount == 1) {
+                    if (mSmokingAverage < (mSmokingMax + 0.02) && mSmokingAverage > mSmokingBelow) {
+                        mSmokingAverage += 0.02;
+                        rateValues.put("smoke_average", mSmokingAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mScount == 2) {
+                    if (mSmokingBelow < mSmokingAverage && mSmokingBelow > 0.05) {
+                        mYearBelow -= 0.05;
+                        rateValues.put("smoke_below", mSmokingBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (indexOfMax == 2) {
+                if (mScount == 0) {
+                    if (mSmokingMax > mSmokingAverage && mSmokingMax < 0.9) {
+                        mSmokingMax += 0.05;
+                        rateValues.put("smoke_max", mSmokingMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mScount == 1) {
+                    if (mSmokingAverage < (mSmokingMax + 0.02) && mSmokingAverage > mSmokingBelow) {
+                        mSmokingAverage += 0.02;
+                        rateValues.put("smoke_average", mSmokingAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mScount == 2) {
+                    if (mSmokingBelow < mSmokingAverage && mSmokingBelow > 0.05) {
+                        mSmokingBelow -= 0.05;
+                        rateValues.put("smoke_below", mSmokingBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            }
+            mSmokingArray.set(indexOfMax, -9999);
+            mScount += 1;
+        }
+    }
+
+    private void changeRoomUseRates(JSONObject rateValues, JSONArray activity) throws JSONException {
+        mRoomMax = rateValues.getDouble("room_max");
+        mRoomAverage = rateValues.getDouble("room_average");
+        double mRoomBelow = rateValues.getDouble("room_below");
+        double mRoomLowest = rateValues.getDouble("room_lowest");
+
+        JSONArray mRoomActivityArray = activity.getJSONArray(4);
+        JSONObject mRoomActivity = mRoomActivityArray.getJSONObject(0);
+        int mSocialValue = mRoomActivity.getInt("social_space");
+        int mStudyValue = mRoomActivity.getInt("study_space");
+        int mSleepingValue = mRoomActivity.getInt("sleeping_space");
+        int mAllValue = mRoomActivity.getInt("all_above");
+        List<Integer> mRoomArray = new ArrayList<>(Arrays.asList(mSocialValue, mStudyValue, mSleepingValue, mAllValue));
+        Integer[] mTempRoomArray = {mSocialValue, mStudyValue, mSleepingValue, mAllValue};
+        int mRcount = 0;
+        for (int i = 0; i < mRoomArray.size(); i++) {
+            int mMax = (int) Collections.max(mRoomArray);
+            int mIndexOfMax = Arrays.asList(mTempRoomArray).indexOf(mMax);
+            if (mIndexOfMax == 0) {
+                if (mRcount == 0) {
+                    if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
+                        mRoomMax += 0.05;
+                        rateValues.put("room_max", mRoomMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 1) {
+                    if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
+                        mRoomAverage += 0.02;
+                        rateValues.put("room_average", mRoomAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 2) {
+                    if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
+                        mRoomBelow -= 0.02;
+                        rateValues.put("room_below", mRoomBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 3) {
+                    if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
+                        mRoomLowest -= 0.05;
+                        rateValues.put("room_lowest", mRoomLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 1) {
+                if (mRcount == 0) {
+                    if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
+                        mRoomMax += 0.05;
+                        rateValues.put("room_max", mRoomMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 1) {
+                    if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
+                        mRoomAverage += 0.02;
+                        rateValues.put("room_average", mRoomAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 2) {
+                    if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
+                        mRoomBelow -= 0.02;
+                        rateValues.put("room_below", mRoomBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 3) {
+                    if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
+                        mRoomLowest -= 0.05;
+                        rateValues.put("room_lowest", mRoomLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 2) {
+                if (mRcount == 0) {
+                    if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
+                        mRoomMax += 0.05;
+                        rateValues.put("room_max", mRoomMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 1) {
+                    if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
+                        mRoomAverage += 0.02;
+                        rateValues.put("room_average", mRoomAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 2) {
+                    if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
+                        mRoomBelow -= 0.02;
+                        rateValues.put("room_below", mRoomBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 3) {
+                    if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
+                        mRoomLowest -= 0.05;
+                        rateValues.put("room_lowest", mRoomLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            } else if (mIndexOfMax == 3) {
+                if (mRcount == 0) {
+                    if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
+                        mRoomMax += 0.05;
+                        rateValues.put("room_max", mRoomMax);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 1) {
+                    if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
+                        mRoomAverage += 0.02;
+                        rateValues.put("room_average", mRoomAverage);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 2) {
+                    if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
+                        mRoomBelow -= 0.02;
+                        rateValues.put("room_below", mRoomBelow);
+                        updateUser(mLoggedInUser);
+                    }
+                } else if (mRcount == 3) {
+                    if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
+                        mRoomLowest -= 0.05;
+                        rateValues.put("room_lowest", mRoomLowest);
+                        updateUser(mLoggedInUser);
+                    }
+                }
+            }
+            mRoomArray.set(mIndexOfMax, -9999);
+            mRcount += 1;
+        }
+    }
+
+    private void changeRatings() throws JSONException {
+        JSONArray currentUserRates = mMetadata.getJSONArray("rate_values");
         JSONObject currentUserRateValues = currentUserRates.getJSONObject(0);
-        yearMax = currentUserRateValues.getDouble("year_max");
-        yearAverage = currentUserRateValues.getDouble("year_average");
-        yearBelow = currentUserRateValues.getDouble("year_below");
-        yearLowest = currentUserRateValues.getDouble("year_lowest");
-        cleanMax = currentUserRateValues.getDouble("clean_max");
-        cleanAverage = currentUserRateValues.getDouble("clean_average");
-        cleanBelow = currentUserRateValues.getDouble("clean_below");
-        cleanLowest = currentUserRateValues.getDouble("clean_lowest");
-        drinkingMax = currentUserRateValues.getDouble("drink_max");
-        drinkingAverage = currentUserRateValues.getDouble("drink_average");
-        drinkingBelow = currentUserRateValues.getDouble("drink_below");
-        smokingMax = currentUserRateValues.getDouble("smoke_max");
-        smokingAverage = currentUserRateValues.getDouble("smoke_average");
-        smokingBelow = currentUserRateValues.getDouble("smoke_below");
-        roomMax = currentUserRateValues.getDouble("room_max");
-        roomAverage = currentUserRateValues.getDouble("room_average");
-        roomBelow = currentUserRateValues.getDouble("room_below");
-        roomLowest = currentUserRateValues.getDouble("room_lowest");
+        JSONArray activity = mMetadata.getJSONArray("user_activity");
 
-        JSONArray activity = currentUserData.getJSONArray("user_activity");
-        JSONArray yearActivityArray = activity.getJSONArray(0);
-        JSONObject yearActivity = yearActivityArray.getJSONObject(0);
-        int freshValue = yearActivity.getInt("freshman");
-        int sophValue = yearActivity.getInt("sophomore");
-        int junValue = yearActivity.getInt("junior");
-        int senValue = yearActivity.getInt("senior");
-        List<Integer> yearArray = new ArrayList<Integer>(Arrays.asList(freshValue, sophValue, junValue, senValue));
-        Integer[] tempYearArray = {freshValue, sophValue, junValue, senValue};
-        int ycount = 0;
-        for (int i = 0; i < tempYearArray.length; i++) {
-            int max = (int) Collections.max(yearArray);
-            int indexOfMax = Arrays.asList(tempYearArray).indexOf(max);
-            if (indexOfMax == 0) {
-                if (ycount == 0) {
-                    if (yearMax > yearAverage && yearMax < 0.9) {
-                        yearMax += 0.05;
-                        currentUserRateValues.put("year_max", yearMax);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 1) {
-                    if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
-                        yearAverage += 0.02;
-                        currentUserRateValues.put("year_average", yearAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
-                        yearBelow -= 0.02;
-                        currentUserRateValues.put("year_below", yearBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 3) {
-                    if (yearLowest < yearBelow && yearLowest > 0.5) {
-                        yearLowest -= 0.05;
-                        currentUserRateValues.put("year_lowest", yearLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 1) {
-                if (ycount == 0) {
-                    if (yearMax > yearAverage && yearMax < 0.9) {
-                        yearMax += 0.05;
-                        currentUserRateValues.put("year_max", yearMax);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 1) {
-                    if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
-                        yearAverage += 0.02;
-                        currentUserRateValues.put("year_average", yearAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
-                        yearBelow -= 0.02;
-                        currentUserRateValues.put("year_below", yearBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 3) {
-                    if (yearLowest < yearBelow && yearLowest > 0.5) {
-                        yearLowest -= 0.05;
-                        currentUserRateValues.put("year_lowest", yearLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 2) {
-                if (ycount == 0) {
-                    if (yearMax > yearAverage && yearMax < 0.9) {
-                        yearMax += 0.05;
-                        currentUserRateValues.put("year_max", yearMax);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 1) {
-                    if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
-                        yearAverage += 0.02;
-                        currentUserRateValues.put("year_average", yearAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
-                        yearBelow -= 0.02;
-                        currentUserRateValues.put("year_below", yearBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 3) {
-                    if (yearLowest < yearBelow && yearLowest > 0.5) {
-                        yearLowest -= 0.05;
-                        currentUserRateValues.put("year_lowest", yearLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 3) {
-                if (ycount == 0) {
-                    if (yearMax > yearAverage && yearMax < 0.9) {
-                        yearMax += 0.05;
-                        currentUserRateValues.put("year_max", yearMax);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 1) {
-                    if (yearAverage < (yearMax + 0.02) && yearAverage > yearBelow) {
-                        yearAverage += 0.02;
-                        currentUserRateValues.put("year_average", yearAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (yearBelow < yearAverage && yearBelow > (yearLowest - 0.02)) {
-                        yearBelow -= 0.02;
-                        currentUserRateValues.put("year_below", yearBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 3) {
-                    if (yearLowest < yearBelow && yearLowest > 0.5) {
-                        yearLowest -= 0.05;
-                        currentUserRateValues.put("year_lowest", yearLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            }
-            yearArray.set(indexOfMax, -9999);
-            ycount += 1;
-        }
-
-        JSONArray cleanlinessActivityArray = activity.getJSONArray(1);
-        JSONObject cleanlinessActivity = cleanlinessActivityArray.getJSONObject(0);
-        int organizedValue = cleanlinessActivity.getInt("organized");
-        int casualValue = cleanlinessActivity.getInt("casual");
-        int occMessyValue = cleanlinessActivity.getInt("occasionally_messy");
-        int messyValue = cleanlinessActivity.getInt("messy");
-        List<Integer> cleanlinessArray = new ArrayList<Integer>(Arrays.asList(organizedValue, casualValue, occMessyValue, messyValue));
-        Integer[] tempCleanlinessArray = {organizedValue, casualValue, occMessyValue, messyValue};
-        int clcount = 0;
-        for (int i = 0; i < tempCleanlinessArray.length; i++) {
-            int max = (int) Collections.max(cleanlinessArray);
-            int indexOfMax = Arrays.asList(tempCleanlinessArray).indexOf(max);
-            if (indexOfMax == 0) {
-                if (clcount == 0) {
-                    if (cleanMax > cleanAverage && cleanMax < 0.9) {
-                        cleanMax += 0.05;
-                        currentUserRateValues.put("clean_max", cleanMax);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 1) {
-                    if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
-                        cleanAverage += 0.02;
-                        currentUserRateValues.put("clean_average", cleanAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 2) {
-                    if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
-                        cleanBelow -= 0.02;
-                        currentUserRateValues.put("clean_below", cleanBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 3) {
-                    if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
-                        cleanLowest -= 0.05;
-                        currentUserRateValues.put("clean_lowest", cleanLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 1) {
-                if (clcount == 0) {
-                    if (cleanMax > cleanAverage && cleanMax < 0.9) {
-                        cleanMax += 0.05;
-                        currentUserRateValues.put("clean_max", cleanMax);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 1) {
-                    if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
-                        cleanAverage += 0.02;
-                        currentUserRateValues.put("clean_average", cleanAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 2) {
-                    if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
-                        cleanBelow -= 0.02;
-                        currentUserRateValues.put("clean_below", cleanBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 3) {
-                    if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
-                        cleanLowest -= 0.05;
-                        currentUserRateValues.put("clean_lowest", cleanLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 2) {
-                if (clcount == 0) {
-                    if (cleanMax > cleanAverage && cleanMax < 0.9) {
-                        cleanMax += 0.05;
-                        currentUserRateValues.put("clean_max", cleanMax);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 1) {
-                    if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
-                        cleanAverage += 0.02;
-                        currentUserRateValues.put("clean_average", cleanAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 2) {
-                    if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
-                        cleanBelow -= 0.02;
-                        currentUserRateValues.put("clean_below", cleanBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 3) {
-                    if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
-                        cleanLowest -= 0.05;
-                        currentUserRateValues.put("clean_lowest", cleanLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 3) {
-                if (clcount == 0) {
-                    if (cleanMax > cleanAverage && cleanMax < 0.9) {
-                        cleanMax += 0.05;
-                        currentUserRateValues.put("clean_max", cleanMax);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 1) {
-                    if (cleanAverage < (cleanMax + 0.02) && cleanAverage > cleanBelow) {
-                        cleanAverage += 0.02;
-                        currentUserRateValues.put("clean_average", cleanAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 2) {
-                    if (cleanBelow < cleanAverage && cleanBelow > (cleanLowest - 0.02)) {
-                        cleanBelow -= 0.02;
-                        currentUserRateValues.put("clean_below", cleanBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (clcount == 3) {
-                    if (cleanLowest < cleanBelow && cleanLowest > 0.5) {
-                        cleanLowest -= 0.05;
-                        currentUserRateValues.put("clean_lowest", cleanLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            }
-            cleanlinessArray.set(indexOfMax, -99999);
-            clcount += 1;
-        }
-
-        JSONArray smokingActivityArray = activity.getJSONArray(2);
-        JSONObject smokingActivity = smokingActivityArray.getJSONObject(0);
-        int yesValue = smokingActivity.getInt("yes");
-        int noValue = smokingActivity.getInt("no");
-        int sometimesValue = smokingActivity.getInt("sometimes");
-        List<Integer> smokingArray = new ArrayList<Integer>(Arrays.asList(yesValue, noValue, sometimesValue));
-        Integer[] tempSmokingArray = {yesValue, noValue, sometimesValue};
-        int scount = 0;
-        for (int i = 0; i < smokingArray.size(); i++) {
-            int max = (int) Collections.max(smokingArray);
-            int indexOfMax = Arrays.asList(tempSmokingArray).indexOf(max);
-            if (indexOfMax == 0) {
-                if (scount == 0) {
-                    if (smokingMax > smokingAverage && smokingMax < 0.9) {
-                        smokingMax += 0.05;
-                        currentUserRateValues.put("smoke_max", smokingMax);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 1) {
-                    if (smokingAverage < (smokingMax + 0.02) && smokingAverage > smokingBelow) {
-                        smokingAverage += 0.02;
-                        currentUserRateValues.put("smoke_average", smokingAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (smokingBelow < smokingAverage && smokingBelow > 0.05) {
-                        yearBelow -= 0.05;
-                        currentUserRateValues.put("smoke_below", smokingBelow);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 1) {
-                if (scount == 0) {
-                    if (smokingMax > smokingAverage && smokingMax < 0.9) {
-                        smokingMax += 0.05;
-                        currentUserRateValues.put("smoke_max", smokingMax);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 1) {
-                    if (smokingAverage < (smokingMax + 0.02) && smokingAverage > smokingBelow) {
-                        smokingAverage += 0.02;
-                        currentUserRateValues.put("smoke_average", smokingAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (smokingBelow < smokingAverage && smokingBelow > 0.05) {
-                        yearBelow -= 0.05;
-                        currentUserRateValues.put("smoke_below", smokingBelow);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 2) {
-                if (scount == 0) {
-                    if (smokingMax > smokingAverage && smokingMax < 0.9) {
-                        smokingMax += 0.05;
-                        currentUserRateValues.put("smoke_max", smokingMax);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 1) {
-                    if (smokingAverage < (smokingMax + 0.02) && smokingAverage > smokingBelow) {
-                        smokingAverage += 0.02;
-                        currentUserRateValues.put("smoke_average", smokingAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (smokingBelow < smokingAverage && smokingBelow > 0.05) {
-                        smokingBelow -= 0.05;
-                        currentUserRateValues.put("smoke_below", smokingBelow);
-                        updateUser(currentUser);
-                    }
-                }
-            }
-            smokingArray.set(indexOfMax, -9999);
-            scount += 1;
-        }
-
-        JSONArray drinkingActivityArray = activity.getJSONArray(3);
-        JSONObject drinkingActivity = drinkingActivityArray.getJSONObject(0);
-        int yesdValue = drinkingActivity.getInt("yes");
-        int nodValue = drinkingActivity.getInt("no");
-        int sometimesdValue = drinkingActivity.getInt("sometimes");
-        List<Integer> drinkingArray = new ArrayList<Integer>(Arrays.asList(yesdValue, nodValue, sometimesdValue));
-        Integer[] tempDrinkingArray = {yesdValue, nodValue, sometimesdValue};
-        int dcount = 0;
-        for (int i = 0; i < drinkingArray.size(); i++) {
-            int max = (int) Collections.max(drinkingArray);
-            int indexOfMax = Arrays.asList(tempDrinkingArray).indexOf(max);
-            if (indexOfMax == 0) {
-                if (dcount == 0) {
-                    if (drinkingMax > drinkingAverage && drinkingMax < 0.9) {
-                        drinkingMax += 0.05;
-                        currentUserRateValues.put("drink_max", drinkingMax);
-                        updateUser(currentUser);
-                    }
-                } else if (dcount == 1) {
-                    if (drinkingAverage < (drinkingMax + 0.02) && drinkingAverage > drinkingBelow) {
-                        drinkingAverage += 0.02;
-                        currentUserRateValues.put("drink_average", drinkingAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (drinkingBelow < drinkingAverage && drinkingBelow > 0.05) {
-                        drinkingBelow -= 0.05;
-                        currentUserRateValues.put("drink_below", drinkingBelow);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 1) {
-                if (dcount == 0) {
-                    if (drinkingMax > drinkingAverage && drinkingMax < 0.9) {
-                        drinkingMax += 0.05;
-                        currentUserRateValues.put("drink_max", drinkingMax);
-                        updateUser(currentUser);
-                    }
-                } else if (dcount == 1) {
-                    if (drinkingAverage < (drinkingMax + 0.02) && drinkingAverage > drinkingBelow) {
-                        drinkingAverage += 0.02;
-                        currentUserRateValues.put("drink_average", drinkingAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (drinkingBelow < drinkingAverage && drinkingBelow > 0.05) {
-                        drinkingBelow -= 0.05;
-                        currentUserRateValues.put("drink_below", drinkingBelow);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 2) {
-                if (dcount == 0) {
-                    if (drinkingMax > drinkingAverage && drinkingMax < 0.9) {
-                        drinkingMax += 0.05;
-                        currentUserRateValues.put("drink_max", drinkingMax);
-                        updateUser(currentUser);
-                    }
-                } else if (dcount == 1) {
-                    if (drinkingAverage < (drinkingMax + 0.02) && drinkingAverage > drinkingBelow) {
-                        drinkingAverage += 0.02;
-                        currentUserRateValues.put("drink_average", drinkingAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (ycount == 2) {
-                    if (drinkingBelow < drinkingAverage && drinkingBelow > 0.05) {
-                        drinkingBelow -= 0.05;
-                        currentUserRateValues.put("drink_below", drinkingBelow);
-                        updateUser(currentUser);
-                    }
-                }
-            }
-            drinkingArray.set(indexOfMax, -9999);
-            dcount += 1;
-        }
-
-        JSONArray roomActivityArray = activity.getJSONArray(4);
-        JSONObject roomActivity = roomActivityArray.getJSONObject(0);
-        int socialValue = roomActivity.getInt("social_space");
-        int studyValue = roomActivity.getInt("study_space");
-        int sleepingValue = roomActivity.getInt("sleeping_space");
-        int allValue = roomActivity.getInt("all_above");
-        List<Integer> roomArray = new ArrayList<Integer>(Arrays.asList(socialValue, studyValue, sleepingValue, allValue));
-        Integer[] tempRoomArray = {socialValue, studyValue, sleepingValue, allValue};
-        int rcount = 0;
-        for (int i = 0; i < roomArray.size(); i++) {
-            int max = (int) Collections.max(roomArray);
-            int indexOfMax = Arrays.asList(tempRoomArray).indexOf(max);
-            if (indexOfMax == 0) {
-                if (rcount == 0) {
-                    if (roomMax > roomAverage && roomMax < 0.9) {
-                        roomMax += 0.05;
-                        currentUserRateValues.put("room_max", roomMax);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 1) {
-                    if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
-                        roomAverage += 0.02;
-                        currentUserRateValues.put("room_average", roomAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 2) {
-                    if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
-                        roomBelow -= 0.02;
-                        currentUserRateValues.put("room_below", roomBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 3) {
-                    if (roomLowest < roomBelow && roomLowest > 0.5) {
-                        roomLowest -= 0.05;
-                        currentUserRateValues.put("room_lowest", roomLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 1) {
-                if (rcount == 0) {
-                    if (roomMax > roomAverage && roomMax < 0.9) {
-                        roomMax += 0.05;
-                        currentUserRateValues.put("room_max", roomMax);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 1) {
-                    if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
-                        roomAverage += 0.02;
-                        currentUserRateValues.put("room_average", roomAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 2) {
-                    if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
-                        roomBelow -= 0.02;
-                        currentUserRateValues.put("room_below", roomBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 3) {
-                    if (roomLowest < roomBelow && roomLowest > 0.5) {
-                        roomLowest -= 0.05;
-                        currentUserRateValues.put("room_lowest", roomLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 2) {
-                if (rcount == 0) {
-                    if (roomMax > roomAverage && roomMax < 0.9) {
-                        roomMax += 0.05;
-                        currentUserRateValues.put("room_max", roomMax);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 1) {
-                    if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
-                        roomAverage += 0.02;
-                        currentUserRateValues.put("room_average", roomAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 2) {
-                    if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
-                        roomBelow -= 0.02;
-                        currentUserRateValues.put("room_below", roomBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 3) {
-                    if (roomLowest < roomBelow && roomLowest > 0.5) {
-                        roomLowest -= 0.05;
-                        currentUserRateValues.put("room_lowest", roomLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            } else if (indexOfMax == 3) {
-                if (rcount == 0) {
-                    if (roomMax > roomAverage && roomMax < 0.9) {
-                        roomMax += 0.05;
-                        currentUserRateValues.put("room_max", roomMax);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 1) {
-                    if (roomAverage < (roomMax + 0.02) && roomAverage > roomBelow) {
-                        roomAverage += 0.02;
-                        currentUserRateValues.put("room_average", roomAverage);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 2) {
-                    if (roomBelow < roomAverage && roomBelow > (roomLowest - 0.02)) {
-                        roomBelow -= 0.02;
-                        currentUserRateValues.put("room_below", roomBelow);
-                        updateUser(currentUser);
-                    }
-                } else if (rcount == 3) {
-                    if (roomLowest < roomBelow && roomLowest > 0.5) {
-                        roomLowest -= 0.05;
-                        currentUserRateValues.put("room_lowest", roomLowest);
-                        updateUser(currentUser);
-                    }
-                }
-            }
-            roomArray.set(indexOfMax, -9999);
-            rcount += 1;
-        }
+        changeYearRates(currentUserRateValues, activity);
+        changeCleanlinessRates(currentUserRateValues, activity);
+        changeDrinkingRates(currentUserRateValues, activity);
+        changeSmokingRates(currentUserRateValues, activity);
+        changeRoomUseRates(currentUserRateValues, activity);
     }
 
-    public double alteredRank(User currentUser) throws JSONException, java.text.ParseException {
-        User loggedInUser = CometChat.getLoggedInUser();
-        JSONObject loggedInUserInfo = loggedInUser.getMetadata();
-        JSONObject userinfo = currentUser.getMetadata();
-
-        String userYear = userinfo.getString("year");
-        String loggedInYear = loggedInUserInfo.getString("year");
-
-        if (userYear.equals("Senior")) {
-            userYearValue = 4;
-        } else if (userYear.equals("Junior")) {
-            userYearValue = 3;
-        } else if (userYear.equals("Sophomore")) {
-            userYearValue = 2;
-        } else if (userYear.equals("Freshman")) {
-            userYearValue = 1;
-        }
-
-        if (loggedInYear.equals("Senior")) {
-            loggedInYearValue = 4;
-        } else if (loggedInYear.equals("Junior")) {
-            loggedInYearValue = 3;
-        } else if (loggedInYear.equals("Sophomore")) {
-            loggedInYearValue = 2;
-        } else if (loggedInYear.equals("Freshman")) {
-            loggedInYearValue = 1;
-        }
-
-        int yearDifference = Math.abs(userYearValue - loggedInYearValue);
-
-        if (yearDifference == 0) {
-            year = yearMax;
-        } else if (yearDifference == 1) {
-            year = yearAverage;
-        } else if (yearDifference == 2) {
-            year = yearBelow;
-        } else if (yearDifference == 3) {
-            year = yearLowest;
-        }
-
-        JSONArray userRoommateProfile = userinfo.getJSONArray("roommate_profile");
-        JSONArray loggedInRoommateProfile = loggedInUserInfo.getJSONArray("roommate_profile");
-        JSONObject userRoommateData = userRoommateProfile.getJSONObject(0);
-        JSONObject loggedInRoommateData = loggedInRoommateProfile.getJSONObject(0);
-        String userCleanliness = userRoommateData.getString("cleanliness");
-        String loggedInCleanliness = loggedInRoommateData.getString("cleanliness");
-
-        if (userCleanliness.equals("Organized")) {
-            userCleanlinessValue = 4;
-        } else if (userCleanliness.equals("Casual")) {
-            userCleanlinessValue = 3;
-        } else if (userCleanliness.equals("Occasionally messy")) {
-            userCleanlinessValue = 2;
-        } else if (userCleanliness.equals("Messy")) {
-            userCleanlinessValue = 1;
-        }
-
-        if (loggedInCleanliness.equals("Organized")) {
-            loggedInCleanlinessValue = 4;
-        } else if (loggedInCleanliness.equals("Casual")) {
-            loggedInCleanlinessValue = 3;
-        } else if (loggedInCleanliness.equals("Occasionally messy")) {
-            loggedInCleanlinessValue = 2;
-        } else if (loggedInCleanliness.equals("Messy")) {
-            loggedInCleanlinessValue = 1;
-        }
-
-        int cleanlinessDifference = Math.abs(userCleanlinessValue - loggedInCleanlinessValue);
-
-        if (cleanlinessDifference == 0) {
-            cleanliness = cleanMax;
-        } else if (cleanlinessDifference == 1) {
-            cleanliness = cleanAverage;
-        } else if (cleanlinessDifference == 2) {
-            cleanliness = cleanBelow;
-        } else if (cleanlinessDifference == 3) {
-            cleanliness = cleanLowest;
-        }
-
-        String userSmoking = userRoommateData.getString("if_smoke");
-        String loggedInSmoking = loggedInRoommateData.getString("if_smoke");
-
-        if (userSmoking.equals("Yes")) {
-            userSmokingValue = 3;
-        } else if (userSmoking.equals("Sometimes")) {
-            userSmokingValue = 2;
-        } else if (userSmoking.equals("No")) {
-            userSmokingValue = 1;
-        }
-
-        if (loggedInSmoking.equals("Yes")) {
-            loggedInSmokingValue = 3;
-        } else if (loggedInSmoking.equals("Sometimes")) {
-            loggedInSmokingValue = 2;
-        } else if (loggedInSmoking.equals("No")) {
-            loggedInSmokingValue = 1;
-        }
-
-        int smokingDifference = Math.abs(userSmokingValue - loggedInSmokingValue);
-
-        if (smokingDifference == 0) {
-            smoking = smokingMax;
-        } else if (smokingDifference == 1) {
-            smoking = smokingAverage;
-        } else if (smokingDifference == 2) {
-            smoking = smokingBelow;
-        }
-
-        String userDrinking = userRoommateData.getString("if_drink");
-        String loggedInDrinking = loggedInRoommateData.getString("if_drink");
-
-        if (userDrinking.equals("Yes")) {
-            userDrinkingValue = 3;
-        } else if (userDrinking.equals("Sometimes")) {
-            userDrinkingValue = 2;
-        } else if (userDrinking.equals("No")) {
-            userDrinkingValue = 1;
-        }
-
-        if (loggedInDrinking.equals("Yes")) {
-            loggedInDrinkingValue = 3;
-        } else if (loggedInDrinking.equals("Sometimes")) {
-            loggedInDrinkingValue = 2;
-        } else if (loggedInDrinking.equals("No")) {
-            loggedInDrinkingValue = 1;
-        }
-
-        int drinkingDifference = Math.abs(userDrinkingValue - loggedInDrinkingValue);
-
-        if (drinkingDifference == 0) {
-            drinking = drinkingMax;
-        } else if (drinkingDifference == 1) {
-            drinking = drinkingAverage;
-        } else if (drinkingDifference == 2) {
-            drinking = drinkingBelow;
-        }
-
-        String userRoomUse = userRoommateData.getString("room_use");
-        String loggedInRoomUse = loggedInRoommateData.getString("room_use");
-
-        if (userRoomUse.equals(loggedInRoomUse)) {
-            roomUse = roomMax;
-        } else {
-            roomUse = roomAverage;
-        }
-
-        String userTimeSleepString = userRoommateData.getString("time_sleep");
-        String loggedInTimeSleepString = loggedInRoommateData.getString("time_sleep");
-        DateFormat dateFormat = new SimpleDateFormat("hh:mmaa");
-        Date userTimeSleep = dateFormat.parse(userTimeSleepString);
-        Date loggedInTimeSleep = dateFormat.parse(loggedInTimeSleepString);
-        long sleepTimeDifference = Math.abs((userTimeSleep.getTime() - loggedInTimeSleep.getTime()) / (60 * 60 * 1000) % 24);
-
-        if (sleepTimeDifference == 0) {
-            timeSleep = max;
-        } else if (sleepTimeDifference == 1 || sleepTimeDifference == 2) {
-            timeSleep = average;
-        } else if (sleepTimeDifference <= 5) {
-            timeSleep = below;
-        } else {
-            timeSleep = lowest;
-        }
-
-        String userTimeWakeString = userRoommateData.getString("time_wake");
-        String loggedInTimeWakeString = loggedInRoommateData.getString("time_wake");
-        Date userTimeWake = dateFormat.parse(userTimeWakeString);
-        Date loggedInTimeWake = dateFormat.parse(loggedInTimeWakeString);
-        long wakeTimeDifference = Math.abs((userTimeWake.getTime() - loggedInTimeWake.getTime()) / (60 * 60 * 1000) % 24);
-
-        if (wakeTimeDifference == 0) {
-            timeWake = max;
-        } else if (wakeTimeDifference == 1 || wakeTimeDifference == 2) {
-            timeWake = average;
-        } else if (wakeTimeDifference <= 5) {
-            timeWake = below;
-        } else {
-            timeWake = lowest;
-        }
-
-        rating = year + cleanliness + smoking + drinking + roomUse + timeSleep + timeWake;
-        return rating;
-    }
-
-    public void updateUser(User user) {
+    private void updateUser(User user) {
         CometChat.updateCurrentUserDetails(user, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {

@@ -10,12 +10,16 @@ import com.parse.ParseObject;
 
 public class ParseApplication extends Application {
 
+    private static final String PARSE_ID = BuildConfig.PARSE_ID;
+    private static final String CLIENT_KEY = BuildConfig.CLIENT_KEY;
+    private static final String SERVER = BuildConfig.SERVER;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         ParseObject.registerSubclass(Image.class);
 
-        Parse.initialize(new Parse.Configuration.Builder(this).applicationId("cggD92fB7eLYVy9N9nK7vHBBuCbotEkYIJnE7lef").clientKey("FUTmG8TUxQ7fxtbVt6g9HslZtKibqWcaE7VSBpYE").server("https://parseapi.back4app.com").build());
+        Parse.initialize(new Parse.Configuration.Builder(this).applicationId(PARSE_ID).clientKey(CLIENT_KEY).server(SERVER).build());
     }
 }

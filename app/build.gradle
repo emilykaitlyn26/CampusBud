@@ -18,6 +18,16 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [file_provider: "CapstoneApp.app"]
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        buildConfigField "String", "AUTH_KEY", "\"${properties.getProperty("AUTH_KEY")}\""
+        buildConfigField "String", "APP_ID", "\"${properties.getProperty("APP_ID")}\""
+        buildConfigField "String", "REGION", "\"${properties.getProperty("REGION")}\""
+        buildConfigField "String", "PARSE_ID", "\"${properties.getProperty("PARSE_ID")}\""
+        buildConfigField "String", "CLIENT_KEY", "\"${properties.getProperty("CLIENT_KEY")}\""
+        buildConfigField "String", "SERVER", "\"${properties.getProperty("SERVER")}\""
     }
 
     buildTypes {

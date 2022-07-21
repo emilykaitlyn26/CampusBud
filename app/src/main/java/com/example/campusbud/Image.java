@@ -1,26 +1,18 @@
 package com.example.campusbud;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import java.io.File;
-
 @ParseClassName("Image")
 public class Image extends ParseObject {
 
-    public static final String KEY_PROFILE_IMAGE = "ProfileImage";
-    public static final String KEY_IMAGE1 = "Image1";
-    public static final String KEY_IMAGE2 = "Image2";
-    public static final String KEY_IMAGE3 = "Image3";
+    private static final String KEY_PROFILE_IMAGE = "ProfileImage";
+    private static final String KEY_IMAGE1 = "Image1";
+    private static final String KEY_IMAGE2 = "Image2";
+    private static final String KEY_IMAGE3 = "Image3";
     public static final String KEY_USER = "User";
-
-    public static final String TAG = "Image";
 
     public Image() {}
 

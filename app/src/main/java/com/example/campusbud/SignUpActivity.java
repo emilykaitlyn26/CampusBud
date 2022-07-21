@@ -5,44 +5,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.cometchat.pro.core.CometChat;
-import com.cometchat.pro.exceptions.CometChatException;
-import com.cometchat.pro.models.User;
-import com.parse.FindCallback;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    public final String TAG = "SignUpActivity";
+    private static final String TAG = "SignUpActivity";
 
-    public EditText etNewUsername;
-    public EditText etNewPassword;
-    public Button btnContinue;
-    public String selectedState;
+    private EditText mEtNewUsername;
+    private EditText mEtNewPassword;
+    private String mSelectedState;
 
-    public List<State> stateList;
-    public List<String> allStates;
-    ArrayAdapter<String> stateadapter;
+    private List<State> mStateList;
+    private List<String> mAllStates;
+    private ArrayAdapter<String> mStateadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,60 +36,49 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         queryStates();
-        allStates = new ArrayList<>();
-        stateList = new ArrayList<State>();
+        mAllStates = new ArrayList<>();
+        mStateList = new ArrayList<>();
 
-        etNewUsername = findViewById(R.id.etNewUsername);
-        etNewPassword = findViewById(R.id.etNewPassword);
-        AutoCompleteTextView stateTextView = (AutoCompleteTextView) findViewById(R.id.selectState);
-        stateadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, allStates);
+        mEtNewUsername = findViewById(R.id.etNewUsername);
+        mEtNewPassword = findViewById(R.id.etNewPassword);
+        AutoCompleteTextView mStateTextView = (AutoCompleteTextView) findViewById(R.id.selectState);
+        mStateadapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, mAllStates);
 
-        stateTextView.setThreshold(1);
-        stateTextView.setAdapter(stateadapter);
-        stateTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedState = (String) parent.getItemAtPosition(position);
-            }
-        });
+        mStateTextView.setThreshold(1);
+        mStateTextView.setAdapter(mStateadapter);
+        mStateTextView.setOnItemClickListener((parent, view, position, id) -> mSelectedState = (String) parent.getItemAtPosition(position));
 
-        btnContinue = findViewById(R.id.btnContinue);
-        btnContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "onClick sign up button");
-                String username = etNewUsername.getText().toString();
-                String password = etNewPassword.getText().toString();
-                if (!username.trim().equals("") && !password.trim().equals("") && selectedState != null) {
-                    collegeSignUp(username, password, selectedState, stateList);
-                } else {
-                    Toast.makeText(SignUpActivity.this, "Username/ password cannot be empty", Toast.LENGTH_SHORT).show();
-                }
+        Button mBtnContinue = findViewById(R.id.btnContinue);
+        mBtnContinue.setOnClickListener(v -> {
+            Log.i(TAG, "onClick sign up button");
+            String mUsername = mEtNewUsername.getText().toString();
+            String mPassword = mEtNewPassword.getText().toString();
+            if (!mUsername.trim().equals("") && !mPassword.trim().equals("") && mSelectedState != null) {
+                collegeSignUp(mUsername, mPassword, mSelectedState, mStateList);
+            } else {
+                Toast.makeText(SignUpActivity.this, "Username/ password cannot be empty", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void queryStates() {
+    private void queryStates() {
         ParseQuery<State> query = ParseQuery.getQuery(State.class);
-        query.findInBackground(new FindCallback<State>() {
-            @Override
-            public void done(List<State> objects, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting states", e);
-                    return;
-                }
-                stateList.addAll(objects);
-                for (int i = 0; i < stateList.size(); i++) {
-                    ParseObject collegeObject = stateList.get(i);
-                    String name = collegeObject.getString("name");
-                    allStates.add(name);
-                }
-                stateadapter.notifyDataSetChanged();
+        query.findInBackground((objects, e) -> {
+            if (e != null) {
+                Log.e(TAG, "Issue with getting states", e);
+                return;
             }
+            mStateList.addAll(objects);
+            for (int i = 0; i < mStateList.size(); i++) {
+                ParseObject collegeObject = mStateList.get(i);
+                String name = collegeObject.getString("name");
+                mAllStates.add(name);
+            }
+            mStateadapter.notifyDataSetChanged();
         });
     }
 
-    public void collegeSignUp(String username, String password, String selectedState, List<State> stateList) {
+    private void collegeSignUp(String username, String password, String selectedState, List<State> stateList) {
         Intent intent = new Intent(this, SetCollegeActivity.class);
         intent.putExtra("username", username);
         intent.putExtra("password", password);

@@ -3,305 +3,214 @@ package com.example.campusbud;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
-import com.example.campusbud.fragments.ProfileFragment;
-import com.parse.Parse;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 public class ProfileSettings extends AppCompatActivity {
 
-    public EditText etName;
-    public EditText etMajor;
-    public EditText etInterests;
-    public EditText etActivities;
-    public EditText etBio;
-    public Button btnSubmit;
-    public ImageView ivCreatePicture;
-    public ImageView ivProfileImage1;
-    public ImageView ivProfileImage2;
-    public ImageView ivProfileImage3;
+    private EditText mEtName;
+    private EditText mEtMajor;
+    private EditText mEtInterests;
+    private EditText mEtActivities;
+    private EditText mEtBio;
+    private ImageView mIvCreatePicture;
+    private ImageView mIvProfileImage1;
+    private ImageView mIvProfileImage2;
+    private ImageView mIvProfileImage3;
 
-    private File photoFile1;
-    private File photoFile2;
-    private File photoFile3;
-    private File photoFileProfile;
-    public String profilePhotoName = "profilephoto.jpg";
-    public String photo1Name = "photo1.jpg";
-    public String photo2Name = "photo2.jpg";
-    public String photo3Name = "photo3.jpg";
+    private File mPhotoFile1;
+    private File mPhotoFile2;
+    private File mPhotoFile3;
+    private File mPhotoFileProfile;
 
-    public User user;
-    public ParseUser parseUser;
+    private User mUser;
+    private ParseUser mParseUser;
 
     private final String TAG = "ProfileSettings";
 
-    public JSONArray roommateProfileArray = new JSONArray();
-    public JSONObject roommateProfile = new JSONObject();
+    private JSONArray mRoommateProfileArray = new JSONArray();
+    private JSONObject mRoommateProfile = new JSONObject();
 
-    public String[] times = {"12:00am", "1:00am", "2:00am", "3:00am", "4:00am", "5:00am", "6:00am", "7:00am", "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5.00pm", "6:00pm", "7.00pm", "8:00pm", "9:00pm", "10:00pm", "11:00pm"};
-    ArrayAdapter<String> sleeptimeadapter;
-    ArrayAdapter<String> waketimeadapter;
+    private String[] mTimes = {"12:00am", "1:00am", "2:00am", "3:00am", "4:00am", "5:00am", "6:00am", "7:00am", "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5.00pm", "6:00pm", "7.00pm", "8:00pm", "9:00pm", "10:00pm", "11:00pm"};
 
-    public RadioGroup radioYearGroup;
-    public RadioButton radioYearButton;
-    public Switch roommateSwitch;
-    public Boolean switchState = false;
-    public RadioGroup rgCleanliness;
-    public RadioButton rbCleanliness;
-    public RadioGroup rgSmoke;
-    public RadioButton rbSmoke;
-    public RadioGroup rgDrink;
-    public RadioButton rbDrink;
-    public RadioGroup rgRoomUse;
-    public RadioButton rbRoomUse;
-    public RadioGroup rgGender;
-    public RadioButton rbGender;
+    private RadioButton mRadioYearButton;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private Switch mRoommateSwitch;
+    private Boolean mSwitchState = false;
+    private RadioButton mRbCleanliness;
+    private RadioButton mRbSmoke;
+    private RadioButton mRbDrink;
+    private RadioButton mRbRoomUse;
+    private RadioButton mRbGender;
 
-    public String year;
-    public String name;
-    public String major;
-    public String cleanliness;
-    public String ifSmoke;
-    public String ifDrink;
-    public String roomUse;
-    public String gender;
-    public String timeSleep;
-    public String timeWake;
-    public String interests;
-    public String activities;
-    public String bio;
+    private String mYear;
+    private String mName;
+    private String mMajor;
+    private String mCleanliness;
+    private String mIfSmoke;
+    private String mIfDrink;
+    private String mRoomUse;
+    private String mGender;
+    private String mTimeSleep;
+    private String mTimeWake;
+    private String mInterests;
+    private String mActivities;
+    private String mBio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
 
-        user = CometChat.getLoggedInUser();
-        parseUser = ParseUser.getCurrentUser();
+        mUser = CometChat.getLoggedInUser();
+        mParseUser = ParseUser.getCurrentUser();
 
-        AutoCompleteTextView sleepTextView = (AutoCompleteTextView) findViewById(R.id.etTimeNight);
-        AutoCompleteTextView wakeTextView = (AutoCompleteTextView) findViewById(R.id.etTimeMorning);
-        sleeptimeadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, times);
-        waketimeadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, times);
-        sleepTextView.setThreshold(1);
-        sleepTextView.setAdapter(sleeptimeadapter);
-        wakeTextView.setThreshold(1);
-        wakeTextView.setAdapter(waketimeadapter);
+        AutoCompleteTextView mSleepTextView = (AutoCompleteTextView) findViewById(R.id.etTimeNight);
+        AutoCompleteTextView mWakeTextView = (AutoCompleteTextView) findViewById(R.id.etTimeMorning);
+        ArrayAdapter<String> mSleeptimeadapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, mTimes);
+        ArrayAdapter<String> mWaketimeadapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, mTimes);
+        mSleepTextView.setThreshold(1);
+        mSleepTextView.setAdapter(mSleeptimeadapter);
+        mWakeTextView.setThreshold(1);
+        mWakeTextView.setAdapter(mWaketimeadapter);
 
-        radioYearGroup = findViewById(R.id.radioYearGroup);
-        ivCreatePicture = findViewById(R.id.ivCreatePicture);
-        etName = findViewById(R.id.etName);
-        etMajor = findViewById(R.id.etMajor);
-        btnSubmit = findViewById(R.id.btnSubmit);
-        roommateSwitch = findViewById(R.id.roommateSwitch);
-        rgCleanliness = findViewById(R.id.rgCleanliness);
-        rgSmoke = findViewById(R.id.rgSmoke);
-        rgDrink = findViewById(R.id.rgDrink);
-        rgRoomUse = findViewById(R.id.rgRoomUse);
-        rgGender = findViewById(R.id.rgGender);
-        etInterests = findViewById(R.id.etInterests);
-        etActivities = findViewById(R.id.etActivities);
-        etBio = findViewById(R.id.etBio);
-        ivProfileImage1 = findViewById(R.id.ivProfileImage1);
-        ivProfileImage2 = findViewById(R.id.ivProfileImage2);
-        ivProfileImage3 = findViewById(R.id.ivProfileImage3);
+        RadioGroup mRadioYearGroup = findViewById(R.id.radioYearGroup);
+        mIvCreatePicture = findViewById(R.id.ivCreatePicture);
+        mEtName = findViewById(R.id.etName);
+        mEtMajor = findViewById(R.id.etMajor);
+        Button mBtnSubmit = findViewById(R.id.btnSubmit);
+        mRoommateSwitch = findViewById(R.id.roommateSwitch);
+        RadioGroup mRgCleanliness = findViewById(R.id.rgCleanliness);
+        RadioGroup mRgSmoke = findViewById(R.id.rgSmoke);
+        RadioGroup mRgDrink = findViewById(R.id.rgDrink);
+        RadioGroup mRgRoomUse = findViewById(R.id.rgRoomUse);
+        RadioGroup mRgGender = findViewById(R.id.rgGender);
+        mEtInterests = findViewById(R.id.etInterests);
+        mEtActivities = findViewById(R.id.etActivities);
+        mEtBio = findViewById(R.id.etBio);
+        mIvProfileImage1 = findViewById(R.id.ivProfileImage1);
+        mIvProfileImage2 = findViewById(R.id.ivProfileImage2);
+        mIvProfileImage3 = findViewById(R.id.ivProfileImage3);
 
-        roommateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                switchState = roommateSwitch.isChecked();
-            }
+        mRoommateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> mSwitchState = mRoommateSwitch.isChecked());
+
+        mRadioYearGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            mRadioYearButton = (RadioButton) findViewById(checkedId);
+            mYear = mRadioYearButton.getText().toString();
         });
 
-        radioYearGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                radioYearButton = (RadioButton) findViewById(checkedId);
-                year = radioYearButton.getText().toString();
-            }
+        mRgCleanliness.setOnCheckedChangeListener((group, checkedId) -> {
+            mRbCleanliness = (RadioButton) findViewById(checkedId);
+            mCleanliness = mRbCleanliness.getText().toString();
         });
 
-        rgCleanliness.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rbCleanliness = (RadioButton) findViewById(checkedId);
-                cleanliness = rbCleanliness.getText().toString();
-            }
+        mRgSmoke.setOnCheckedChangeListener((group, checkedId) -> {
+            mRbSmoke = findViewById(checkedId);
+            mIfSmoke = mRbSmoke.getText().toString();
         });
 
-        rgSmoke.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rbSmoke = findViewById(checkedId);
-                ifSmoke = rbSmoke.getText().toString();
-            }
+        mRgDrink.setOnCheckedChangeListener((group, checkedId) -> {
+            mRbDrink = findViewById(checkedId);
+            mIfDrink = mRbDrink.getText().toString();
         });
 
-        rgDrink.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rbDrink = findViewById(checkedId);
-                ifDrink = rbDrink.getText().toString();
-            }
+        mRgRoomUse.setOnCheckedChangeListener((group, checkedId) -> {
+            mRbRoomUse = findViewById(checkedId);
+            mRoomUse = mRbRoomUse.getText().toString();
         });
 
-        rgRoomUse.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rbRoomUse = findViewById(checkedId);
-                roomUse = rbRoomUse.getText().toString();
-            }
+        mRgGender.setOnCheckedChangeListener((group, checkedId) -> {
+            mRbGender = findViewById(checkedId);
+            mGender = mRbGender.getText().toString();
         });
 
-        rgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                rbGender = findViewById(checkedId);
-                gender = rbGender.getText().toString();
+        mWakeTextView.setOnItemClickListener((parent, view, position, id) -> mTimeWake = (String) parent.getItemAtPosition(position));
+
+        mSleepTextView.setOnItemClickListener((parent, view, position, id) -> mTimeSleep = (String) parent.getItemAtPosition(position));
+
+        mIvCreatePicture.setOnClickListener(v -> optionsMenu("Profile"));
+
+        mIvProfileImage1.setOnClickListener(v -> optionsMenu("Image1"));
+
+        mIvProfileImage2.setOnClickListener(v -> optionsMenu("Image2"));
+
+        mIvProfileImage3.setOnClickListener(v -> optionsMenu("Image3"));
+
+        mBtnSubmit.setOnClickListener(v -> {
+
+            mName = mEtName.getText().toString();
+            mMajor = mEtMajor.getText().toString();
+            mInterests = mEtInterests.getText().toString();
+            mActivities = mEtActivities.getText().toString();
+            mBio = mEtBio.getText().toString();
+            JSONObject metadata = mUser.getMetadata();
+
+            try {
+                metadata.put("name", mName);
+                metadata.put("year", mYear);
+                metadata.put("major", mMajor);
+                metadata.put("gender", mGender);
+                metadata.put("ifSwitched", mSwitchState);
+                mRoommateProfile.put("time_sleep", mTimeSleep);
+                mRoommateProfile.put("time_wake", mTimeWake);
+                mRoommateProfile.put("interests", mInterests);
+                mRoommateProfile.put("activities", mActivities);
+                mRoommateProfile.put("bio", mBio);
+                mRoommateProfile.put("cleanliness", mCleanliness);
+                mRoommateProfile.put("if_smoke", mIfSmoke);
+                mRoommateProfile.put("if_drink", mIfDrink);
+                mRoommateProfile.put("room_use", mRoomUse);
+                mRoommateProfileArray.put(mRoommateProfile);
+                metadata.put("roommate_profile", mRoommateProfileArray);
+                Log.d(TAG, "metadata: " + metadata);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
-
-        wakeTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                timeWake = (String) parent.getItemAtPosition(position);
-            }
-        });
-
-        sleepTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                timeSleep = (String) parent.getItemAtPosition(position);
-            }
-        });
-
-        ivCreatePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                optionsMenu("Profile");
-            }
-        });
-
-        ivProfileImage1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                optionsMenu("Image1");
-            }
-        });
-
-        ivProfileImage2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                optionsMenu("Image2");
-            }
-        });
-
-        ivProfileImage3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                optionsMenu("Image3");
-            }
-        });
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                name = etName.getText().toString();
-                major = etMajor.getText().toString();
-                interests = etInterests.getText().toString();
-                activities = etActivities.getText().toString();
-                bio = etBio.getText().toString();
-                JSONObject metadata = user.getMetadata();
-
-                try {
-                    metadata.put("name", name);
-                    metadata.put("year", year);
-                    metadata.put("major", major);
-                    metadata.put("gender", gender);
-                    metadata.put("ifSwitched", switchState);
-                    roommateProfile.put("time_sleep", timeSleep);
-                    roommateProfile.put("time_wake", timeWake);
-                    roommateProfile.put("interests", interests);
-                    roommateProfile.put("activities", activities);
-                    roommateProfile.put("bio", bio);
-                    roommateProfile.put("cleanliness", cleanliness);
-                    roommateProfile.put("if_smoke", ifSmoke);
-                    roommateProfile.put("if_drink", ifDrink);
-                    roommateProfile.put("room_use", roomUse);
-                    roommateProfileArray.put(roommateProfile);
-                    metadata.put("roommate_profile", roommateProfileArray);
-                    Log.d(TAG, "metadata: " + metadata);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                updateUser(user);
-                saveImages(parseUser, photoFileProfile, photoFile1, photoFile2, photoFile3);
-                finish();
-            }
+            updateUser(mUser);
+            saveImages(mParseUser, mPhotoFileProfile, mPhotoFile1, mPhotoFile2, mPhotoFile3);
+            finish();
         });
     }
 
-    public void saveImages(ParseUser currentUser, File profileFile, File file1, File file2, File file3) {
-        Image image = new Image();
-        image.setProfileImage(new ParseFile(profileFile));
-        image.setImage1(new ParseFile(file1));
-        image.setImage2(new ParseFile(file2));
-        image.setImage3(new ParseFile(file3));
-        image.setUser(currentUser);
-        image.saveInBackground(e -> {
+    private void saveImages(ParseUser currentUser, File profileFile, File file1, File file2, File file3) {
+        Image mImage = new Image();
+        mImage.setProfileImage(new ParseFile(profileFile));
+        mImage.setImage1(new ParseFile(file1));
+        mImage.setImage2(new ParseFile(file2));
+        mImage.setImage3(new ParseFile(file3));
+        mImage.setUser(currentUser);
+        mImage.saveInBackground(e -> {
             if (e != null) {
                 Log.e(TAG, "Error while saving", e);
             }
@@ -309,7 +218,7 @@ public class ProfileSettings extends AppCompatActivity {
         });
     }
 
-    public void updateUser(User user) {
+    private void updateUser(User user) {
         CometChat.updateCurrentUserDetails(user, new CometChat.CallbackListener<User>() {
             @Override
             public void onSuccess(User user) {
@@ -323,21 +232,18 @@ public class ProfileSettings extends AppCompatActivity {
     }
 
     public void optionsMenu(String image) {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Photo");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo")) {
-                    launchCamera(image);
-                } else if (options[item].equals("Choose from Gallery")) {
-                    getImageFromAlbum(image);
-                } else if (options[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
+        final CharSequence[] mOptions = {"Take Photo", "Choose from Gallery", "Cancel"};
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+        mBuilder.setTitle("Add Photo");
+        mBuilder.setItems(mOptions, (dialog, item) -> {
+            if (mOptions[item].equals("Take Photo")) {
+                launchCamera(image);
+            } else if (mOptions[item].equals("Choose from Gallery")) {
+                getImageFromAlbum(image);
+            } else if (mOptions[item].equals("Cancel")) {
+                dialog.dismiss();
             }
-        }); builder.show();
+        }); mBuilder.show();
     }
 
     @Override
@@ -345,72 +251,79 @@ public class ProfileSettings extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 30) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFileProfile.getAbsolutePath());
-                ivCreatePicture.setImageBitmap(takenImage);
-                ivCreatePicture.setRotation((float) 90.0);
+                Bitmap takenImage = BitmapFactory.decodeFile(mPhotoFileProfile.getAbsolutePath());
+                mIvCreatePicture.setImageBitmap(takenImage);
+                mIvCreatePicture.setRotation((float) 90.0);
             }
         } else if (requestCode == 2) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri imageUri = data.getData();
-                photoFileProfile = new File(String.valueOf(imageUri));
-                ivCreatePicture.setImageURI(imageUri);
+                //selectedImagePath = getPath(imageUri);
+                mPhotoFileProfile = new File(String.valueOf(imageUri));
+                mIvCreatePicture.setImageURI(imageUri);
             }
         }
         if (requestCode == 3) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile1.getAbsolutePath());
-                ivProfileImage1.setImageBitmap(takenImage);
-                ivProfileImage1.setRotation((float) 90.0);
+                Bitmap takenImage = BitmapFactory.decodeFile(mPhotoFile1.getAbsolutePath());
+                mIvProfileImage1.setImageBitmap(takenImage);
+                mIvProfileImage1.setRotation((float) 90.0);
             }
         } else if (requestCode == 4) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri imageUri = data.getData();
-                photoFile1 = new File(String.valueOf(imageUri));
-                ivProfileImage1.setImageURI(imageUri);
+                mPhotoFile1 = new File(String.valueOf(imageUri));
+                mIvProfileImage1.setImageURI(imageUri);
             }
         }
         if (requestCode == 5) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile2.getAbsolutePath());
-                ivProfileImage2.setImageBitmap(takenImage);
-                ivProfileImage2.setRotation((float) 90.0);
+                Bitmap takenImage = BitmapFactory.decodeFile(mPhotoFile2.getAbsolutePath());
+                mIvProfileImage2.setImageBitmap(takenImage);
+                mIvProfileImage2.setRotation((float) 90.0);
             }
         } else if (requestCode == 6) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri imageUri = data.getData();
-                photoFile2 = new File(String.valueOf(imageUri));
-                ivProfileImage2.setImageURI(imageUri);
+                mPhotoFile2 = new File(String.valueOf(imageUri));
+                mIvProfileImage2.setImageURI(imageUri);
             }
         }
         if (requestCode == 7) {
             if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile3.getAbsolutePath());
-                ivProfileImage3.setImageBitmap(takenImage);
-                ivProfileImage3.setRotation((float) 90.0);
+                Bitmap takenImage = BitmapFactory.decodeFile(mPhotoFile3.getAbsolutePath());
+                mIvProfileImage3.setImageBitmap(takenImage);
+                mIvProfileImage3.setRotation((float) 90.0);
             }
         } else if (requestCode == 8) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri imageUri = data.getData();
-                photoFile3 = new File(String.valueOf(imageUri));
-                ivProfileImage3.setImageURI(imageUri);
+                mPhotoFile3 = new File(String.valueOf(imageUri));
+                mIvProfileImage3.setImageURI(imageUri);
             }
         }
     }
 
     private void getImageFromAlbum(String image) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        if (image.equals("Profile")) {
-            startActivityForResult(intent, 2);
-        } else if (image.equals("Image1")) {
-            startActivityForResult(intent, 4);
-        } else if (image.equals("Image2")) {
-            startActivityForResult(intent, 6);
-        } else if (image.equals("Image3")) {
-            startActivityForResult(intent, 8);
+        //intent.setType("image/*");
+        switch (image) {
+            case "Profile":
+                startActivityForResult(intent, 2);
+                break;
+            case "Image1":
+                startActivityForResult(intent, 4);
+                break;
+            case "Image2":
+                startActivityForResult(intent, 6);
+                break;
+            case "Image3":
+                startActivityForResult(intent, 8);
+                break;
         }
     }
 
-    public File getPhotoFileUri(String fileName) {
+    private File getPhotoFileUri(String fileName) {
         File mediaStorageDir = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.d(TAG, "failed to create directory");
@@ -418,29 +331,38 @@ public class ProfileSettings extends AppCompatActivity {
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
-    public void launchCamera(String image) {
+    private void launchCamera(String image) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(this.getPackageManager()) != null) {
-            if (image.equals("Profile")) {
-                photoFileProfile = getPhotoFileUri(profilePhotoName);
-                Uri fileProviderp = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", photoFileProfile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProviderp);
-                startActivityForResult(intent, 30);
-            } else if (image.equals("Image1")) {
-                photoFile1 = getPhotoFileUri(photo1Name);
-                Uri fileProvider1 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", photoFile1);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider1);
-                startActivityForResult(intent, 3);
-            } else if (image.equals("Image2")) {
-                photoFile2 = getPhotoFileUri(photo2Name);
-                Uri fileProvider2 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", photoFile2);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider2);
-                startActivityForResult(intent, 5);
-            } else if (image.equals("Image3")) {
-                photoFile3 = getPhotoFileUri(photo3Name);
-                Uri fileProvider3 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", photoFile3);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider3);
-                startActivityForResult(intent, 7);
+            switch (image) {
+                case "Profile":
+                    String mProfilePhotoName = "profilephoto.jpg";
+                    mPhotoFileProfile = getPhotoFileUri(mProfilePhotoName);
+                    Uri mFileProviderp = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", mPhotoFileProfile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileProviderp);
+                    startActivityForResult(intent, 30);
+                    break;
+                case "Image1":
+                    String mPhoto1Name = "photo1.jpg";
+                    mPhotoFile1 = getPhotoFileUri(mPhoto1Name);
+                    Uri mFileProvider1 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", mPhotoFile1);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileProvider1);
+                    startActivityForResult(intent, 3);
+                    break;
+                case "Image2":
+                    String mPhoto2Name = "photo2.jpg";
+                    mPhotoFile2 = getPhotoFileUri(mPhoto2Name);
+                    Uri mFileProvider2 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", mPhotoFile2);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileProvider2);
+                    startActivityForResult(intent, 5);
+                    break;
+                case "Image3":
+                    String mPhoto3Name = "photo3.jpg";
+                    mPhotoFile3 = getPhotoFileUri(mPhoto3Name);
+                    Uri mFileProvider3 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", mPhotoFile3);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileProvider3);
+                    startActivityForResult(intent, 7);
+                    break;
             }
         }
     }
