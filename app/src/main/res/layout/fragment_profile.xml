@@ -7,24 +7,64 @@
     tools:context=".fragments.ProfileFragment">
 
     <TextView
+        android:id="@+id/tvActivities3Input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvActivities2Input"
+        app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input"
+        tools:text="Activity3" />
+
+    <TextView
+        android:id="@+id/tvActivities2Input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintStart_toEndOf="@+id/tvActivities1Input"
+        app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input"
+        tools:text="Activity2" />
+
+    <TextView
+        android:id="@+id/tvInterests3Input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvInterests2Input"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWakeInput"
+        tools:text="Interest3" />
+
+    <TextView
+        android:id="@+id/tvInterests2Input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvInterests1Input"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWakeInput"
+        tools:text="Interest2" />
+
+    <TextView
         android:id="@+id/tvBioInput"
         android:layout_width="349dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toEndOf="@+id/tvBio"
-        app:layout_constraintTop_toBottomOf="@+id/tvActivitiesInput"
+        app:layout_constraintTop_toBottomOf="@+id/tvActivities1Input"
         tools:text="These are my activities, they are good activities" />
 
     <TextView
-        android:id="@+id/tvActivitiesInput"
-        android:layout_width="310dp"
+        android:id="@+id/tvActivities1Input"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         app:layout_constraintStart_toEndOf="@+id/tvActivities"
-        app:layout_constraintTop_toBottomOf="@+id/tvInterestsInput"
-        tools:text="These are my activities, they are good activities" />
+        app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input"
+        tools:text="Activity1" />
 
     <TextView
         android:id="@+id/tvActivities"
@@ -34,7 +74,7 @@
         android:layout_marginTop="3dp"
         android:text="Activities: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInterestsInput" />
+        app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input" />
 
     <TextView
         android:id="@+id/tvInterests"
@@ -229,14 +269,14 @@
         tools:text="Social Space" />
 
     <TextView
-        android:id="@+id/tvInterestsInput"
-        android:layout_width="311dp"
+        android:id="@+id/tvInterests1Input"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         app:layout_constraintStart_toEndOf="@+id/tvInterests"
         app:layout_constraintTop_toBottomOf="@+id/tvTimeWakeInput"
-        tools:text="These are my interests, they are very interesting." />
+        tools:text="Interest1" />
 
     <TextView
         android:id="@+id/tvBio"
@@ -246,7 +286,7 @@
         android:layout_marginTop="3dp"
         android:text="Bio: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvActivitiesInput" />
+        app:layout_constraintTop_toBottomOf="@+id/tvActivities1Input" />
 
     <ImageView
         android:id="@+id/ivImage1"

@@ -11,30 +11,30 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="38dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage2"
-        app:layout_constraintTop_toBottomOf="@+id/etBio"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeMorning"
         app:srcCompat="@drawable/addimage" />
 
     <ImageView
         android:id="@+id/ivProfileImage2"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="20dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBio"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeMorning"
         app:srcCompat="@drawable/addimage" />
 
     <TextView
         android:id="@+id/tvTimeNight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:text="When do you sleep?"
         app:layout_constraintStart_toStartOf="parent"
@@ -169,12 +169,12 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/btnSubmit"
+        android:id="@+id/btnSettingsContinue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="19dp"
         android:layout_marginBottom="16dp"
-        android:text="Submit"
+        android:text="Continue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -346,7 +346,7 @@
 
     <AutoCompleteTextView
         android:id="@+id/etTimeNight"
-        android:layout_width="65dp"
+        android:layout_width="80dp"
         android:layout_height="34dp"
         android:ems="10"
         android:textAppearance="?android:attr/textAppearanceSmallInverse"
@@ -356,13 +356,13 @@
 
     <AutoCompleteTextView
         android:id="@+id/etTimeMorning"
-        android:layout_width="65dp"
+        android:layout_width="80dp"
         android:layout_height="34dp"
         android:ems="10"
         android:textAppearance="?android:attr/textAppearanceSmallInverse"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/tvTimeMorning"
-        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
+        app:layout_constraintTop_toBottomOf="@+id/etTimeNight" />
 
     <RadioGroup
         android:id="@+id/rgGender"
@@ -394,59 +394,22 @@
         android:id="@+id/tvTimeMorning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="When do you wake up?"
-        app:layout_constraintStart_toEndOf="@+id/etTimeNight"
-        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
-
-    <EditText
-        android:id="@+id/etInterests"
-        android:layout_width="381dp"
-        android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="3dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Interests"
-        android:inputType="textMultiLine"
+        android:text="When do you wake up?"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTimeNight" />
-
-    <EditText
-        android:id="@+id/etActivities"
-        android:layout_width="381dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Activities"
-        android:inputType="textMultiLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etInterests" />
-
-    <EditText
-        android:id="@+id/etBio"
-        android:layout_width="381dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Bio"
-        android:inputType="textMultiLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etActivities" />
 
     <ImageView
         android:id="@+id/ivProfileImage1"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="38dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="17dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toStartOf="@+id/ivProfileImage2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBio"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeMorning"
         app:srcCompat="@drawable/addimage" />
 
 

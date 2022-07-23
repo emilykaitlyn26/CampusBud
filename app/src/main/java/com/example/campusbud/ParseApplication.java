@@ -19,6 +19,8 @@ public class ParseApplication extends Application {
         super.onCreate();
 
         ParseObject.registerSubclass(Image.class);
+        ParseObject.registerSubclass(Interest.class);
+        ParseObject.registerSubclass(Activity.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this).applicationId(PARSE_ID).clientKey(CLIENT_KEY).server(SERVER).build());
     }

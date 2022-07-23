@@ -22,8 +22,6 @@ import com.cometchat.pro.models.User;
 import com.example.campusbud.Image;
 import com.example.campusbud.ProfileSettings;
 import com.example.campusbud.R;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -89,8 +87,12 @@ public class ProfileFragment extends Fragment {
         TextView mTvRoomUseInput = view.findViewById(R.id.tvRoomUseInput);
         TextView mTvTimeSleepInput = view.findViewById(R.id.tvTimeSleepInput);
         TextView mTvTimeWakeInput = view.findViewById(R.id.tvTimeWakeInput);
-        TextView mTvInterestsInput = view.findViewById(R.id.tvInterestsInput);
-        TextView mTvActivitiesInput = view.findViewById(R.id.tvActivitiesInput);
+        TextView mTvInterests1Input = view.findViewById(R.id.tvInterests1Input);
+        TextView mTvInterests2Input = view.findViewById(R.id.tvInterests2Input);
+        TextView mTvInterests3Input = view.findViewById(R.id.tvInterests3Input);
+        TextView mTvActivities1Input = view.findViewById(R.id.tvActivities1Input);
+        TextView mTvActivities2Input = view.findViewById(R.id.tvActivities2Input);
+        TextView mTvActivities3Input = view.findViewById(R.id.tvActivities3Input);
         TextView mTvBioInput = view.findViewById(R.id.tvBioInput);
         Button mBtnRefresh = view.findViewById(R.id.btnRefresh);
 
@@ -116,8 +118,12 @@ public class ProfileFragment extends Fragment {
                     mTvRoomUseInput.setText(roommateProfile.getString("room_use"));
                     mTvTimeSleepInput.setText(roommateProfile.getString("time_sleep"));
                     mTvTimeWakeInput.setText(roommateProfile.getString("time_wake"));
-                    mTvInterestsInput.setText(roommateProfile.getString("interests"));
-                    mTvActivitiesInput.setText(roommateProfile.getString("activities"));
+                    mTvInterests1Input.setText(roommateProfile.getString("interest1"));
+                    mTvInterests2Input.setText(roommateProfile.getString("interest2"));
+                    mTvInterests3Input.setText(roommateProfile.getString("interest3"));
+                    mTvActivities1Input.setText(roommateProfile.getString("activity1"));
+                    mTvActivities2Input.setText(roommateProfile.getString("activity2"));
+                    mTvActivities3Input.setText(roommateProfile.getString("activity3"));
                     mTvBioInput.setText(roommateProfile.getString("bio"));
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -73,6 +73,7 @@ public class ProfileSettings extends AppCompatActivity {
     private RadioButton mRbDrink;
     private RadioButton mRbRoomUse;
     private RadioButton mRbGender;
+    private Button mBtnSettingsContinue;
 
     private String mYear;
     private String mName;
@@ -109,19 +110,20 @@ public class ProfileSettings extends AppCompatActivity {
         mIvCreatePicture = findViewById(R.id.ivCreatePicture);
         mEtName = findViewById(R.id.etName);
         mEtMajor = findViewById(R.id.etMajor);
-        Button mBtnSubmit = findViewById(R.id.btnSubmit);
+        Button mBtnSettingsContinue = findViewById(R.id.btnSettingsContinue);
         mRoommateSwitch = findViewById(R.id.roommateSwitch);
         RadioGroup mRgCleanliness = findViewById(R.id.rgCleanliness);
         RadioGroup mRgSmoke = findViewById(R.id.rgSmoke);
         RadioGroup mRgDrink = findViewById(R.id.rgDrink);
         RadioGroup mRgRoomUse = findViewById(R.id.rgRoomUse);
         RadioGroup mRgGender = findViewById(R.id.rgGender);
-        mEtInterests = findViewById(R.id.etInterests);
-        mEtActivities = findViewById(R.id.etActivities);
-        mEtBio = findViewById(R.id.etBio);
+        //mEtInterests = findViewById(R.id.etInterests);
+        //mEtActivities = findViewById(R.id.etActivities);
+        //mEtBio = findViewById(R.id.etBio);
         mIvProfileImage1 = findViewById(R.id.ivProfileImage1);
         mIvProfileImage2 = findViewById(R.id.ivProfileImage2);
         mIvProfileImage3 = findViewById(R.id.ivProfileImage3);
+        //mBtnInterests = findViewById(R.id.btnInterests);
 
         mRoommateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> mSwitchState = mRoommateSwitch.isChecked());
 
@@ -167,13 +169,13 @@ public class ProfileSettings extends AppCompatActivity {
 
         mIvProfileImage3.setOnClickListener(v -> optionsMenu("Image3"));
 
-        mBtnSubmit.setOnClickListener(v -> {
+        mBtnSettingsContinue.setOnClickListener(v -> {
 
             mName = mEtName.getText().toString();
             mMajor = mEtMajor.getText().toString();
-            mInterests = mEtInterests.getText().toString();
-            mActivities = mEtActivities.getText().toString();
-            mBio = mEtBio.getText().toString();
+            //mInterests = mEtInterests.getText().toString();
+            //mActivities = mEtActivities.getText().toString();
+            //mBio = mEtBio.getText().toString();
             JSONObject metadata = mUser.getMetadata();
 
             try {
@@ -184,9 +186,9 @@ public class ProfileSettings extends AppCompatActivity {
                 metadata.put("ifSwitched", mSwitchState);
                 mRoommateProfile.put("time_sleep", mTimeSleep);
                 mRoommateProfile.put("time_wake", mTimeWake);
-                mRoommateProfile.put("interests", mInterests);
-                mRoommateProfile.put("activities", mActivities);
-                mRoommateProfile.put("bio", mBio);
+                //mRoommateProfile.put("interests", mInterests);
+                //mRoommateProfile.put("activities", mActivities);
+                //mRoommateProfile.put("bio", mBio);
                 mRoommateProfile.put("cleanliness", mCleanliness);
                 mRoommateProfile.put("if_smoke", mIfSmoke);
                 mRoommateProfile.put("if_drink", mIfDrink);
@@ -199,6 +201,8 @@ public class ProfileSettings extends AppCompatActivity {
             }
             updateUser(mUser);
             saveImages(mParseUser, mPhotoFileProfile, mPhotoFile1, mPhotoFile2, mPhotoFile3);
+            Intent intent = new Intent(this, InterestsActivity.class);
+            startActivity(intent);
             finish();
         });
     }
