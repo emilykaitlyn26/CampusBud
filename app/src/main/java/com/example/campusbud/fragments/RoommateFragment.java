@@ -283,14 +283,19 @@ public class RoommateFragment extends Fragment {
 
         int mYearDifference = Math.abs(mUserYearValue - mLoggedInYearValue);
 
-        if (mYearDifference == 0) {
-            mYear = mYearMax;
-        } else if (mYearDifference == 1) {
-            mYear = mYearAverage;
-        } else if (mYearDifference == 2) {
-            mYear = mYearBelow;
-        } else if (mYearDifference == 3) {
-            mYear = mYearLowest;
+        switch (mYearDifference) {
+            case 0:
+                mYear = mYearMax;
+                break;
+            case 1:
+                mYear = mYearAverage;
+                break;
+            case 2:
+                mYear = mYearBelow;
+                break;
+            case 3:
+                mYear = mYearLowest;
+                break;
         }
     }
 
@@ -330,14 +335,19 @@ public class RoommateFragment extends Fragment {
 
         int mCleanlinessDifference = Math.abs(mUserCleanlinessValue - mLoggedInCleanlinessValue);
 
-        if (mCleanlinessDifference == 0) {
-            mCleanliness = mCleanMax;
-        } else if (mCleanlinessDifference == 1) {
-            mCleanliness = mCleanAverage;
-        } else if (mCleanlinessDifference == 2) {
-            mCleanliness = mCleanBelow;
-        } else if (mCleanlinessDifference == 3) {
-            mCleanliness = mCleanLowest;
+        switch (mCleanlinessDifference) {
+            case 0:
+                mCleanliness = mCleanMax;
+                break;
+            case 1:
+                mCleanliness = mCleanAverage;
+                break;
+            case 2:
+                mCleanliness = mCleanBelow;
+                break;
+            case 3:
+                mCleanliness = mCleanLowest;
+                break;
         }
     }
 
@@ -371,12 +381,15 @@ public class RoommateFragment extends Fragment {
 
         int mSmokingDifference = Math.abs(mUserSmokingValue - mLoggedInSmokingValue);
 
-        if (mSmokingDifference == 0) {
-            mSmoking = mSmokingMax;
-        } else if (mSmokingDifference == 1) {
-            mSmoking = mSmokingAverage;
-        } else if (mSmokingDifference == 2) {
-            mSmoking = mSmokingBelow;
+        switch (mSmokingDifference) {
+            case 0:
+                mSmoking = mSmokingMax;
+                break;
+            case 1:
+                mSmoking = mSmokingAverage;
+                break;
+            case 2:
+                mSmoking = mSmokingBelow;
         }
     }
 
@@ -410,12 +423,16 @@ public class RoommateFragment extends Fragment {
 
         int drinkingDifference = Math.abs(mUserDrinkingValue - mLoggedInDrinkingValue);
 
-        if (drinkingDifference == 0) {
-            mDrinking = mDrinkingMax;
-        } else if (drinkingDifference == 1) {
-            mDrinking = mDrinkingAverage;
-        } else if (drinkingDifference == 2) {
-            mDrinking = mDrinkingBelow;
+        switch (drinkingDifference) {
+            case 0:
+                mDrinking = mDrinkingMax;
+                break;
+            case 1:
+                mDrinking = mDrinkingAverage;
+                break;
+            case 2:
+                mDrinking = mDrinkingBelow;
+                break;
         }
     }
 
@@ -445,6 +462,7 @@ public class RoommateFragment extends Fragment {
         double mAverage = 0.5;
         double mBelow = 0.3;
         double mLowest = 0.1;
+
         if (mSleepTimeDifference == 0) {
             mTimeSleep = mMax;
         } else if (mSleepTimeDifference == 1 || mSleepTimeDifference == 2) {
@@ -706,110 +724,131 @@ public class RoommateFragment extends Fragment {
         for (int i = 0; i < mTempYearArray.length; i++) {
             int mMax = (int) Collections.max(mYearArray);
             int mIndexOfMax = Arrays.asList(mTempYearArray).indexOf(mMax);
-            if (mIndexOfMax == 0) {
-                if (mYcount == 0) {
-                    if (mYearMax > mYearAverage && mYearMax < 0.9) {
-                        mYearMax += 0.05;
-                        rateValues.put("year_max", mYearMax);
-                        updateUser(mLoggedInUser);
+            switch (mIndexOfMax) {
+                case 0:
+                    switch (mYcount) {
+                        case 0:
+                            if (mYearMax > mYearAverage && mYearMax < 0.9) {
+                                mYearMax += 0.05;
+                                rateValues.put("year_max", mYearMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
+                                mYearAverage += 0.02;
+                                rateValues.put("year_average", mYearAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
+                                mYearBelow -= 0.02;
+                                rateValues.put("year_below", mYearBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
+                                mYearLowest -= 0.05;
+                                rateValues.put("year_lowest", mYearLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mYcount == 1) {
-                    if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
-                        mYearAverage += 0.02;
-                        rateValues.put("year_average", mYearAverage);
-                        updateUser(mLoggedInUser);
+                case 1:
+                    switch (mYcount) {
+                        case 0:
+                            if (mYearMax > mYearAverage && mYearMax < 0.9) {
+                                mYearMax += 0.05;
+                                rateValues.put("year_max", mYearMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
+                                mYearAverage += 0.02;
+                                rateValues.put("year_average", mYearAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
+                                mYearBelow -= 0.02;
+                                rateValues.put("year_below", mYearBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
+                                mYearLowest -= 0.05;
+                                rateValues.put("year_lowest", mYearLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mYcount == 2) {
-                    if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
-                        mYearBelow -= 0.02;
-                        rateValues.put("year_below", mYearBelow);
-                        updateUser(mLoggedInUser);
+                case 2:
+                    switch (mYcount) {
+                        case 0:
+                            if (mYearMax > mYearAverage && mYearMax < 0.9) {
+                                mYearMax += 0.05;
+                                rateValues.put("year_max", mYearMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
+                                mYearAverage += 0.02;
+                                rateValues.put("year_average", mYearAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
+                                mYearBelow -= 0.02;
+                                rateValues.put("year_below", mYearBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
+                                mYearLowest -= 0.05;
+                                rateValues.put("year_lowest", mYearLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mYcount == 3) {
-                    if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
-                        mYearLowest -= 0.05;
-                        rateValues.put("year_lowest", mYearLowest);
-                        updateUser(mLoggedInUser);
+                case 3:
+                    switch (mYcount) {
+                        case 0:
+                            if (mYearMax > mYearAverage && mYearMax < 0.9) {
+                                mYearMax += 0.05;
+                                rateValues.put("year_max", mYearMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
+                                mYearAverage += 0.02;
+                                rateValues.put("year_average", mYearAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
+                                mYearBelow -= 0.02;
+                                rateValues.put("year_below", mYearBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
+                                mYearLowest -= 0.05;
+                                rateValues.put("year_lowest", mYearLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                }
-            } else if (mIndexOfMax == 1) {
-                if (mYcount == 0) {
-                    if (mYearMax > mYearAverage && mYearMax < 0.9) {
-                        mYearMax += 0.05;
-                        rateValues.put("year_max", mYearMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mYcount == 1) {
-                    if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
-                        mYearAverage += 0.02;
-                        rateValues.put("year_average", mYearAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mYcount == 2) {
-                    if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
-                        mYearBelow -= 0.02;
-                        rateValues.put("year_below", mYearBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mYcount == 3) {
-                    if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
-                        mYearLowest -= 0.05;
-                        rateValues.put("year_lowest", mYearLowest);
-                        updateUser(mLoggedInUser);
-                    }
-                }
-            } else if (mIndexOfMax == 2) {
-                if (mYcount == 0) {
-                    if (mYearMax > mYearAverage && mYearMax < 0.9) {
-                        mYearMax += 0.05;
-                        rateValues.put("year_max", mYearMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mYcount == 1) {
-                    if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
-                        mYearAverage += 0.02;
-                        rateValues.put("year_average", mYearAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mYcount == 2) {
-                    if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
-                        mYearBelow -= 0.02;
-                        rateValues.put("year_below", mYearBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mYcount == 3) {
-                    if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
-                        mYearLowest -= 0.05;
-                        rateValues.put("year_lowest", mYearLowest);
-                        updateUser(mLoggedInUser);
-                    }
-                }
-            } else if (mIndexOfMax == 3) {
-                if (mYcount == 0) {
-                    if (mYearMax > mYearAverage && mYearMax < 0.9) {
-                        mYearMax += 0.05;
-                        rateValues.put("year_max", mYearMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mYcount == 1) {
-                    if (mYearAverage < (mYearMax + 0.02) && mYearAverage > mYearBelow) {
-                        mYearAverage += 0.02;
-                        rateValues.put("year_average", mYearAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mYcount == 2) {
-                    if (mYearBelow < mYearAverage && mYearBelow > (mYearLowest - 0.02)) {
-                        mYearBelow -= 0.02;
-                        rateValues.put("year_below", mYearBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mYcount == 3) {
-                    if (mYearLowest < mYearBelow && mYearLowest > 0.5) {
-                        mYearLowest -= 0.05;
-                        rateValues.put("year_lowest", mYearLowest);
-                        updateUser(mLoggedInUser);
-                    }
-                }
             }
             mYearArray.set(mIndexOfMax, -9999);
             mYcount += 1;
@@ -834,110 +873,131 @@ public class RoommateFragment extends Fragment {
         for (int i = 0; i < mTempCleanlinessArray.length; i++) {
             int mMax = (int) Collections.max(mCleanlinessArray);
             int mIndexOfMax = Arrays.asList(mTempCleanlinessArray).indexOf(mMax);
-            if (mIndexOfMax == 0) {
-                if (mClcount == 0) {
-                    if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
-                        mCleanMax += 0.05;
-                        rateValues.put("clean_max", mCleanMax);
-                        updateUser(mLoggedInUser);
+            switch (mIndexOfMax) {
+                case 0:
+                    switch (mClcount) {
+                        case 0:
+                            if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
+                                mCleanMax += 0.05;
+                                rateValues.put("clean_max", mCleanMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
+                                mCleanAverage += 0.02;
+                                rateValues.put("clean_average", mCleanAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
+                                mCleanBelow -= 0.02;
+                                rateValues.put("clean_below", mCleanBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
+                                mCleanLowest -= 0.05;
+                                rateValues.put("clean_lowest", mCleanLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mClcount == 1) {
-                    if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
-                        mCleanAverage += 0.02;
-                        rateValues.put("clean_average", mCleanAverage);
-                        updateUser(mLoggedInUser);
+                case 1:
+                    switch (mClcount) {
+                        case 0:
+                            if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
+                                mCleanMax += 0.05;
+                                rateValues.put("clean_max", mCleanMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
+                                mCleanAverage += 0.02;
+                                rateValues.put("clean_average", mCleanAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
+                                mCleanBelow -= 0.02;
+                                rateValues.put("clean_below", mCleanBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
+                                mCleanLowest -= 0.05;
+                                rateValues.put("clean_lowest", mCleanLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mClcount == 2) {
-                    if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
-                        mCleanBelow -= 0.02;
-                        rateValues.put("clean_below", mCleanBelow);
-                        updateUser(mLoggedInUser);
+                case 2:
+                    switch (mClcount) {
+                        case 0:
+                            if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
+                                mCleanMax += 0.05;
+                                rateValues.put("clean_max", mCleanMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
+                                mCleanAverage += 0.02;
+                                rateValues.put("clean_average", mCleanAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
+                                mCleanBelow -= 0.02;
+                                rateValues.put("clean_below", mCleanBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
+                                mCleanLowest -= 0.05;
+                                rateValues.put("clean_lowest", mCleanLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mClcount == 3) {
-                    if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
-                        mCleanLowest -= 0.05;
-                        rateValues.put("clean_lowest", mCleanLowest);
-                        updateUser(mLoggedInUser);
+                case 3:
+                    switch (mClcount) {
+                        case 0:
+                            if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
+                                mCleanMax += 0.05;
+                                rateValues.put("clean_max", mCleanMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
+                                mCleanAverage += 0.02;
+                                rateValues.put("clean_average", mCleanAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
+                                mCleanBelow -= 0.02;
+                                rateValues.put("clean_below", mCleanBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
+                                mCleanLowest -= 0.05;
+                                rateValues.put("clean_lowest", mCleanLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                }
-            } else if (mIndexOfMax == 1) {
-                if (mClcount == 0) {
-                    if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
-                        mCleanMax += 0.05;
-                        rateValues.put("clean_max", mCleanMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mClcount == 1) {
-                    if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
-                        mCleanAverage += 0.02;
-                        rateValues.put("clean_average", mCleanAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mClcount == 2) {
-                    if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
-                        mCleanBelow -= 0.02;
-                        rateValues.put("clean_below", mCleanBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mClcount == 3) {
-                    if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
-                        mCleanLowest -= 0.05;
-                        rateValues.put("clean_lowest", mCleanLowest);
-                        updateUser(mLoggedInUser);
-                    }
-                }
-            } else if (mIndexOfMax == 2) {
-                if (mClcount == 0) {
-                    if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
-                        mCleanMax += 0.05;
-                        rateValues.put("clean_max", mCleanMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mClcount == 1) {
-                    if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
-                        mCleanAverage += 0.02;
-                        rateValues.put("clean_average", mCleanAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mClcount == 2) {
-                    if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
-                        mCleanBelow -= 0.02;
-                        rateValues.put("clean_below", mCleanBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mClcount == 3) {
-                    if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
-                        mCleanLowest -= 0.05;
-                        rateValues.put("clean_lowest", mCleanLowest);
-                        updateUser(mLoggedInUser);
-                    }
-                }
-            } else if (mIndexOfMax == 3) {
-                if (mClcount == 0) {
-                    if (mCleanMax > mCleanAverage && mCleanMax < 0.9) {
-                        mCleanMax += 0.05;
-                        rateValues.put("clean_max", mCleanMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mClcount == 1) {
-                    if (mCleanAverage < (mCleanMax + 0.02) && mCleanAverage > mCleanBelow) {
-                        mCleanAverage += 0.02;
-                        rateValues.put("clean_average", mCleanAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mClcount == 2) {
-                    if (mCleanBelow < mCleanAverage && mCleanBelow > (mCleanLowest - 0.02)) {
-                        mCleanBelow -= 0.02;
-                        rateValues.put("clean_below", mCleanBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mClcount == 3) {
-                    if (mCleanLowest < mCleanBelow && mCleanLowest > 0.5) {
-                        mCleanLowest -= 0.05;
-                        rateValues.put("clean_lowest", mCleanLowest);
-                        updateUser(mLoggedInUser);
-                    }
-                }
             }
             mCleanlinessArray.set(mIndexOfMax, -99999);
             mClcount += 1;
@@ -960,66 +1020,79 @@ public class RoommateFragment extends Fragment {
         for (int i = 0; i < mDrinkingArray.size(); i++) {
             int mMax = (int) Collections.max(mDrinkingArray);
             int mIndexOfMax = Arrays.asList(mTempDrinkingArray).indexOf(mMax);
-            if (mIndexOfMax == 0) {
-                if (mDcount == 0) {
-                    if (mDrinkingMax > mDrinkingAverage && mDrinkingMax < 0.9) {
-                        mDrinkingMax += 0.05;
-                        rateValues.put("drink_max", mDrinkingMax);
-                        updateUser(mLoggedInUser);
+            switch (mIndexOfMax) {
+                case 0:
+                    switch (mDcount) {
+                        case 0:
+                            if (mDrinkingMax > mDrinkingAverage && mDrinkingMax < 0.9) {
+                                mDrinkingMax += 0.05;
+                                rateValues.put("drink_max", mDrinkingMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mDrinkingAverage < (mDrinkingMax + 0.02) && mDrinkingAverage > mDrinkingBelow) {
+                                mDrinkingAverage += 0.02;
+                                rateValues.put("drink_average", mDrinkingAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mDrinkingBelow < mDrinkingAverage && mDrinkingBelow > 0.05) {
+                                mDrinkingBelow -= 0.05;
+                                rateValues.put("drink_below", mDrinkingBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mDcount == 1) {
-                    if (mDrinkingAverage < (mDrinkingMax + 0.02) && mDrinkingAverage > mDrinkingBelow) {
-                        mDrinkingAverage += 0.02;
-                        rateValues.put("drink_average", mDrinkingAverage);
-                        updateUser(mLoggedInUser);
+                case 1:
+                    switch (mDcount) {
+                        case 0:
+                            if (mDrinkingMax > mDrinkingAverage && mDrinkingMax < 0.9) {
+                                mDrinkingMax += 0.05;
+                                rateValues.put("drink_max", mDrinkingMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mDrinkingAverage < (mDrinkingMax + 0.02) && mDrinkingAverage > mDrinkingBelow) {
+                                mDrinkingAverage += 0.02;
+                                rateValues.put("drink_average", mDrinkingAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mDrinkingBelow < mDrinkingAverage && mDrinkingBelow > 0.05) {
+                                mDrinkingBelow -= 0.05;
+                                rateValues.put("drink_below", mDrinkingBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mDcount == 2) {
-                    if (mDrinkingBelow < mDrinkingAverage && mDrinkingBelow > 0.05) {
-                        mDrinkingBelow -= 0.05;
-                        rateValues.put("drink_below", mDrinkingBelow);
-                        updateUser(mLoggedInUser);
+                case 2:
+                    switch (mDcount) {
+                        case 0:
+                            if (mDrinkingMax > mDrinkingAverage && mDrinkingMax < 0.9) {
+                                mDrinkingMax += 0.05;
+                                rateValues.put("drink_max", mDrinkingMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mDrinkingAverage < (mDrinkingMax + 0.02) && mDrinkingAverage > mDrinkingBelow) {
+                                mDrinkingAverage += 0.02;
+                                rateValues.put("drink_average", mDrinkingAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mDrinkingBelow < mDrinkingAverage && mDrinkingBelow > 0.05) {
+                                mDrinkingBelow -= 0.05;
+                                rateValues.put("drink_below", mDrinkingBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                }
-            } else if (mIndexOfMax == 1) {
-                if (mDcount == 0) {
-                    if (mDrinkingMax > mDrinkingAverage && mDrinkingMax < 0.9) {
-                        mDrinkingMax += 0.05;
-                        rateValues.put("drink_max", mDrinkingMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mDcount == 1) {
-                    if (mDrinkingAverage < (mDrinkingMax + 0.02) && mDrinkingAverage > mDrinkingBelow) {
-                        mDrinkingAverage += 0.02;
-                        rateValues.put("drink_average", mDrinkingAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mDcount == 2) {
-                    if (mDrinkingBelow < mDrinkingAverage && mDrinkingBelow > 0.05) {
-                        mDrinkingBelow -= 0.05;
-                        rateValues.put("drink_below", mDrinkingBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                }
-            } else if (mIndexOfMax == 2) {
-                if (mDcount == 0) {
-                    if (mDrinkingMax > mDrinkingAverage && mDrinkingMax < 0.9) {
-                        mDrinkingMax += 0.05;
-                        rateValues.put("drink_max", mDrinkingMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mDcount == 1) {
-                    if (mDrinkingAverage < (mDrinkingMax + 0.02) && mDrinkingAverage > mDrinkingBelow) {
-                        mDrinkingAverage += 0.02;
-                        rateValues.put("drink_average", mDrinkingAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mDcount == 2) {
-                    if (mDrinkingBelow < mDrinkingAverage && mDrinkingBelow > 0.05) {
-                        mDrinkingBelow -= 0.05;
-                        rateValues.put("drink_below", mDrinkingBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                }
             }
             mDrinkingArray.set(mIndexOfMax, -9999);
             mDcount += 1;
@@ -1042,66 +1115,79 @@ public class RoommateFragment extends Fragment {
         for (int i = 0; i < mSmokingArray.size(); i++) {
             int max = (int) Collections.max(mSmokingArray);
             int indexOfMax = Arrays.asList(mTempSmokingArray).indexOf(max);
-            if (indexOfMax == 0) {
-                if (mScount == 0) {
-                    if (mSmokingMax > mSmokingAverage && mSmokingMax < 0.9) {
-                        mSmokingMax += 0.05;
-                        rateValues.put("smoke_max", mSmokingMax);
-                        updateUser(mLoggedInUser);
+            switch (indexOfMax) {
+                case 0:
+                    switch (mScount) {
+                        case 0:
+                            if (mSmokingMax > mSmokingAverage && mSmokingMax < 0.9) {
+                                mSmokingMax += 0.05;
+                                rateValues.put("smoke_max", mSmokingMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mSmokingAverage < (mSmokingMax + 0.02) && mSmokingAverage > mSmokingBelow) {
+                                mSmokingAverage += 0.02;
+                                rateValues.put("smoke_average", mSmokingAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mSmokingBelow < mSmokingAverage && mSmokingBelow > 0.05) {
+                                mYearBelow -= 0.05;
+                                rateValues.put("smoke_below", mSmokingBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mScount == 1) {
-                    if (mSmokingAverage < (mSmokingMax + 0.02) && mSmokingAverage > mSmokingBelow) {
-                        mSmokingAverage += 0.02;
-                        rateValues.put("smoke_average", mSmokingAverage);
-                        updateUser(mLoggedInUser);
+                case 1:
+                    switch (mScount) {
+                        case 0:
+                            if (mSmokingMax > mSmokingAverage && mSmokingMax < 0.9) {
+                                mSmokingMax += 0.05;
+                                rateValues.put("smoke_max", mSmokingMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mSmokingAverage < (mSmokingMax + 0.02) && mSmokingAverage > mSmokingBelow) {
+                                mSmokingAverage += 0.02;
+                                rateValues.put("smoke_average", mSmokingAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mSmokingBelow < mSmokingAverage && mSmokingBelow > 0.05) {
+                                mYearBelow -= 0.05;
+                                rateValues.put("smoke_below", mSmokingBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mScount == 2) {
-                    if (mSmokingBelow < mSmokingAverage && mSmokingBelow > 0.05) {
-                        mYearBelow -= 0.05;
-                        rateValues.put("smoke_below", mSmokingBelow);
-                        updateUser(mLoggedInUser);
+                case 2:
+                    switch (mScount) {
+                        case 0:
+                            if (mSmokingMax > mSmokingAverage && mSmokingMax < 0.9) {
+                                mSmokingMax += 0.05;
+                                rateValues.put("smoke_max", mSmokingMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mSmokingAverage < (mSmokingMax + 0.02) && mSmokingAverage > mSmokingBelow) {
+                                mSmokingAverage += 0.02;
+                                rateValues.put("smoke_average", mSmokingAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mSmokingBelow < mSmokingAverage && mSmokingBelow > 0.05) {
+                                mSmokingBelow -= 0.05;
+                                rateValues.put("smoke_below", mSmokingBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                }
-            } else if (indexOfMax == 1) {
-                if (mScount == 0) {
-                    if (mSmokingMax > mSmokingAverage && mSmokingMax < 0.9) {
-                        mSmokingMax += 0.05;
-                        rateValues.put("smoke_max", mSmokingMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mScount == 1) {
-                    if (mSmokingAverage < (mSmokingMax + 0.02) && mSmokingAverage > mSmokingBelow) {
-                        mSmokingAverage += 0.02;
-                        rateValues.put("smoke_average", mSmokingAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mScount == 2) {
-                    if (mSmokingBelow < mSmokingAverage && mSmokingBelow > 0.05) {
-                        mYearBelow -= 0.05;
-                        rateValues.put("smoke_below", mSmokingBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                }
-            } else if (indexOfMax == 2) {
-                if (mScount == 0) {
-                    if (mSmokingMax > mSmokingAverage && mSmokingMax < 0.9) {
-                        mSmokingMax += 0.05;
-                        rateValues.put("smoke_max", mSmokingMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mScount == 1) {
-                    if (mSmokingAverage < (mSmokingMax + 0.02) && mSmokingAverage > mSmokingBelow) {
-                        mSmokingAverage += 0.02;
-                        rateValues.put("smoke_average", mSmokingAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mScount == 2) {
-                    if (mSmokingBelow < mSmokingAverage && mSmokingBelow > 0.05) {
-                        mSmokingBelow -= 0.05;
-                        rateValues.put("smoke_below", mSmokingBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                }
             }
             mSmokingArray.set(indexOfMax, -9999);
             mScount += 1;
@@ -1126,110 +1212,131 @@ public class RoommateFragment extends Fragment {
         for (int i = 0; i < mRoomArray.size(); i++) {
             int mMax = (int) Collections.max(mRoomArray);
             int mIndexOfMax = Arrays.asList(mTempRoomArray).indexOf(mMax);
-            if (mIndexOfMax == 0) {
-                if (mRcount == 0) {
-                    if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
-                        mRoomMax += 0.05;
-                        rateValues.put("room_max", mRoomMax);
-                        updateUser(mLoggedInUser);
+            switch (mIndexOfMax) {
+                case 0:
+                    switch (mRcount) {
+                        case 0:
+                            if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
+                                mRoomMax += 0.05;
+                                rateValues.put("room_max", mRoomMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
+                                mRoomAverage += 0.02;
+                                rateValues.put("room_average", mRoomAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
+                                mRoomBelow -= 0.02;
+                                rateValues.put("room_below", mRoomBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
+                                mRoomLowest -= 0.05;
+                                rateValues.put("room_lowest", mRoomLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mRcount == 1) {
-                    if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
-                        mRoomAverage += 0.02;
-                        rateValues.put("room_average", mRoomAverage);
-                        updateUser(mLoggedInUser);
+                case 1:
+                    switch (mRcount) {
+                        case 0:
+                            if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
+                                mRoomMax += 0.05;
+                                rateValues.put("room_max", mRoomMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
+                                mRoomAverage += 0.02;
+                                rateValues.put("room_average", mRoomAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
+                                mRoomBelow -= 0.02;
+                                rateValues.put("room_below", mRoomBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
+                                mRoomLowest -= 0.05;
+                                rateValues.put("room_lowest", mRoomLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mRcount == 2) {
-                    if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
-                        mRoomBelow -= 0.02;
-                        rateValues.put("room_below", mRoomBelow);
-                        updateUser(mLoggedInUser);
+                case 2:
+                    switch (mRcount) {
+                        case 0:
+                            if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
+                                mRoomMax += 0.05;
+                                rateValues.put("room_max", mRoomMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
+                                mRoomAverage += 0.02;
+                                rateValues.put("room_average", mRoomAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
+                                mRoomBelow -= 0.02;
+                                rateValues.put("room_below", mRoomBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
+                                mRoomLowest -= 0.05;
+                                rateValues.put("room_lowest", mRoomLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                } else if (mRcount == 3) {
-                    if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
-                        mRoomLowest -= 0.05;
-                        rateValues.put("room_lowest", mRoomLowest);
-                        updateUser(mLoggedInUser);
+                case 3:
+                    switch (mRcount) {
+                        case 0:
+                            if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
+                                mRoomMax += 0.05;
+                                rateValues.put("room_max", mRoomMax);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 1:
+                            if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
+                                mRoomAverage += 0.02;
+                                rateValues.put("room_average", mRoomAverage);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 2:
+                            if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
+                                mRoomBelow -= 0.02;
+                                rateValues.put("room_below", mRoomBelow);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
+                        case 3:
+                            if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
+                                mRoomLowest -= 0.05;
+                                rateValues.put("room_lowest", mRoomLowest);
+                                updateUser(mLoggedInUser);
+                            }
+                            break;
                     }
-                }
-            } else if (mIndexOfMax == 1) {
-                if (mRcount == 0) {
-                    if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
-                        mRoomMax += 0.05;
-                        rateValues.put("room_max", mRoomMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mRcount == 1) {
-                    if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
-                        mRoomAverage += 0.02;
-                        rateValues.put("room_average", mRoomAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mRcount == 2) {
-                    if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
-                        mRoomBelow -= 0.02;
-                        rateValues.put("room_below", mRoomBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mRcount == 3) {
-                    if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
-                        mRoomLowest -= 0.05;
-                        rateValues.put("room_lowest", mRoomLowest);
-                        updateUser(mLoggedInUser);
-                    }
-                }
-            } else if (mIndexOfMax == 2) {
-                if (mRcount == 0) {
-                    if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
-                        mRoomMax += 0.05;
-                        rateValues.put("room_max", mRoomMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mRcount == 1) {
-                    if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
-                        mRoomAverage += 0.02;
-                        rateValues.put("room_average", mRoomAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mRcount == 2) {
-                    if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
-                        mRoomBelow -= 0.02;
-                        rateValues.put("room_below", mRoomBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mRcount == 3) {
-                    if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
-                        mRoomLowest -= 0.05;
-                        rateValues.put("room_lowest", mRoomLowest);
-                        updateUser(mLoggedInUser);
-                    }
-                }
-            } else if (mIndexOfMax == 3) {
-                if (mRcount == 0) {
-                    if (mRoomMax > mRoomAverage && mRoomMax < 0.9) {
-                        mRoomMax += 0.05;
-                        rateValues.put("room_max", mRoomMax);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mRcount == 1) {
-                    if (mRoomAverage < (mRoomMax + 0.02) && mRoomAverage > mRoomBelow) {
-                        mRoomAverage += 0.02;
-                        rateValues.put("room_average", mRoomAverage);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mRcount == 2) {
-                    if (mRoomBelow < mRoomAverage && mRoomBelow > (mRoomLowest - 0.02)) {
-                        mRoomBelow -= 0.02;
-                        rateValues.put("room_below", mRoomBelow);
-                        updateUser(mLoggedInUser);
-                    }
-                } else if (mRcount == 3) {
-                    if (mRoomLowest < mRoomBelow && mRoomLowest > 0.5) {
-                        mRoomLowest -= 0.05;
-                        rateValues.put("room_lowest", mRoomLowest);
-                        updateUser(mLoggedInUser);
-                    }
-                }
             }
             mRoomArray.set(mIndexOfMax, -9999);
             mRcount += 1;
