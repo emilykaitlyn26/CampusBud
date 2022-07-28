@@ -20,7 +20,7 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
-import com.example.campusbud.CardAdapter;
+import com.example.campusbud.adapters.CardAdapter;
 import com.example.campusbud.Image;
 import com.example.campusbud.R;
 import com.parse.ParseQuery;

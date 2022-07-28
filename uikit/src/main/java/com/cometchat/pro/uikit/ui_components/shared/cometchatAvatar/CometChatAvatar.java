@@ -201,7 +201,7 @@ public class CometChatAvatar extends MaterialCardView {
     }
 
     /**
-     * @param drawable  placeholder image
+     * @param drawable  load_image.png image
      * @param avatarUrl url of the image
      */
     public void setAvatar(Drawable drawable, @NonNull String avatarUrl) {

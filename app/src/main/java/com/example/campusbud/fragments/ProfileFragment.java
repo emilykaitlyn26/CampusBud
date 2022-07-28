@@ -2,6 +2,7 @@ package com.example.campusbud.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +41,11 @@ public class ProfileFragment extends Fragment {
     private Context mContext2;
     private Context mContext3;
     private Context mContextP;
+
+    private ImageView mIvImage1;
+    private ImageView mIvImage2;
+    private ImageView mIvImage3;
+    private ImageView mIvPictureDisplay;
 
     private List<Image> mImages;
 
@@ -73,10 +78,10 @@ public class ProfileFragment extends Fragment {
             Log.d(TAG, "metadata is null");
         }
 
-        ImageView mIvPictureDisplay = view.findViewById(R.id.ivPictureDisplay);
-        ImageView mIvImage1 = view.findViewById(R.id.ivImage1);
-        ImageView mIvImage2 = view.findViewById(R.id.ivImage2);
-        ImageView mIvImage3 = view.findViewById(R.id.ivImage3);
+        mIvPictureDisplay = view.findViewById(R.id.ivPictureDisplay);
+        mIvImage1 = view.findViewById(R.id.ivImage1);
+        mIvImage2 = view.findViewById(R.id.ivImage2);
+        mIvImage3 = view.findViewById(R.id.ivImage3);
         TextView mTvUserDisplay = view.findViewById(R.id.tvUserDisplay);
         TextView mTvYearDisplay = view.findViewById(R.id.tvYearDisplay);
         TextView mTvMajorDisplay = view.findViewById(R.id.tvMajorDisplay);
@@ -88,13 +93,18 @@ public class ProfileFragment extends Fragment {
         TextView mTvTimeSleepInput = view.findViewById(R.id.tvTimeSleepInput);
         TextView mTvTimeWakeInput = view.findViewById(R.id.tvTimeWakeInput);
         TextView mTvInterests1Input = view.findViewById(R.id.tvInterests1Input);
+        mTvInterests1Input.setBackgroundResource(R.drawable.card);
         TextView mTvInterests2Input = view.findViewById(R.id.tvInterests2Input);
+        mTvInterests2Input.setBackgroundResource(R.drawable.card);
         TextView mTvInterests3Input = view.findViewById(R.id.tvInterests3Input);
+        mTvInterests3Input.setBackgroundResource(R.drawable.card);
         TextView mTvActivities1Input = view.findViewById(R.id.tvActivities1Input);
+        mTvActivities1Input.setBackgroundResource(R.drawable.card);
         TextView mTvActivities2Input = view.findViewById(R.id.tvActivities2Input);
+        mTvActivities2Input.setBackgroundResource(R.drawable.card);
         TextView mTvActivities3Input = view.findViewById(R.id.tvActivities3Input);
+        mTvActivities3Input.setBackgroundResource(R.drawable.card);
         TextView mTvBioInput = view.findViewById(R.id.tvBioInput);
-        Button mBtnRefresh = view.findViewById(R.id.btnRefresh);
 
         if (mMetadata != null) {
             try {
@@ -131,24 +141,6 @@ public class ProfileFragment extends Fragment {
             }
         }
 
-        mBtnRefresh.setOnClickListener(v -> {
-             if (mImages.size() > 0) {
-                int index = mImages.size() - 1;
-                mContext1 = mIvImage1.getContext();
-                ParseFile image1file = mImages.get(index).getImage1Url();
-                Glide.with(mContext1).load(image1file.getUrl()).into(mIvImage1);
-                mContext2 = mIvImage2.getContext();
-                ParseFile image2file = (mImages.get(index)).getImage2Url();
-                Glide.with(mContext2).load(image2file.getUrl()).into(mIvImage2);
-                mContext3 = mIvImage3.getContext();
-                ParseFile image3file = (mImages.get(index)).getImage3Url();
-                Glide.with(mContext3).load(image3file.getUrl()).into(mIvImage3);
-                mContextP = mIvPictureDisplay.getContext();
-                ParseFile profileImageFile = mImages.get(index).getProfileImageUrl();
-                Glide.with(mContextP).load(profileImageFile.getUrl()).circleCrop().into(mIvPictureDisplay);
-            }
-        });
-
         mIvSettings.setOnClickListener(v -> launchSettings());
     }
 
@@ -167,6 +159,19 @@ public class ProfileFragment extends Fragment {
                 return;
             }
             mImages.addAll(objects);
+            int mIndex = mImages.size() - 1;
+            mContext1 = mIvImage1.getContext();
+            ParseFile mImage1file = mImages.get(mIndex).getImage1Url();
+            Glide.with(mContext1).load(mImage1file.getUrl()).placeholder(R.drawable.greyimage).into(mIvImage1);
+            mContext2 = mIvImage2.getContext();
+            ParseFile mImage2file = (mImages.get(mIndex)).getImage2Url();
+            Glide.with(mContext2).load(mImage2file.getUrl()).placeholder(R.drawable.greyimage).into(mIvImage2);
+            mContext3 = mIvImage3.getContext();
+            ParseFile mImage3file = (mImages.get(mIndex)).getImage3Url();
+            Glide.with(mContext3).load(mImage3file.getUrl()).placeholder(R.drawable.greyimage).into(mIvImage3);
+            mContextP = mIvPictureDisplay.getContext();
+            ParseFile mProfileImageFile = mImages.get(mIndex).getProfileImageUrl();
+            Glide.with(mContextP).load(mProfileImageFile.getUrl()).placeholder(R.drawable.greyimage).circleCrop().into(mIvPictureDisplay);
         });
     }
 

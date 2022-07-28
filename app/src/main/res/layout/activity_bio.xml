@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".BioActivity">
 
-    <TextView
+
+    <!--<TextView
         android:id="@+id/tvEnterBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,17 +24,42 @@
         android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvEnterBio" />
+        app:layout_constraintTop_toBottomOf="@+id/tvEnterBio" />-->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bioInput"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="Enter Bio:"
+        app:counterEnabled="true"
+        app:counterMaxLength="200"
+        app:hintAnimationEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/etBio"
+            android:layout_width="385dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvEnterBio" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="10dp"
         android:text="Submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBio" />
+        app:layout_constraintTop_toBottomOf="@+id/bioInput" />
 
     <TextView
         android:id="@+id/tvErrorMessageBio"
@@ -45,5 +71,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
+
+    <TextView
+        android:id="@+id/tvLengthError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error: Bio is too long"
+        android:textColor="#FF1100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="181dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

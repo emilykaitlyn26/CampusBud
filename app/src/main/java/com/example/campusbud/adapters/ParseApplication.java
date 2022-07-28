@@ -1,10 +1,11 @@
-package com.example.campusbud;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.campusbud.adapters;
 
 import android.app.Application;
-import android.os.Bundle;
 
+import com.example.campusbud.BuildConfig;
+import com.example.campusbud.Activity;
+import com.example.campusbud.Image;
+import com.example.campusbud.Interest;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

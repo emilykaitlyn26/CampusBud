@@ -31,7 +31,6 @@ public class ActivitiesActivity extends AppCompatActivity {
     private TextView mTvActivity1;
     private TextView mTvActivity2;
     private TextView mTvActivity3;
-    private TextView mTvAddActivity;
     private TextView mTvErrorMessageActivity;
     private EditText mEtAddActivity;
     private Button mBtnAddActivity;
@@ -55,7 +54,6 @@ public class ActivitiesActivity extends AppCompatActivity {
         Button mBtnContinueBio = findViewById(R.id.btnContinueBio);
         mTvErrorMessageActivity = findViewById(R.id.tvErrorMessageActivity);
         mEtAddActivity = findViewById(R.id.etEnterActivity);
-        mTvAddActivity = findViewById(R.id.tvAddActivities);
         mTvActivity1 = findViewById(R.id.tvActivity1);
         mTvActivity2 = findViewById(R.id.tvActivity2);
         mTvActivity3 = findViewById(R.id.tvActivity3);

@@ -41,9 +41,6 @@ public class ProfileSettings extends AppCompatActivity {
 
     private EditText mEtName;
     private EditText mEtMajor;
-    private EditText mEtInterests;
-    private EditText mEtActivities;
-    private EditText mEtBio;
     private ImageView mIvCreatePicture;
     private ImageView mIvProfileImage1;
     private ImageView mIvProfileImage2;
@@ -73,7 +70,6 @@ public class ProfileSettings extends AppCompatActivity {
     private RadioButton mRbDrink;
     private RadioButton mRbRoomUse;
     private RadioButton mRbGender;
-    private Button mBtnSettingsContinue;
 
     private String mYear;
     private String mName;
@@ -85,9 +81,6 @@ public class ProfileSettings extends AppCompatActivity {
     private String mGender;
     private String mTimeSleep;
     private String mTimeWake;
-    private String mInterests;
-    private String mActivities;
-    private String mBio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,13 +110,9 @@ public class ProfileSettings extends AppCompatActivity {
         RadioGroup mRgDrink = findViewById(R.id.rgDrink);
         RadioGroup mRgRoomUse = findViewById(R.id.rgRoomUse);
         RadioGroup mRgGender = findViewById(R.id.rgGender);
-        //mEtInterests = findViewById(R.id.etInterests);
-        //mEtActivities = findViewById(R.id.etActivities);
-        //mEtBio = findViewById(R.id.etBio);
         mIvProfileImage1 = findViewById(R.id.ivProfileImage1);
         mIvProfileImage2 = findViewById(R.id.ivProfileImage2);
         mIvProfileImage3 = findViewById(R.id.ivProfileImage3);
-        //mBtnInterests = findViewById(R.id.btnInterests);
 
         mRoommateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> mSwitchState = mRoommateSwitch.isChecked());
 
@@ -173,9 +162,6 @@ public class ProfileSettings extends AppCompatActivity {
 
             mName = mEtName.getText().toString();
             mMajor = mEtMajor.getText().toString();
-            //mInterests = mEtInterests.getText().toString();
-            //mActivities = mEtActivities.getText().toString();
-            //mBio = mEtBio.getText().toString();
             JSONObject metadata = mUser.getMetadata();
 
             try {
@@ -186,9 +172,6 @@ public class ProfileSettings extends AppCompatActivity {
                 metadata.put("ifSwitched", mSwitchState);
                 mRoommateProfile.put("time_sleep", mTimeSleep);
                 mRoommateProfile.put("time_wake", mTimeWake);
-                //mRoommateProfile.put("interests", mInterests);
-                //mRoommateProfile.put("activities", mActivities);
-                //mRoommateProfile.put("bio", mBio);
                 mRoommateProfile.put("cleanliness", mCleanliness);
                 mRoommateProfile.put("if_smoke", mIfSmoke);
                 mRoommateProfile.put("if_drink", mIfDrink);

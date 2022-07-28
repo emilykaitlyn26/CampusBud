@@ -16,7 +16,7 @@
     </queries>
 
     <application
-        android:name=".ParseApplication"
+        android:name=".adapters.ParseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -65,7 +65,7 @@
         </provider>
 
         <activity
-            android:name=".CardAdapter"
+            android:name=".adapters.CardAdapter"
             android:exported="false" />
         <activity
             android:name=".ProfileSettings"
@@ -74,7 +74,7 @@
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".ParseApplication"
+            android:name=".adapters.ParseApplication"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

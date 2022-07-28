@@ -6,12 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProfileFragment">
 
+    <!--<ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="370dp"
+        android:layout_height="490dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="11dp"
+        android:src="@drawable/card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />-->
+
     <TextView
         android:id="@+id/tvActivities3Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvActivities2Input"
         app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input"
         tools:text="Activity3" />
@@ -20,9 +42,19 @@
         android:id="@+id/tvActivities2Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
-        app:layout_constraintStart_toEndOf="@+id/tvActivities1Input"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input"
         tools:text="Activity2" />
 
@@ -30,69 +62,112 @@
         android:id="@+id/tvInterests3Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvInterests2Input"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeWakeInput"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoommateProfile"
         tools:text="Interest3" />
 
     <TextView
         android:id="@+id/tvInterests2Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/tvInterests1Input"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeWakeInput"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoommateProfile"
         tools:text="Interest2" />
 
     <TextView
         android:id="@+id/tvBioInput"
-        android:layout_width="349dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/tvBio"
-        app:layout_constraintTop_toBottomOf="@+id/tvActivities1Input"
-        tools:text="These are my activities, they are good activities" />
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWake"
+        tools:text="hello" />
 
     <TextView
         android:id="@+id/tvActivities1Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        app:layout_constraintStart_toEndOf="@+id/tvActivities"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toStartOf="@+id/tvActivities2Input"
         app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input"
         tools:text="Activity1" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/tvActivities"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
         android:text="Activities: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input" />
+        app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input" />-->
 
-    <TextView
+    <!--<TextView
         android:id="@+id/tvInterests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
         android:text="Interests: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeWake" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWake" />-->
 
     <TextView
         android:id="@+id/tvTimeWakeInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
-        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTimeSleepInput"
         tools:text="8:00am" />
 
@@ -103,6 +178,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
         android:text="Time Wake Up: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTimeSleep" />
 
@@ -110,9 +188,11 @@
         android:id="@+id/tvTimeSleepInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
-        app:layout_constraintStart_toEndOf="@+id/tvTimeSleep"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2"
         tools:text="10:00pm" />
 
@@ -123,18 +203,20 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
         android:text="Preferred Room Use: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDrinking" />
 
     <ImageView
         android:id="@+id/ivPictureDisplay"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="114dp"
+        android:layout_height="114dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/addprofile"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -142,7 +224,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="28dp"
+        android:textSize="18sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="emilykaitlyn" />
@@ -152,17 +236,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
         app:layout_constraintTop_toBottomOf="@+id/tvUserDisplay"
         tools:text="Junior" />
 
     <TextView
         android:id="@+id/tvMajorDisplay"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
+        android:textSize="18sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
         app:layout_constraintTop_toBottomOf="@+id/tvYearDisplay"
         tools:text="Computer Science" />
@@ -173,6 +264,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        app:tint="@color/light_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/settingsicon"
@@ -182,9 +274,11 @@
         android:id="@+id/tvRoommateProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="18dp"
         android:text="Roommate Profile"
+        android:textSize="24sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
 
@@ -192,11 +286,14 @@
         android:id="@+id/tvRoomCleanliness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
         android:text="Room Cleanliness: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRoommateProfile" />
+        app:layout_constraintTop_toBottomOf="@+id/tvActivities2Input" />
 
     <TextView
         android:id="@+id/tvSmoking"
@@ -205,6 +302,9 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="4dp"
         android:text="Smoking: "
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomCleanliness" />
 
@@ -215,6 +315,9 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="4dp"
         android:text="Drinking: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSmoking" />
 
@@ -222,19 +325,23 @@
         android:id="@+id/tvCleanlinessInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/tvRoomCleanliness"
-        app:layout_constraintTop_toBottomOf="@+id/tvRoommateProfile"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvActivities3Input"
         tools:text="Organized" />
 
     <TextView
         android:id="@+id/tvSmokingInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/tvSmoking"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomCleanliness"
         tools:text="No" />
 
@@ -242,9 +349,11 @@
         android:id="@+id/tvDrinkingInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/tvDrinking"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSmoking"
         tools:text="No" />
 
@@ -255,6 +364,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
         android:text="Time Sleep: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2" />
 
@@ -262,9 +374,11 @@
         android:id="@+id/tvRoomUseInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
-        app:layout_constraintStart_toEndOf="@+id/tvRoomUseDisplay2"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDrinkingInput"
         tools:text="Social Space" />
 
@@ -272,21 +386,34 @@
         android:id="@+id/tvInterests1Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        app:layout_constraintStart_toEndOf="@+id/tvInterests"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeWakeInput"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toStartOf="@+id/tvInterests2Input"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoommateProfile"
         tools:text="Interest1" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/tvBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="4dp"
         android:text="Bio: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvActivities1Input" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWake" />-->
 
     <ImageView
         android:id="@+id/ivImage1"
@@ -320,15 +447,5 @@
         app:layout_constraintStart_toEndOf="@+id/ivImage2"
         app:layout_constraintTop_toBottomOf="@+id/tvBioInput"
         tools:src="@tools:sample/avatars" />
-
-    <Button
-        android:id="@+id/btnRefresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="147dp"
-        android:layout_marginTop="16dp"
-        android:text="Refresh"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivImage2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

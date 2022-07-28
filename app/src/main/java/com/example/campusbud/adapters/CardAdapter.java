@@ -1,8 +1,6 @@
-package com.example.campusbud;
+package com.example.campusbud.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,30 +9,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
 import com.bumptech.glide.Glide;
-import com.cometchat.pro.constants.CometChatConstants;
-import com.cometchat.pro.core.CometChat;
-import com.cometchat.pro.core.UsersRequest;
-import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
-import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
-import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
-import com.example.campusbud.fragments.RoommateFragment;
-import com.parse.FindCallback;
-import com.parse.ParseException;
+import com.example.campusbud.Image;
+import com.example.campusbud.R;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.yalantis.library.Koloda;
-import com.yalantis.library.KolodaListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CardAdapter extends BaseAdapter {
@@ -89,13 +74,11 @@ public class CardAdapter extends BaseAdapter {
     }
 
     private void setup(User userProfile, View v) throws JSONException {
-        JSONObject metadata = userProfile.getMetadata();
-        JSONArray roommateProfileArray = metadata.getJSONArray("roommate_profile");
-        JSONObject roommateProfile = roommateProfileArray.getJSONObject(0);
+        JSONObject mMetadata = userProfile.getMetadata();
+        JSONArray mRoommateProfileArray = mMetadata.getJSONArray("roommate_profile");
+        JSONObject mRoommateProfile = mRoommateProfileArray.getJSONObject(0);
 
-        ImageView mIvBackground = v.findViewById(R.id.ivBackground);
         TextView mTvRoommateName = v.findViewById(R.id.tvRName);
-        mIvBackground = v.findViewById(R.id.ivBackground);
         TextView mTvRMajor = v.findViewById(R.id.tvRMajor);
         TextView mTvRYear = v.findViewById(R.id.tvRYear);
         TextView mTvRCleanlinessInput = v.findViewById(R.id.tvRCleanlinessInput);
@@ -104,25 +87,33 @@ public class CardAdapter extends BaseAdapter {
         TextView mTvRRoomUseInput = v.findViewById(R.id.tvRRoomUseInput);
         TextView mTvRTimeSleepInput = v.findViewById(R.id.tvRTimeSleepInput);
         TextView mTvRTimeWakeInput = v.findViewById(R.id.tvRTimeWakeInput);
-        TextView mTvRInterestsInput = v.findViewById(R.id.tvRInterestsInput);
-        TextView mTvRActivitiesInput = v.findViewById(R.id.tvRActivitiesInput);
+        TextView mTvRInterestsInput1 = v.findViewById(R.id.tvRInterestsInput1);
+        TextView mTvRInterestsInput2 = v.findViewById(R.id.tvRInterestsInput2);
+        TextView mTvRInterestsInput3 = v.findViewById(R.id.tvRInterestsInput3);
+        TextView mTvRActivitiesInput1 = v.findViewById(R.id.tvRActivitiesInput1);
+        TextView mTvRActivitiesInput2 = v.findViewById(R.id.tvRActivitiesInput2);
+        TextView mTvRActivitiesInput3 = v.findViewById(R.id.tvRActivitiesInput3);
         TextView mTvRBioInput = v.findViewById(R.id.tvRBioInput);
         ImageView mIvRImage1 = v.findViewById(R.id.ivRImage1);
         ImageView mIvRImage2 = v.findViewById(R.id.ivRImage2);
         ImageView mIvRImage3 = v.findViewById(R.id.ivRImage3);
 
-        mTvRoommateName.setText(metadata.getString("name"));
-        mTvRYear.setText(metadata.getString("year"));
-        mTvRMajor.setText(metadata.getString("major"));
-        mTvRCleanlinessInput.setText(roommateProfile.getString("cleanliness"));
-        mTvRSmokingInput.setText(roommateProfile.getString("if_smoke"));
-        mTvRDrinkingInput.setText(roommateProfile.getString("if_drink"));
-        mTvRRoomUseInput.setText(roommateProfile.getString("room_use"));
-        mTvRTimeSleepInput.setText(roommateProfile.getString("time_sleep"));
-        mTvRTimeWakeInput.setText(roommateProfile.getString("time_wake"));
-        mTvRInterestsInput.setText(roommateProfile.getString("interests"));
-        mTvRActivitiesInput.setText(roommateProfile.getString("activities"));
-        mTvRBioInput.setText(roommateProfile.getString("bio"));
+        mTvRoommateName.setText(mMetadata.getString("name"));
+        mTvRYear.setText(mMetadata.getString("year"));
+        mTvRMajor.setText(mMetadata.getString("major"));
+        mTvRCleanlinessInput.setText(mRoommateProfile.getString("cleanliness"));
+        mTvRSmokingInput.setText(mRoommateProfile.getString("if_smoke"));
+        mTvRDrinkingInput.setText(mRoommateProfile.getString("if_drink"));
+        mTvRRoomUseInput.setText(mRoommateProfile.getString("room_use"));
+        mTvRTimeSleepInput.setText(mRoommateProfile.getString("time_sleep"));
+        mTvRTimeWakeInput.setText(mRoommateProfile.getString("time_wake"));
+        mTvRInterestsInput1.setText(mRoommateProfile.getString("interest1"));
+        mTvRInterestsInput2.setText(mRoommateProfile.getString("interest2"));
+        mTvRInterestsInput3.setText(mRoommateProfile.getString("interest3"));
+        mTvRActivitiesInput1.setText(mRoommateProfile.getString("activity1"));
+        mTvRActivitiesInput2.setText(mRoommateProfile.getString("activity2"));
+        mTvRActivitiesInput3.setText(mRoommateProfile.getString("activity3"));
+        mTvRBioInput.setText(mRoommateProfile.getString("bio"));
 
         if (mImages.size() > 0) {
             for (int i = mImages.size() - 1; i >= 0; i--) {
@@ -140,12 +131,12 @@ public class CardAdapter extends BaseAdapter {
             Glide.with(mContext).load(mImage1file.getUrl()).into(mIvRImage1);
             Log.d(TAG, "Loaded Image 1");
             mContext = mIvRImage2.getContext();
-            ParseFile image2file = (mImages.get(mIndex)).getImage2Url();
-            Glide.with(mContext).load(image2file.getUrl()).into(mIvRImage2);
+            ParseFile mImage2file = (mImages.get(mIndex)).getImage2Url();
+            Glide.with(mContext).load(mImage2file.getUrl()).into(mIvRImage2);
             Log.d(TAG, "Loaded Image 2");
             mContext = mIvRImage3.getContext();
-            ParseFile image3file = (mImages.get(mIndex)).getImage3Url();
-            Glide.with(mContext).load(image3file.getUrl()).into(mIvRImage3);
+            ParseFile mImage3file = (mImages.get(mIndex)).getImage3Url();
+            Glide.with(mContext).load(mImage3file.getUrl()).into(mIvRImage3);
             Log.d(TAG, "Loaded Image 3");
         }
     }

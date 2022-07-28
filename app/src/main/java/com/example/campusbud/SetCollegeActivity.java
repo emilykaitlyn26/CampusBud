@@ -45,8 +45,6 @@ public class SetCollegeActivity extends AppCompatActivity {
     private JSONObject mUserDrinkingValues = new JSONObject();
     private JSONArray mUserRoomUseActivity = new JSONArray();
     private JSONObject mUserRoomUseValues = new JSONObject();
-    //private JSONArray userSleepTimeActivity = new JSONArray();
-    //private JSONArray userWakeTimeActivity = new JSONArray();
     private JSONArray mUserRates = new JSONArray();
     private JSONObject mUserRateValues = new JSONObject();
 

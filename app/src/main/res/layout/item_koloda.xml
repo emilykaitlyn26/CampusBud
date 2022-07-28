@@ -18,11 +18,59 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/white" />
 
+    <TextView
+        android:id="@+id/tvRActivitiesInput3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvRActivities"
+        app:layout_constraintTop_toBottomOf="@+id/tvRActivitiesInput2"
+        tools:text="Activity3" />
+
+    <TextView
+        android:id="@+id/tvRActivitiesInput2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvRActivities"
+        app:layout_constraintTop_toBottomOf="@+id/tvRActivitiesInput1"
+        tools:text="Activity2" />
+
+    <TextView
+        android:id="@+id/tvRInterestsInput3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvRInterests"
+        app:layout_constraintTop_toBottomOf="@+id/tvRInterestsInput2"
+        tools:text="Interest3" />
+
+    <TextView
+        android:id="@+id/tvRInterestsInput2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvRInterests"
+        app:layout_constraintTop_toBottomOf="@+id/tvRInterestsInput1"
+        tools:text="Interest2" />
+
     <ImageView
         android:id="@+id/ivRImage1"
         android:layout_width="170dp"
         android:layout_height="202dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="25dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +80,7 @@
         android:id="@+id/ivRImage2"
         android:layout_width="170dp"
         android:layout_height="102dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="25dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toEndOf="@+id/ivRImage1"
         app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +101,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
-        android:textSize="20sp"
+        android:textSize="24sp"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivRImage1"
         tools:text="Emily Kania" />
@@ -64,6 +113,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
         android:layout_marginTop="2dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRName"
         tools:text="Computer Science" />
@@ -74,7 +125,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="9dp"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRName"
         app:layout_constraintTop_toBottomOf="@+id/ivRImage1"
         tools:text="Junior" />
@@ -84,8 +136,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Cleanliness: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRMajor" />
 
@@ -94,7 +149,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRCleanliness"
         app:layout_constraintTop_toBottomOf="@+id/tvRMajor"
         tools:text="Organized" />
@@ -106,6 +163,9 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
         android:text="Smoking: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRCleanliness" />
 
@@ -115,6 +175,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRSmoking"
         app:layout_constraintTop_toBottomOf="@+id/tvRCleanlinessInput"
         tools:text="No" />
@@ -126,6 +188,9 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
         android:text="Drinking: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRSmoking" />
 
@@ -135,6 +200,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRDrinking"
         app:layout_constraintTop_toBottomOf="@+id/tvRSmokingInput"
         tools:text="No" />
@@ -146,6 +213,9 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
         android:text="Preferred Room Use:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="@+id/ivBackground"
         app:layout_constraintTop_toBottomOf="@+id/tvRDrinking" />
 
@@ -155,6 +225,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRRoomUse"
         app:layout_constraintTop_toBottomOf="@+id/tvRDrinkingInput"
         tools:text="Study Space" />
@@ -166,6 +238,9 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
         android:text="Time Sleep: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRRoomUse" />
 
@@ -175,6 +250,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRTimeSleep"
         app:layout_constraintTop_toBottomOf="@+id/tvRRoomUseInput"
         tools:text="10:00pm" />
@@ -186,6 +263,9 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
         android:text="Time Wake Up: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRTimeSleep" />
 
@@ -195,6 +275,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRTimeWake"
         app:layout_constraintTop_toBottomOf="@+id/tvRTimeSleepInput"
         tools:text="8:00am" />
@@ -206,18 +288,23 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
         android:text="Interests: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRTimeWake" />
 
     <TextView
-        android:id="@+id/tvRInterestsInput"
+        android:id="@+id/tvRInterestsInput1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRInterests"
         app:layout_constraintTop_toBottomOf="@+id/tvRTimeWakeInput"
-        tools:text="These are my interests" />
+        tools:text="Interest1" />
 
     <TextView
         android:id="@+id/tvRActivities"
@@ -226,18 +313,23 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
         android:text="Activities: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRInterestsInput" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRInterestsInput3" />
 
     <TextView
-        android:id="@+id/tvRActivitiesInput"
+        android:id="@+id/tvRActivitiesInput1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRActivities"
-        app:layout_constraintTop_toBottomOf="@+id/tvRInterestsInput"
-        tools:text="These are my activities" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRInterestsInput3"
+        tools:text="Activity1" />
 
     <TextView
         android:id="@+id/tvRBio"
@@ -246,8 +338,11 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="4dp"
         android:text="Bio: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRActivitiesInput" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRActivitiesInput3" />
 
     <TextView
         android:id="@+id/tvRBioInput"
@@ -255,8 +350,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvRBio"
-        app:layout_constraintTop_toBottomOf="@+id/tvRActivitiesInput"
+        app:layout_constraintTop_toBottomOf="@+id/tvRActivitiesInput3"
         tools:text="This is my bio" />
 
     <TextView
@@ -267,4 +364,5 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="118dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
