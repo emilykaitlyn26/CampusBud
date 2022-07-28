@@ -108,11 +108,17 @@ public class CardAdapter extends BaseAdapter {
         mTvRTimeSleepInput.setText(mRoommateProfile.getString("time_sleep"));
         mTvRTimeWakeInput.setText(mRoommateProfile.getString("time_wake"));
         mTvRInterestsInput1.setText(mRoommateProfile.getString("interest1"));
+        mTvRInterestsInput1.setBackgroundResource(R.drawable.card);
         mTvRInterestsInput2.setText(mRoommateProfile.getString("interest2"));
+        mTvRInterestsInput2.setBackgroundResource(R.drawable.card);
         mTvRInterestsInput3.setText(mRoommateProfile.getString("interest3"));
+        mTvRInterestsInput3.setBackgroundResource(R.drawable.card);
         mTvRActivitiesInput1.setText(mRoommateProfile.getString("activity1"));
+        mTvRActivitiesInput1.setBackgroundResource(R.drawable.card);
         mTvRActivitiesInput2.setText(mRoommateProfile.getString("activity2"));
+        mTvRActivitiesInput2.setBackgroundResource(R.drawable.card);
         mTvRActivitiesInput3.setText(mRoommateProfile.getString("activity3"));
+        mTvRActivitiesInput3.setBackgroundResource(R.drawable.card);
         mTvRBioInput.setText(mRoommateProfile.getString("bio"));
 
         if (mImages.size() > 0) {

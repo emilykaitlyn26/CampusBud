@@ -42,15 +42,18 @@
                 android:id="@+id/message_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <include
-                    android:layout_marginTop="8dp"
-                    android:layout_centerVertical="true"
                     android:id="@+id/vw_text_message"
                     layout="@layout/message_right_text_item"
-                    android:visibility="gone"
-                    tools:visibility="visible"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:foregroundTint="@color/colorPrimary"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
                 <include android:id="@+id/vw_sticker_message"
                     android:layout_width="128dp"
                     android:layout_height="128dp"

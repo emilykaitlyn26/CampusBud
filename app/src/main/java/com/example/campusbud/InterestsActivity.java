@@ -41,8 +41,10 @@ public class InterestsActivity extends AppCompatActivity {
     private List<String> mSuggestedWords;
     private ListView mListView;
     private int mInterestCounter;
+    private TextView mTvErrorLengthInterest;
 
     private static final String TAG = "InterestsActivity";
+    private static final int MAX_LENGTH = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class InterestsActivity extends AppCompatActivity {
         mBtnAdd = findViewById(R.id.btnAddInterest);
         Button mBtnContinueActivities = findViewById(R.id.btnContinueActivities);
         mTvErrorMessage = findViewById(R.id.tvErrorMessageInterest);
+        mTvErrorLengthInterest = findViewById(R.id.tvErrorLengthInterest);
         mEtAddInterest = findViewById(R.id.etEnterInterest);
         mTvInterest1 = findViewById(R.id.tvInterest1);
         mTvInterest2 = findViewById(R.id.tvInterest2);
@@ -62,6 +65,7 @@ public class InterestsActivity extends AppCompatActivity {
         mInterestList = new ArrayList<>();
 
         mTvErrorMessage.setVisibility(View.GONE);
+        mTvErrorLengthInterest.setVisibility(View.GONE);
         queryInterests();
 
         mEtAddInterest.addTextChangedListener(new TextWatcher() {
@@ -98,10 +102,14 @@ public class InterestsActivity extends AppCompatActivity {
         });
 
         mBtnAdd.setOnClickListener(v -> {
-            addInterest(mUserInput);
-            mSuggestedWords = mInterestsTrie.suggest(mUserInput);
-            mSuggestedWords.add(mUserInput);
-            createList(mSuggestedWords, mUserInput);
+            if (mUserInput.length() > MAX_LENGTH) {
+                mTvErrorLengthInterest.setVisibility(View.VISIBLE);
+            } else {
+                addInterest(mUserInput);
+                mSuggestedWords = mInterestsTrie.suggest(mUserInput);
+                mSuggestedWords.add(mUserInput);
+                createList(mSuggestedWords, mUserInput);
+            }
         });
 
         mBtnContinueActivities.setOnClickListener(v -> {

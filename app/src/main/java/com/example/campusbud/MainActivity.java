@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        MenuItem mLogout = findViewById(R.id.miLogout);
-        mLogout.setIcon(getDrawable(R.drawable.logout));
+        //MenuItem mLogout = findViewById(R.id.miLogout);
+        //mLogout.setIcon(getDrawable(R.drawable.logout));
         if (item.getItemId() == R.id.miLogout) {
             Log.i(TAG, "Clicked logout button");
             ParseUser.logOutInBackground(e -> {

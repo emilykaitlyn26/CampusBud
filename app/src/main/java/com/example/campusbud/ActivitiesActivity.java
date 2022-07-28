@@ -41,8 +41,10 @@ public class ActivitiesActivity extends AppCompatActivity {
     private List<String> mSuggestedWords;
     private ListView mListView;
     private int mActivityCounter;
+    private TextView mTvErrorLengthActivity;
 
     private static final String TAG = "ActivitiesActivity";
+    private static final int MAX_LENGTH = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class ActivitiesActivity extends AppCompatActivity {
         mBtnAddActivity = findViewById(R.id.btnAddActivity);
         Button mBtnContinueBio = findViewById(R.id.btnContinueBio);
         mTvErrorMessageActivity = findViewById(R.id.tvErrorMessageActivity);
+        mTvErrorLengthActivity = findViewById(R.id.tvErrorLengthActivity);
         mEtAddActivity = findViewById(R.id.etEnterActivity);
         mTvActivity1 = findViewById(R.id.tvActivity1);
         mTvActivity2 = findViewById(R.id.tvActivity2);
@@ -62,6 +65,7 @@ public class ActivitiesActivity extends AppCompatActivity {
         mActivityList = new ArrayList<>();
 
         mTvErrorMessageActivity.setVisibility(View.GONE);
+        mTvErrorLengthActivity.setVisibility(View.GONE);
         queryActivities();
 
         mEtAddActivity.addTextChangedListener(new TextWatcher() {
@@ -98,10 +102,14 @@ public class ActivitiesActivity extends AppCompatActivity {
         });
 
         mBtnAddActivity.setOnClickListener(v -> {
-            addActivity(mUserInput);
-            mSuggestedWords = mActivitiesTrie.suggest(mUserInput);
-            mSuggestedWords.add(mUserInput);
-            createList(mSuggestedWords, mUserInput);
+            if (mUserInput.length() > MAX_LENGTH) {
+                mTvErrorLengthActivity.setVisibility(View.VISIBLE);
+            } else {
+                addActivity(mUserInput);
+                mSuggestedWords = mActivitiesTrie.suggest(mUserInput);
+                mSuggestedWords.add(mUserInput);
+                createList(mSuggestedWords, mUserInput);
+            }
         });
 
         mBtnContinueBio.setOnClickListener(v -> {

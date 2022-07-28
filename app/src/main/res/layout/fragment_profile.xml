@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:padding="5dp"
         android:paddingStart="8dp"
         android:paddingLeft="5dp"
@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:padding="5dp"
         android:paddingStart="8dp"
         android:paddingLeft="5dp"
@@ -104,7 +104,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:textSize="16sp"
         android:typeface="serif"
@@ -115,7 +115,7 @@
 
     <TextView
         android:id="@+id/tvActivities1Input"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
@@ -163,11 +163,11 @@
         android:id="@+id/tvTimeWakeInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="16dp"
         android:textSize="16sp"
         android:typeface="serif"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
         app:layout_constraintTop_toBottomOf="@+id/tvTimeSleepInput"
         tools:text="8:00am" />
 
@@ -175,24 +175,24 @@
         android:id="@+id/tvTimeWake"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="3dp"
         android:text="Time Wake Up: "
         android:textSize="16sp"
         android:textStyle="bold"
         android:typeface="serif"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView14"
         app:layout_constraintTop_toBottomOf="@+id/tvTimeSleep" />
 
     <TextView
         android:id="@+id/tvTimeSleepInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="16dp"
         android:textSize="16sp"
         android:typeface="serif"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2"
         tools:text="10:00pm" />
 
@@ -200,13 +200,13 @@
         android:id="@+id/tvRoomUseDisplay2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="3dp"
-        android:text="Preferred Room Use: "
+        android:text="Room Use: "
         android:textSize="16sp"
         android:textStyle="bold"
         android:typeface="serif"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView16"
         app:layout_constraintTop_toBottomOf="@+id/tvDrinking" />
 
     <ImageView
@@ -235,11 +235,11 @@
         android:id="@+id/tvYearDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
         android:typeface="serif"
-        app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
+        app:layout_constraintStart_toEndOf="@+id/imageView12"
         app:layout_constraintTop_toBottomOf="@+id/tvUserDisplay"
         tools:text="Junior" />
 
@@ -247,14 +247,13 @@
         android:id="@+id/tvMajorDisplay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
         android:textSize="18sp"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
+        app:layout_constraintStart_toEndOf="@+id/imageView12"
         app:layout_constraintTop_toBottomOf="@+id/tvYearDisplay"
         tools:text="Computer Science" />
 
@@ -286,50 +285,50 @@
         android:id="@+id/tvRoomCleanliness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:text="Room Cleanliness: "
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="Cleanliness: "
         android:textSize="16sp"
         android:textStyle="bold"
         android:typeface="serif"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView19"
         app:layout_constraintTop_toBottomOf="@+id/tvActivities2Input" />
 
     <TextView
         android:id="@+id/tvSmoking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="4dp"
         android:text="Smoking: "
         android:textSize="16dp"
         android:textStyle="bold"
         android:typeface="serif"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView18"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomCleanliness" />
 
     <TextView
         android:id="@+id/tvDrinking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="4dp"
         android:text="Drinking: "
         android:textSize="16sp"
         android:textStyle="bold"
         android:typeface="serif"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView17"
         app:layout_constraintTop_toBottomOf="@+id/tvSmoking" />
 
     <TextView
         android:id="@+id/tvCleanlinessInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:textSize="16sp"
         android:typeface="serif"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
         app:layout_constraintTop_toBottomOf="@+id/tvActivities3Input"
         tools:text="Organized" />
 
@@ -337,11 +336,11 @@
         android:id="@+id/tvSmokingInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
         android:textSize="16sp"
         android:typeface="serif"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomCleanliness"
         tools:text="No" />
 
@@ -349,11 +348,11 @@
         android:id="@+id/tvDrinkingInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
         android:textSize="16sp"
         android:typeface="serif"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
         app:layout_constraintTop_toBottomOf="@+id/tvSmoking"
         tools:text="No" />
 
@@ -361,24 +360,24 @@
         android:id="@+id/tvTimeSleep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="3dp"
         android:text="Time Sleep: "
         android:textSize="16sp"
         android:textStyle="bold"
         android:typeface="serif"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView15"
         app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2" />
 
     <TextView
         android:id="@+id/tvRoomUseInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="16dp"
         android:textSize="16sp"
         android:typeface="serif"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
         app:layout_constraintTop_toBottomOf="@+id/tvDrinkingInput"
         tools:text="Social Space" />
 
@@ -386,7 +385,7 @@
         android:id="@+id/tvInterests1Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:padding="5dp"
         android:paddingStart="8dp"
@@ -447,5 +446,93 @@
         app:layout_constraintStart_toEndOf="@+id/ivImage2"
         app:layout_constraintTop_toBottomOf="@+id/tvBioInput"
         tools:src="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="19dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="-3dp"
+        android:src="@drawable/collegesymbol"
+        android:tint="@color/light_blue"
+        app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserDisplay" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="13dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/book2"
+        android:tint="@color/light_blue"
+        app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/tvYearDisplay" />
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="18dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="264dp"
+        android:src="@drawable/sun"
+        android:tint="@color/light_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="19dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="236dp"
+        android:src="@drawable/moon"
+        android:tint="@color/light_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="16dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="213dp"
+        android:src="@drawable/door"
+        android:tint="@color/light_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+
+    <ImageView
+        android:id="@+id/imageView17"
+        android:layout_width="20dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="188dp"
+        android:src="@drawable/drink"
+        android:tint="@color/light_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="15dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="166dp"
+        android:src="@drawable/smoking"
+        android:tint="@color/light_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="16dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="138dp"
+        android:src="@drawable/broom"
+        android:tint="@color/light_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
