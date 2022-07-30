@@ -1,29 +1,32 @@
 package com.example.campusbud;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.campusbud.models.State;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG = "SignUpActivity";
 
-    private EditText mEtNewUsername;
-    private EditText mEtNewPassword;
+    private TextInputLayout mUsernameLayout;
+    private TextInputLayout mPasswordLayout;
     private String mSelectedState;
 
     private List<State> mStateList;
@@ -39,24 +42,40 @@ public class SignUpActivity extends AppCompatActivity {
         mAllStates = new ArrayList<>();
         mStateList = new ArrayList<>();
 
-        mEtNewUsername = findViewById(R.id.etNewUsername);
-        mEtNewPassword = findViewById(R.id.etNewPassword);
-        AutoCompleteTextView mStateTextView = (AutoCompleteTextView) findViewById(R.id.selectState);
+        TextView mTvUsernameError = findViewById(R.id.tvUsernameError);
+        TextView mTvPasswordError = findViewById(R.id.tvPasswordError);
+        TextView mTvStateError = findViewById(R.id.tvStateError);
+        mUsernameLayout = findViewById(R.id.layoutUsername);
+        mPasswordLayout = findViewById(R.id.layoutPassword);
+        AutoCompleteTextView mStateTextView = findViewById(R.id.selectState);
         mStateadapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, mAllStates);
 
         mStateTextView.setThreshold(1);
         mStateTextView.setAdapter(mStateadapter);
         mStateTextView.setOnItemClickListener((parent, view, position, id) -> mSelectedState = (String) parent.getItemAtPosition(position));
 
+        mTvUsernameError.setVisibility(View.GONE);
+        mTvPasswordError.setVisibility(View.GONE);
+        mTvStateError.setVisibility(View.GONE);
+
         Button mBtnContinue = findViewById(R.id.btnContinue);
         mBtnContinue.setOnClickListener(v -> {
             Log.i(TAG, "onClick sign up button");
-            String mUsername = mEtNewUsername.getText().toString();
-            String mPassword = mEtNewPassword.getText().toString();
+            String mUsername = Objects.requireNonNull(mUsernameLayout.getEditText()).getText().toString();
+            String mPassword = Objects.requireNonNull(mPasswordLayout.getEditText()).getText().toString();
             if (!mUsername.trim().equals("") && !mPassword.trim().equals("") && mSelectedState != null) {
                 collegeSignUp(mUsername, mPassword, mSelectedState, mStateList);
             } else {
-                Toast.makeText(SignUpActivity.this, "Username/ password cannot be empty", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SignUpActivity.this, "Username/ password cannot be empty", Toast.LENGTH_SHORT).show();
+                if (mUsername.trim().equals("")) {
+                    mTvUsernameError.setVisibility(View.VISIBLE);
+                }
+                if (mPassword.trim().equals("")) {
+                    mTvPasswordError.setVisibility(View.VISIBLE);
+                }
+                if (mSelectedState == null) {
+                    mTvStateError.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -85,5 +104,6 @@ public class SignUpActivity extends AppCompatActivity {
         intent.putExtra("state", selectedState);
         intent.putExtra("list", (Serializable) stateList);
         startActivity(intent);
+        finish();
     }
 }

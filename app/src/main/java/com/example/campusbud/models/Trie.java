@@ -1,4 +1,4 @@
-package com.example.campusbud;
+package com.example.campusbud.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Trie {
 
-    public class TrieNode {
+    public static class TrieNode {
         Map<Character, TrieNode> children;
         char c;
         boolean isWord;
@@ -47,21 +47,6 @@ public class Trie {
         for (String word : words) {
             root.insert(word);
         }
-    }
-
-    public boolean find(String prefix, boolean exact) {
-        TrieNode lastNode = root;
-        for (char c: prefix.toCharArray()) {
-            lastNode = lastNode.children.get(c);
-            if (lastNode == null) {
-                return false;
-            }
-        }
-        return !exact || lastNode.isWord;
-    }
-
-    public boolean find(String prefix) {
-        return find(prefix, false);
     }
 
     public void suggestHelper(TrieNode root, List<String> list, StringBuffer curr) {

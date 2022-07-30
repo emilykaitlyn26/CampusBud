@@ -799,8 +799,8 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                                 } else if (!message.isEmpty())
                                     sendMessage(message);
                             } else {
-                                Toast.makeText(getContext(), "Emoji Support is not enabled",
-                                        Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getContext(), "Emoji Support is not enabled",
+                                        //Toast.LENGTH_LONG).show();
                             }
                         } else {
                             if (isEdit) {
@@ -1005,7 +1005,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                     } catch (Exception e) {
                         addPoll.setEnabled(true);
                         Log.e(TAG, "onErrorJSON: " + e.getMessage());
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -1121,7 +1121,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
             }
             customMessage.setMetadata(jsonObject);
         } catch(Exception e) {
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
 
         CometChat.sendCustomMessage(customMessage, new CometChat.CallbackListener<CustomMessage>() {
@@ -1143,7 +1143,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
             @Override
             public void onError(CometChatException e) {
                 if (getActivity() != null) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -1266,7 +1266,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
             @Override
             public void onError(CometChatException e) {
                 Log.d(TAG, "Group Member list fetching failed with exception: " + e.getMessage());
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -1556,7 +1556,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
             @Override
             public void onError(CometChatException e) {
                 if (getActivity() != null) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -1655,7 +1655,17 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                         isBlockedByMe = false;
                         composeBox.setVisibility(View.VISIBLE);
                         blockUserLayout.setVisibility(GONE);
-                        avatarUrl = user.getAvatar();
+                        try {
+                            if(user.getMetadata().has("ProfilePic")){
+                                avatarUrl = user.getMetadata().getString("ProfilePic");
+                                Log.e("PFP", avatarUrl);
+                            } else {
+                                avatarUrl = "";
+                                Log.e("No PFP", avatarUrl + " for user " + user.getUid());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         profileLink = user.getLink();
                         if (user.getStatus().equals(CometChatConstants.USER_STATUS_ONLINE)) {
                             tvStatus.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
@@ -1685,7 +1695,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
 
             @Override
             public void onError(CometChatException e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -1695,8 +1705,8 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
         if (avatarUrl != null && !avatarUrl.isEmpty()) {
             userAvatar.setAvatar(avatarUrl);
         }
-        else if (metadata.has("profileImage")) {
-            String profileImageUrl = metadata.getString("profileImage");
+        else if (metadata.has("profilePic")) {
+            String profileImageUrl = metadata.getString("ProfilePic");
             userAvatar.setAvatar(profileImageUrl);
         }
         else {
@@ -1972,7 +1982,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                 if (bannedUser.getUid().equals(CometChat.getLoggedInUser().getUid())) {
                     if (getActivity() != null) {
                         getActivity().onBackPressed();
-                        Toast.makeText(getActivity(), "You have been banned", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "You have been banned", Toast.LENGTH_SHORT).show();
                     }
                 }
                 onMessageReceived(action);
@@ -3106,7 +3116,7 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
                 ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText("MessageAdapter", message);
                 clipboardManager.setPrimaryClip(clipData);
-                Toast.makeText(context, getResources().getString(R.string.text_copied), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, getResources().getString(R.string.text_copied), Toast.LENGTH_LONG).show();
                 if (messageAdapter != null) {
                     messageAdapter.clearLongClickSelectedItem();
                     messageAdapter.notifyDataSetChanged();
@@ -3218,11 +3228,11 @@ public class CometChatMessageList extends Fragment implements View.OnClickListen
 
                                 @Override
                                 public void onError(CometChatException e) {
-                                    Toast.makeText(context,e.getCode(),Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(context,e.getCode(),Toast.LENGTH_LONG).show();
                                 }
                             });
                 } catch (Exception e) {
-                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
 

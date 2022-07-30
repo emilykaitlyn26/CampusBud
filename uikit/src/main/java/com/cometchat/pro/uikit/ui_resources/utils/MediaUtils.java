@@ -362,7 +362,7 @@ public class MediaUtils {
                 }
             }
         } catch (Exception e) {
-            Toast.makeText(context,"File Uri is null",Toast.LENGTH_LONG).show();
+            //Toast.makeText(context,"File Uri is null",Toast.LENGTH_LONG).show();
         }
         return file;
     }
@@ -828,7 +828,7 @@ public class MediaUtils {
                 Intent intent = Intent.createChooser(shareIntent, context.getResources().getString(R.string.share_message));
                 context.startActivity(intent);
             } catch (Exception e) {
-                Toast.makeText(context, context.getString(R.string.error) +":"+ e.getMessage(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, context.getString(R.string.error) +":"+ e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }

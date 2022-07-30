@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MainActivity";
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,16 +42,13 @@ public class MainActivity extends AppCompatActivity {
             Fragment mFragment;
             switch (item.getItemId()) {
                 case R.id.action_chat:
-                    Toast.makeText(MainActivity.this, "Chat", Toast.LENGTH_SHORT).show();
                     mFragment = new CometChatConversationList();
                     break;
                 case R.id.action_profile:
-                    Toast.makeText(MainActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                     mFragment = new ProfileFragment();
                     break;
                 case R.id.action_matching:
                 default:
-                    Toast.makeText(MainActivity.this, "Roommates", Toast.LENGTH_SHORT).show();
                     mFragment = new RoommateFragment();
                     break;
             }
@@ -70,24 +67,19 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        //MenuItem mLogout = findViewById(R.id.miLogout);
-        //mLogout.setIcon(getDrawable(R.drawable.logout));
         if (item.getItemId() == R.id.miLogout) {
             Log.i(TAG, "Clicked logout button");
-            ParseUser.logOutInBackground(e -> {
-                CometChat.logout(new CometChat.CallbackListener<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Log.d(TAG, "Logout completed successfully");
-                        goLoginScreen();
-                    }
-                    @Override
-                    public void onError(CometChatException e) {
-                        Log.d(TAG, "Logout failed with exception: " + e.getMessage());
-                    }
-                });
-                Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
-            });
+            ParseUser.logOutInBackground(e -> CometChat.logout(new CometChat.CallbackListener<String>() {
+                @Override
+                public void onSuccess(String s) {
+                    Log.d(TAG, "Logout completed successfully");
+                    goLoginScreen();
+                }
+                @Override
+                public void onError(CometChatException e) {
+                    Log.d(TAG, "Logout failed with exception: " + e.getMessage());
+                }
+            }));
         }
         return super.onOptionsItemSelected(item);
     }

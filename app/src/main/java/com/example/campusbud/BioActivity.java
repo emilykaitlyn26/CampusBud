@@ -1,38 +1,41 @@
 package com.example.campusbud;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class BioActivity extends AppCompatActivity {
 
-    private EditText mEtBio;
+    private TextInputLayout mEtBio;
     private String mBio;
     private TextView mTvErrorMessageBio;
     private TextView mTvLengthError;
 
     private static final String TAG = "BioActivity";
-    private static final int MAX_LENGTH = 200;
+    private static final int MAX_LENGTH = 80;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bio);
 
-        mEtBio = findViewById(R.id.etBio);
+        mEtBio = findViewById(R.id.bio);
         Button mBtnSubmit = findViewById(R.id.btnSubmit);
         mTvErrorMessageBio = findViewById(R.id.tvErrorMessageBio);
         mTvLengthError = findViewById(R.id.tvLengthError);
@@ -40,7 +43,7 @@ public class BioActivity extends AppCompatActivity {
         mTvLengthError.setVisibility(View.GONE);
 
         mBtnSubmit.setOnClickListener(v -> {
-            mBio = mEtBio.getText().toString();
+            mBio = Objects.requireNonNull(mEtBio.getEditText()).getText().toString();
             if (!mBio.equals("")) {
                 mTvErrorMessageBio.setVisibility(View.GONE);
                 User mUser = CometChat.getLoggedInUser();
@@ -58,8 +61,11 @@ public class BioActivity extends AppCompatActivity {
             }
             if (mBio.length() > MAX_LENGTH) {
                 mTvLengthError.setVisibility(View.VISIBLE);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), ProfileSettings.class);
+                startActivity(intent);
+                finish();
             }
-            finish();
         });
     }
 

@@ -1,7 +1,5 @@
 package com.example.campusbud;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,9 +12,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.example.campusbud.models.Interest;
+import com.example.campusbud.models.Trie;
 import com.parse.ParseQuery;
 
 import org.json.JSONArray;
@@ -89,13 +91,15 @@ public class InterestsActivity extends AppCompatActivity {
                 createList(mSuggestedWords, mUserInput);
                 mListView.setOnItemClickListener((parent, view, position, id) -> {
                     String mInterest = mListView.getItemAtPosition(position).toString();
-                    mInterestCounter += 1;
-                    if (mInterestCounter == 1) {
-                        mTvInterest1.setText(mInterest);
-                    } else if (mInterestCounter == 2) {
-                        mTvInterest2.setText(mInterest);
-                    } else if (mInterestCounter == 3) {
-                        mTvInterest3.setText(mInterest);
+                    if (mInterestCounter < 3) {
+                        mInterestCounter += 1;
+                        if (mInterestCounter == 1) {
+                            mTvInterest1.setText(mInterest);
+                        } else if (mInterestCounter == 2) {
+                            mTvInterest2.setText(mInterest);
+                        } else if (mInterestCounter == 3) {
+                            mTvInterest3.setText(mInterest);
+                        }
                     }
                 });
             }
@@ -127,7 +131,7 @@ public class InterestsActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Intent intent = new Intent(getApplicationContext(), ActivitiesActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ProfileSettings.class);
                 startActivity(intent);
                 finish();
             } else {
@@ -138,7 +142,7 @@ public class InterestsActivity extends AppCompatActivity {
 
     private void createList(List<String> words, String input) {
         ArrayAdapter<String> mInterestsAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, words);
-        mListView = (ListView) findViewById(R.id.lvInterests);
+        mListView = findViewById(R.id.lvInterests);
         if (input.equals("")) {
             mListView.setVisibility(View.GONE);
         } else {

@@ -15,6 +15,7 @@
         android:layout_marginEnd="15dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvActivity2"
         app:layout_constraintTop_toBottomOf="@+id/lvActivities"
@@ -27,6 +28,7 @@
         android:layout_marginTop="12dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lvActivities"
@@ -40,13 +42,15 @@
         android:layout_marginTop="16dp"
         android:text="Enter Activity:"
         android:textSize="20sp"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="69dp"
+        android:layout_height="80dp"
         android:layout_marginTop="5dp"
         app:counterEnabled="true"
         app:counterMaxLength="15"
@@ -56,8 +60,9 @@
         <EditText
             android:id="@+id/etEnterActivity"
             android:layout_width="250dp"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginStart="28dp"
+            android:typeface="serif"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAddActivities" />
 
@@ -68,8 +73,9 @@
         android:layout_width="76dp"
         android:layout_height="48dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="55dp"
         android:text="Add"
+        android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/textInputLayout2"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -95,6 +101,7 @@
         android:layout_marginEnd="10dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:typeface="serif"
         app:layout_constraintEnd_toStartOf="@+id/tvActivity2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lvActivities"
@@ -107,6 +114,7 @@
         android:layout_marginEnd="19dp"
         android:layout_marginBottom="16dp"
         android:text="Continue"
+        android:typeface="serif"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -117,6 +125,7 @@
         android:layout_marginTop="20dp"
         android:text="Error: Must select three activities"
         android:textColor="#FF1100"
+        android:typeface="serif"
         app:layout_constraintEnd_toStartOf="@+id/btnContinueBio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvActivity2" />
@@ -127,6 +136,7 @@
         android:layout_height="wrap_content"
         android:text="Error: Activity must be less than 15 characters"
         android:textColor="#FF0000"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />

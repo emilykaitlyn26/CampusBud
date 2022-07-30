@@ -1,207 +1,248 @@
 package com.example.campusbud;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
+import com.example.campusbud.models.Image;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileSettings extends AppCompatActivity {
 
-    private EditText mEtName;
-    private EditText mEtMajor;
-    private ImageView mIvCreatePicture;
-    private ImageView mIvProfileImage1;
-    private ImageView mIvProfileImage2;
-    private ImageView mIvProfileImage3;
+    private ImageView mIvCurrentProfileImage;
+    private ImageView mIvCurrentImage1;
+    private ImageView mIvCurrentImage2;
+    private ImageView mIvCurrentImage3;
 
-    private File mPhotoFile1;
-    private File mPhotoFile2;
-    private File mPhotoFile3;
-    private File mPhotoFileProfile;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private Switch mSwitchCurrentProfile;
 
     private User mUser;
-    private ParseUser mParseUser;
 
-    private final String TAG = "ProfileSettings";
+    private List<Image> mImages;
+    private Boolean mSwitchState;
+    private JSONObject mRoommateData = new JSONObject();
 
-    private JSONArray mRoommateProfileArray = new JSONArray();
-    private JSONObject mRoommateProfile = new JSONObject();
+    private static final String TAG = "ProfileSettings";
 
-    private String[] mTimes = {"12:00am", "1:00am", "2:00am", "3:00am", "4:00am", "5:00am", "6:00am", "7:00am", "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5.00pm", "6:00pm", "7.00pm", "8:00pm", "9:00pm", "10:00pm", "11:00pm"};
-
-    private RadioButton mRadioYearButton;
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private Switch mRoommateSwitch;
-    private Boolean mSwitchState = false;
-    private RadioButton mRbCleanliness;
-    private RadioButton mRbSmoke;
-    private RadioButton mRbDrink;
-    private RadioButton mRbRoomUse;
-    private RadioButton mRbGender;
-
-    private String mYear;
-    private String mName;
-    private String mMajor;
-    private String mCleanliness;
-    private String mIfSmoke;
-    private String mIfDrink;
-    private String mRoomUse;
-    private String mGender;
-    private String mTimeSleep;
-    private String mTimeWake;
-
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
 
         mUser = CometChat.getLoggedInUser();
-        mParseUser = ParseUser.getCurrentUser();
 
-        AutoCompleteTextView mSleepTextView = (AutoCompleteTextView) findViewById(R.id.etTimeNight);
-        AutoCompleteTextView mWakeTextView = (AutoCompleteTextView) findViewById(R.id.etTimeMorning);
-        ArrayAdapter<String> mSleeptimeadapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, mTimes);
-        ArrayAdapter<String> mWaketimeadapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, mTimes);
-        mSleepTextView.setThreshold(1);
-        mSleepTextView.setAdapter(mSleeptimeadapter);
-        mWakeTextView.setThreshold(1);
-        mWakeTextView.setAdapter(mWaketimeadapter);
+        mImages = new ArrayList<>();
+        queryImages();
 
-        RadioGroup mRadioYearGroup = findViewById(R.id.radioYearGroup);
-        mIvCreatePicture = findViewById(R.id.ivCreatePicture);
-        mEtName = findViewById(R.id.etName);
-        mEtMajor = findViewById(R.id.etMajor);
-        Button mBtnSettingsContinue = findViewById(R.id.btnSettingsContinue);
-        mRoommateSwitch = findViewById(R.id.roommateSwitch);
-        RadioGroup mRgCleanliness = findViewById(R.id.rgCleanliness);
-        RadioGroup mRgSmoke = findViewById(R.id.rgSmoke);
-        RadioGroup mRgDrink = findViewById(R.id.rgDrink);
-        RadioGroup mRgRoomUse = findViewById(R.id.rgRoomUse);
-        RadioGroup mRgGender = findViewById(R.id.rgGender);
-        mIvProfileImage1 = findViewById(R.id.ivProfileImage1);
-        mIvProfileImage2 = findViewById(R.id.ivProfileImage2);
-        mIvProfileImage3 = findViewById(R.id.ivProfileImage3);
+        mIvCurrentProfileImage = findViewById(R.id.ivCurrentProfileImage);
+        mIvCurrentImage1 = findViewById(R.id.ivCurrentImage1);
+        mIvCurrentImage2 = findViewById(R.id.ivCurrentImage2);
+        mIvCurrentImage3 = findViewById(R.id.ivCurrentImage3);
+        TextView mTvCurrentActivity1 = findViewById(R.id.tvCurrentActivity1);
+        TextView mTvCurrentActivity2 = findViewById(R.id.tvCurrentActivity2);
+        TextView mTvCurrentActivity3 = findViewById(R.id.tvCurrentActivity3);
+        TextView mTvCurrentBio = findViewById(R.id.tvCurrentBio);
+        TextView mTvCurrentName = findViewById(R.id.tvCurrentName);
+        TextView mTvCurrentYear = findViewById(R.id.tvCurrentYear);
+        TextView mTvCurrentMajor = findViewById(R.id.tvCurrentMajor);
+        TextView mTvCurrentInterest1 = findViewById(R.id.tvCurrentInterest1);
+        TextView mTvCurrentInterest2 = findViewById(R.id.tvCurrentInterest2);
+        TextView mTvCurrentInterest3 = findViewById(R.id.tvCurrentInterest3);
+        TextView mTvCurrentCleanliness = findViewById(R.id.tvCurrentCleanliness);
+        TextView mTvCurrentSmoking = findViewById(R.id.tvCurrentSmoking);
+        TextView mTvCurrentDrinking = findViewById(R.id.tvCurrentDrinking);
+        TextView mTvCurrentRoomUse = findViewById(R.id.tvCurrentRoomUse);
+        TextView mTvCurrentSleep = findViewById(R.id.tvCurrentSleep);
+        TextView mTvCurrentWake = findViewById(R.id.tvCurrentWake);
+        ImageView mEditName = findViewById(R.id.editName);
+        ImageView mEditYear = findViewById(R.id.editYear);
+        ImageView mEditMajor = findViewById(R.id.editMajor);
+        ImageView mEditCleanliness = findViewById(R.id.editCleanliness);
+        ImageView mEditInterests = findViewById(R.id.editInterests);
+        ImageView mEditActivities = findViewById(R.id.editActivities);
+        ImageView mEditSmoking = findViewById(R.id.editSmoking);
+        ImageView mEditDrinking = findViewById(R.id.editDrinking);
+        ImageView mEditRoomUse = findViewById(R.id.editRoomUse);
+        ImageView mEditSleep = findViewById(R.id.editSleep);
+        ImageView mEditWake = findViewById(R.id.editWake);
+        ImageView mEditBio = findViewById(R.id.editBio);
+        mSwitchCurrentProfile = findViewById(R.id.switchCurrentProfile);
+        Button mBtnDone = findViewById(R.id.btnDone);
+        Button mBtnEditImages = findViewById(R.id.btnEditImages);
 
-        mRoommateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> mSwitchState = mRoommateSwitch.isChecked());
+        mSwitchCurrentProfile.setOnCheckedChangeListener((buttonView, isChecked) -> mSwitchState = mSwitchCurrentProfile.isChecked());
 
-        mRadioYearGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            mRadioYearButton = (RadioButton) findViewById(checkedId);
-            mYear = mRadioYearButton.getText().toString();
+        JSONObject mMetadata;
+        mMetadata = mUser.getMetadata();
+        try {
+            mSwitchCurrentProfile.setChecked(mMetadata.getBoolean("ifSwitched"));
+            JSONArray mRoommateArray = mMetadata.getJSONArray("roommate_profile");
+            mRoommateData = mRoommateArray.getJSONObject(0);
+            mTvCurrentActivity1.setText(mRoommateData.getString("activity1"));
+            mTvCurrentActivity1.setBackgroundResource(R.drawable.card);
+            mTvCurrentActivity2.setText(mRoommateData.getString("activity2"));
+            mTvCurrentActivity2.setBackgroundResource(R.drawable.card);
+            mTvCurrentActivity3.setText(mRoommateData.getString("activity3"));
+            mTvCurrentActivity3.setBackgroundResource(R.drawable.card);
+            mTvCurrentInterest1.setText(mRoommateData.getString("interest1"));
+            mTvCurrentInterest1.setBackgroundResource(R.drawable.card);
+            mTvCurrentInterest2.setText(mRoommateData.getString("interest2"));
+            mTvCurrentInterest2.setBackgroundResource(R.drawable.card);
+            mTvCurrentInterest3.setText(mRoommateData.getString("interest3"));
+            mTvCurrentInterest3.setBackgroundResource(R.drawable.card);
+            mTvCurrentName.setText(mMetadata.getString("name"));
+            mTvCurrentMajor.setText(mMetadata.getString("major"));
+            mTvCurrentYear.setText(mMetadata.getString("year"));
+            mTvCurrentCleanliness.setText(mRoommateData.getString("cleanliness"));
+            mTvCurrentSmoking.setText(mRoommateData.getString("if_smoke"));
+            mTvCurrentDrinking.setText(mRoommateData.getString("if_drink"));
+            if (mRoommateData.getString("room_use").equals("All of the Above")) {
+                mTvCurrentRoomUse.setText("Any Use");
+            } else {
+                mTvCurrentRoomUse.setText(mRoommateData.getString("room_use"));
+            }
+            mTvCurrentSleep.setText(mRoommateData.getString("time_sleep"));
+            mTvCurrentWake.setText(mRoommateData.getString("time_wake"));
+            mTvCurrentBio.setText(mRoommateData.getString("bio"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mEditBio.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), BioActivity.class);
+            startActivity(intent);
+            finish();
         });
 
-        mRgCleanliness.setOnCheckedChangeListener((group, checkedId) -> {
-            mRbCleanliness = (RadioButton) findViewById(checkedId);
-            mCleanliness = mRbCleanliness.getText().toString();
+        mEditActivities.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), ActivitiesActivity.class);
+            startActivity(intent);
+            finish();
         });
 
-        mRgSmoke.setOnCheckedChangeListener((group, checkedId) -> {
-            mRbSmoke = findViewById(checkedId);
-            mIfSmoke = mRbSmoke.getText().toString();
+        mEditInterests.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), InterestsActivity.class);
+            startActivity(intent);
+            finish();
         });
 
-        mRgDrink.setOnCheckedChangeListener((group, checkedId) -> {
-            mRbDrink = findViewById(checkedId);
-            mIfDrink = mRbDrink.getText().toString();
-        });
-
-        mRgRoomUse.setOnCheckedChangeListener((group, checkedId) -> {
-            mRbRoomUse = findViewById(checkedId);
-            mRoomUse = mRbRoomUse.getText().toString();
-        });
-
-        mRgGender.setOnCheckedChangeListener((group, checkedId) -> {
-            mRbGender = findViewById(checkedId);
-            mGender = mRbGender.getText().toString();
-        });
-
-        mWakeTextView.setOnItemClickListener((parent, view, position, id) -> mTimeWake = (String) parent.getItemAtPosition(position));
-
-        mSleepTextView.setOnItemClickListener((parent, view, position, id) -> mTimeSleep = (String) parent.getItemAtPosition(position));
-
-        mIvCreatePicture.setOnClickListener(v -> optionsMenu("Profile"));
-
-        mIvProfileImage1.setOnClickListener(v -> optionsMenu("Image1"));
-
-        mIvProfileImage2.setOnClickListener(v -> optionsMenu("Image2"));
-
-        mIvProfileImage3.setOnClickListener(v -> optionsMenu("Image3"));
-
-        mBtnSettingsContinue.setOnClickListener(v -> {
-
-            mName = mEtName.getText().toString();
-            mMajor = mEtMajor.getText().toString();
-            JSONObject metadata = mUser.getMetadata();
-
+        mBtnDone.setOnClickListener(v -> {
             try {
-                metadata.put("name", mName);
-                metadata.put("year", mYear);
-                metadata.put("major", mMajor);
-                metadata.put("gender", mGender);
-                metadata.put("ifSwitched", mSwitchState);
-                mRoommateProfile.put("time_sleep", mTimeSleep);
-                mRoommateProfile.put("time_wake", mTimeWake);
-                mRoommateProfile.put("cleanliness", mCleanliness);
-                mRoommateProfile.put("if_smoke", mIfSmoke);
-                mRoommateProfile.put("if_drink", mIfDrink);
-                mRoommateProfile.put("room_use", mRoomUse);
-                mRoommateProfileArray.put(mRoommateProfile);
-                metadata.put("roommate_profile", mRoommateProfileArray);
-                Log.d(TAG, "metadata: " + metadata);
+                mRoommateData.put("ifSwitched", mSwitchState);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             updateUser(mUser);
-            saveImages(mParseUser, mPhotoFileProfile, mPhotoFile1, mPhotoFile2, mPhotoFile3);
-            Intent intent = new Intent(this, InterestsActivity.class);
+            finish();
+        });
+
+        mEditName.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), NameActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        mEditYear.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), YearActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        mEditMajor.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), MajorActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        mEditCleanliness.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), CleanlinessActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        mEditSmoking.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), SmokingActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        mEditDrinking.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), DrinkingActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        mEditRoomUse.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), RoomUseActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        mEditSleep.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), SleepActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        mEditWake.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), WakeActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        mBtnEditImages.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), ImagesActivity.class);
             startActivity(intent);
             finish();
         });
     }
 
-    private void saveImages(ParseUser currentUser, File profileFile, File file1, File file2, File file3) {
-        Image mImage = new Image();
-        mImage.setProfileImage(new ParseFile(profileFile));
-        mImage.setImage1(new ParseFile(file1));
-        mImage.setImage2(new ParseFile(file2));
-        mImage.setImage3(new ParseFile(file3));
-        mImage.setUser(currentUser);
-        mImage.saveInBackground(e -> {
+    private void queryImages() {
+        ParseQuery<Image> query = ParseQuery.getQuery(Image.class);
+        query.include(Image.KEY_USER);
+        query.whereEqualTo(Image.KEY_USER, ParseUser.getCurrentUser());
+        query.findInBackground((objects, e) -> {
             if (e != null) {
-                Log.e(TAG, "Error while saving", e);
+                Log.e(TAG, "Issue with getting images", e);
+                return;
             }
-            Log.i(TAG, "Post save was successful!");
+            mImages.addAll(objects);
+            int mIndex = mImages.size() - 1;
+            Context mContext1 = mIvCurrentImage1.getContext();
+            ParseFile mImage1file = mImages.get(mIndex).getImage1Url();
+            Glide.with(mContext1).load(mImage1file.getUrl()).placeholder(R.drawable.greyimage).into(mIvCurrentImage1);
+            Context mContext2 = mIvCurrentImage2.getContext();
+            ParseFile mImage2file = (mImages.get(mIndex)).getImage2Url();
+            Glide.with(mContext2).load(mImage2file.getUrl()).placeholder(R.drawable.greyimage).into(mIvCurrentImage2);
+            Context mContext3 = mIvCurrentImage3.getContext();
+            ParseFile mImage3file = (mImages.get(mIndex)).getImage3Url();
+            Glide.with(mContext3).load(mImage3file.getUrl()).placeholder(R.drawable.greyimage).into(mIvCurrentImage3);
+            Context mContextP = mIvCurrentProfileImage.getContext();
+            ParseFile mProfileImageFile = mImages.get(mIndex).getProfileImageUrl();
+            Glide.with(mContextP).load(mProfileImageFile.getUrl()).placeholder(R.drawable.greyimage).circleCrop().into(mIvCurrentProfileImage);
         });
     }
 
@@ -216,163 +257,5 @@ public class ProfileSettings extends AppCompatActivity {
                 Log.d(TAG, e.getMessage());
             }
         });
-    }
-
-    public void optionsMenu(String image) {
-        final CharSequence[] mOptions = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        mBuilder.setTitle("Add Photo");
-        mBuilder.setItems(mOptions, (dialog, item) -> {
-            if (mOptions[item].equals("Take Photo")) {
-                launchCamera(image);
-            } else if (mOptions[item].equals("Choose from Gallery")) {
-                getImageFromAlbum(image);
-            } else if (mOptions[item].equals("Cancel")) {
-                dialog.dismiss();
-            }
-        }); mBuilder.show();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 30) {
-            if (resultCode == RESULT_OK) {
-                Bitmap mTakenImage = BitmapFactory.decodeFile(mPhotoFileProfile.getAbsolutePath());
-                mIvCreatePicture.setImageBitmap(mTakenImage);
-                mIvCreatePicture.setRotation((float) 90.0);
-            }
-        } else if (requestCode == 2) {
-            if (resultCode == RESULT_OK && data != null) {
-                Uri mImageUri = data.getData();
-                String[] mFilePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor mCursor = getContentResolver().query(mImageUri, mFilePathColumn, null, null, null);
-                mCursor.moveToFirst();
-                int mColumnIndex = mCursor.getColumnIndex(mFilePathColumn[0]);
-                String mCurrentPhotoPath = mCursor.getString(mColumnIndex);
-                mCursor.close();
-                mPhotoFileProfile = new File(mCurrentPhotoPath);
-                mIvCreatePicture.setImageURI(mImageUri);
-            }
-        }
-        if (requestCode == 3) {
-            if (resultCode == RESULT_OK) {
-                Bitmap mTakenImage = BitmapFactory.decodeFile(mPhotoFile1.getAbsolutePath());
-                mIvProfileImage1.setImageBitmap(mTakenImage);
-                mIvProfileImage1.setRotation((float) 90.0);
-            }
-        } else if (requestCode == 4) {
-            if (resultCode == RESULT_OK && data != null) {
-                Uri mImageUri = data.getData();
-                String[] mFilePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor mCursor = getContentResolver().query(mImageUri, mFilePathColumn, null, null, null);
-                mCursor.moveToFirst();
-                int columnIndex = mCursor.getColumnIndex(mFilePathColumn[0]);
-                String mCurrentPhotoPath = mCursor.getString(columnIndex);
-                mCursor.close();
-                mPhotoFile1 = new File(mCurrentPhotoPath);
-                mIvProfileImage1.setImageURI(mImageUri);
-            }
-        }
-        if (requestCode == 5) {
-            if (resultCode == RESULT_OK) {
-                Bitmap mTakenImage = BitmapFactory.decodeFile(mPhotoFile2.getAbsolutePath());
-                mIvProfileImage2.setImageBitmap(mTakenImage);
-                mIvProfileImage2.setRotation((float) 90.0);
-            }
-        } else if (requestCode == 6) {
-            if (resultCode == RESULT_OK && data != null) {
-                Uri mImageUri = data.getData();
-                String[] mFilePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor mCursor = getContentResolver().query(mImageUri, mFilePathColumn, null, null, null);
-                mCursor.moveToFirst();
-                int columnIndex = mCursor.getColumnIndex(mFilePathColumn[0]);
-                String mCurrentPhotoPath = mCursor.getString(columnIndex);
-                mCursor.close();
-                mPhotoFile2 = new File(mCurrentPhotoPath);
-                mIvProfileImage2.setImageURI(mImageUri);
-            }
-        }
-        if (requestCode == 7) {
-            if (resultCode == RESULT_OK) {
-                Bitmap mTakenImage = BitmapFactory.decodeFile(mPhotoFile3.getAbsolutePath());
-                mIvProfileImage3.setImageBitmap(mTakenImage);
-                mIvProfileImage3.setRotation((float) 90.0);
-            }
-        } else if (requestCode == 8) {
-            if (resultCode == RESULT_OK && data != null) {
-                Uri mImageUri = data.getData();
-                String[] mFilePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor mCursor = getContentResolver().query(mImageUri, mFilePathColumn, null, null, null);
-                mCursor.moveToFirst();
-                int mColumnIndex = mCursor.getColumnIndex(mFilePathColumn[0]);
-                String mCurrentPhotoPath = mCursor.getString(mColumnIndex);
-                mCursor.close();
-                mPhotoFile3 = new File(mCurrentPhotoPath);
-                mIvProfileImage3.setImageURI(mImageUri);
-            }
-        }
-    }
-
-    private void getImageFromAlbum(String image) {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        switch (image) {
-            case "Profile":
-                startActivityForResult(intent, 2);
-                break;
-            case "Image1":
-                startActivityForResult(intent, 4);
-                break;
-            case "Image2":
-                startActivityForResult(intent, 6);
-                break;
-            case "Image3":
-                startActivityForResult(intent, 8);
-                break;
-        }
-    }
-
-    private File getPhotoFileUri(String fileName) {
-        File mediaStorageDir = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-            Log.d(TAG, "failed to create directory");
-        }
-        return new File(mediaStorageDir.getPath() + File.separator + fileName);
-    }
-
-    private void launchCamera(String image) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(this.getPackageManager()) != null) {
-            switch (image) {
-                case "Profile":
-                    String mProfilePhotoName = "profilephoto.jpg";
-                    mPhotoFileProfile = getPhotoFileUri(mProfilePhotoName);
-                    Uri mFileProviderp = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", mPhotoFileProfile);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileProviderp);
-                    startActivityForResult(intent, 30);
-                    break;
-                case "Image1":
-                    String mPhoto1Name = "photo1.jpg";
-                    mPhotoFile1 = getPhotoFileUri(mPhoto1Name);
-                    Uri mFileProvider1 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", mPhotoFile1);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileProvider1);
-                    startActivityForResult(intent, 3);
-                    break;
-                case "Image2":
-                    String mPhoto2Name = "photo2.jpg";
-                    mPhotoFile2 = getPhotoFileUri(mPhoto2Name);
-                    Uri mFileProvider2 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", mPhotoFile2);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileProvider2);
-                    startActivityForResult(intent, 5);
-                    break;
-                case "Image3":
-                    String mPhoto3Name = "photo3.jpg";
-                    mPhotoFile3 = getPhotoFileUri(mPhoto3Name);
-                    Uri mFileProvider3 = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()), BuildConfig.APPLICATION_ID + ".provider", mPhotoFile3);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mFileProvider3);
-                    startActivityForResult(intent, 7);
-                    break;
-            }
-        }
     }
 }

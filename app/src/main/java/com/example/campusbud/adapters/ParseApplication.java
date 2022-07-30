@@ -3,9 +3,9 @@ package com.example.campusbud.adapters;
 import android.app.Application;
 
 import com.example.campusbud.BuildConfig;
-import com.example.campusbud.Activity;
-import com.example.campusbud.Image;
-import com.example.campusbud.Interest;
+import com.example.campusbud.models.Activity;
+import com.example.campusbud.models.Image;
+import com.example.campusbud.models.Interest;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

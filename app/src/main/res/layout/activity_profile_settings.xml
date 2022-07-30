@@ -7,410 +7,629 @@
     tools:context=".ProfileSettings">
 
     <ImageView
-        android:id="@+id/ivProfileImage3"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="38dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivProfileImage2"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeMorning"
-        app:srcCompat="@drawable/addimage" />
-
-    <ImageView
-        android:id="@+id/ivProfileImage2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeMorning"
-        app:srcCompat="@drawable/addimage" />
-
-    <TextView
-        android:id="@+id/tvTimeNight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text="When do you sleep?"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
-
-    <RadioGroup
-        android:id="@+id/rgSmoke"
-        android:layout_width="197dp"
+        android:id="@+id/editBio"
+        android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="3dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/tvSmoke"
-        app:layout_constraintTop_toBottomOf="@+id/rgCleanliness">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Yes"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Sometimes"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="No"
-            android:textSize="12sp" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/tvDrink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="3dp"
-        android:text="Do you drink?"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSmoke" />
-
-    <TextView
-        android:id="@+id/tvSmoke"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="3dp"
-        android:text="Do you smoke?"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgCleanliness" />
-
-    <EditText
-        android:id="@+id/etMajor"
-        android:layout_width="140dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:hint="Major"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/ivCreatePicture"
-        app:layout_constraintTop_toBottomOf="@+id/etName" />
-
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="141dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:hint="Name"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/ivCreatePicture"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RadioGroup
-        android:id="@+id/radioYearGroup"
-        android:layout_width="97dp"
-        android:layout_height="119dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@+id/etName"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RadioButton
-            android:id="@+id/rbFreshman"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:checked="false"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Freshman"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:id="@+id/rbSophomore"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:checked="false"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Sophomore"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:id="@+id/rbJunior"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:checked="false"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Junior"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:id="@+id/rbSenior"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:checked="false"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Senior"
-            android:textSize="12sp" />
-
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/btnSettingsContinue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="16dp"
-        android:text="Continue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentBio"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWake"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
 
     <ImageView
-        android:id="@+id/ivCreatePicture"
+        android:id="@+id/editWake"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentWake"
+        app:layout_constraintTop_toBottomOf="@+id/editSleep"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <ImageView
+        android:id="@+id/editRoomUse"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="90dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentRoomUse"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentActivity3"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <ImageView
+        android:id="@+id/editSleep"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentSleep"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentRoomUse"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <ImageView
+        android:id="@+id/editDrinking"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentDrinking"
+        app:layout_constraintTop_toBottomOf="@+id/editSmoking"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <ImageView
+        android:id="@+id/editSmoking"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="38dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentSmoking"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentActivity3"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <ImageView
+        android:id="@+id/editCleanliness"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentCleanliness"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentActivity3"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <ImageView
+        android:id="@+id/editActivities"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentActivity3"
+        app:layout_constraintTop_toBottomOf="@+id/editInterests"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <ImageView
+        android:id="@+id/editInterests"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="38dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentInterest3"
+        app:layout_constraintTop_toBottomOf="@+id/editMajor"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <TextView
+        android:id="@+id/tvCurrentActivity3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentActivity2"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentInterest3"
+        tools:text="Interest1" />
+
+    <TextView
+        android:id="@+id/tvCurrentActivity2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentInterest2"
+        tools:text="Interest1" />
+
+    <TextView
+        android:id="@+id/tvCurrentActivity1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toStartOf="@+id/tvCurrentActivity2"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentInterest1"
+        tools:text="Interest1" />
+
+    <TextView
+        android:id="@+id/tvCurrentInterest3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentInterest2"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentMajor"
+        tools:text="Interest1" />
+
+    <TextView
+        android:id="@+id/tvCurrentInterest2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentMajor"
+        tools:text="Interest1" />
+
+    <TextView
+        android:id="@+id/tvRoomCleanliness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="100dp"
+        android:text="Cleanliness: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/imageView19"
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage" />
+
+    <TextView
+        android:id="@+id/tvSmoking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="4dp"
+        android:text="Smoking: "
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/imageView18"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomCleanliness" />
+
+    <TextView
+        android:id="@+id/tvDrinking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="4dp"
+        android:text="Drinking: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/imageView17"
+        app:layout_constraintTop_toBottomOf="@+id/tvSmoking" />
+
+    <TextView
+        android:id="@+id/tvCurrentSmoking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentCleanliness"
+        tools:text="No" />
+
+    <TextView
+        android:id="@+id/tvCurrentCleanliness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="100dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage"
+        tools:text="Organized" />
+
+    <TextView
+        android:id="@+id/tvCurrentDrinking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
+        app:layout_constraintTop_toBottomOf="@+id/tvSmoking"
+        tools:text="No" />
+
+    <TextView
+        android:id="@+id/tvTimeSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="3dp"
+        android:text="Time Sleep: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/imageView15"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2" />
+
+    <TextView
+        android:id="@+id/tvCurrentRoomUse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentDrinking"
+        tools:text="Social Space" />
+
+    <!--<TextView
+        android:id="@+id/tvBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="Bio: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWake" />-->
+
+    <TextView
+        android:id="@+id/tvCurrentInterest1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:padding="5dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toStartOf="@+id/tvCurrentInterest2"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentMajor"
+        tools:text="Interest1" />
+
+    <ImageView
+        android:id="@+id/ivCurrentImage1"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/addprofile" />
-
-    <Switch
-        android:id="@+id/roommateSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Roommate Profile"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivCreatePicture" />
-
-    <TextView
-        android:id="@+id/tvCleanliness"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Room Cleanliness"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roommateSwitch" />
-
-    <RadioGroup
-        android:id="@+id/rgCleanliness"
-        android:layout_width="369dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCleanliness">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Organized"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Casual"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Occasionally messy"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Messy"
-            android:textSize="12sp" />
-
-    </RadioGroup>
-
-    <RadioGroup
-        android:id="@+id/rgDrink"
-        android:layout_width="197dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="2dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/tvDrink"
-        app:layout_constraintTop_toBottomOf="@+id/rgSmoke">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Yes"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Sometimes"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="No"
-            android:textSize="12sp" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/tvRoomUse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text="Preferred Use of Room"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgDrink" />
-
-    <RadioGroup
-        android:id="@+id/rgRoomUse"
-        android:layout_width="389dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="11dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRoomUse">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Social Space"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Study Space"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Sleeping Space"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="All of the Above"
-            android:textSize="12sp" />
-
-    </RadioGroup>
-
-    <AutoCompleteTextView
-        android:id="@+id/etTimeNight"
-        android:layout_width="80dp"
-        android:layout_height="34dp"
-        android:ems="10"
-        android:textAppearance="?android:attr/textAppearanceSmallInverse"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/tvTimeNight"
-        app:layout_constraintTop_toBottomOf="@+id/rgRoomUse" />
-
-    <AutoCompleteTextView
-        android:id="@+id/etTimeMorning"
-        android:layout_width="80dp"
-        android:layout_height="34dp"
-        android:ems="10"
-        android:textAppearance="?android:attr/textAppearanceSmallInverse"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/tvTimeMorning"
-        app:layout_constraintTop_toBottomOf="@+id/etTimeNight" />
-
-    <RadioGroup
-        android:id="@+id/rgGender"
-        android:layout_width="140dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="9dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@+id/ivCreatePicture"
-        app:layout_constraintTop_toBottomOf="@+id/etMajor">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Male"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:text="Female"
-            android:textSize="12sp" />
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/tvTimeMorning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="When do you wake up?"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTimeNight" />
+        app:layout_constraintEnd_toStartOf="@+id/ivCurrentImage2"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentBio"
+        tools:src="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/ivProfileImage1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="17dp"
+        android:id="@+id/ivCurrentImage2"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
-        app:layout_constraintEnd_toStartOf="@+id/ivProfileImage2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeMorning"
-        app:srcCompat="@drawable/addimage" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentBio"
+        tools:src="@tools:sample/avatars" />
 
+    <ImageView
+        android:id="@+id/ivCurrentImage3"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentImage2"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentBio"
+        tools:src="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="19dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="-3dp"
+        android:src="@drawable/collegesymbol"
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentName"
+        app:tint="@color/light_blue" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="13dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/book2"
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentYear"
+        app:tint="@color/light_blue" />
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="18dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/sun"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView15"
+        app:tint="@color/light_blue" />
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="19dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="26dp"
+        android:src="@drawable/moon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView16"
+        app:tint="@color/light_blue" />
+
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="16dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/door"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17"
+        app:tint="@color/light_blue" />
+
+    <ImageView
+        android:id="@+id/imageView17"
+        android:layout_width="20dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/drink"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView18"
+        app:tint="@color/light_blue" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="15dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="9dp"
+        android:src="@drawable/smoking"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView19"
+        app:tint="@color/light_blue" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="16dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/broom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage"
+        app:tint="@color/light_blue" />
+
+    <TextView
+        android:id="@+id/tvCurrentWake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentSleep"
+        tools:text="8:00am" />
+
+    <TextView
+        android:id="@+id/tvTimeWake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="4dp"
+        android:text="Time Wake Up: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/imageView14"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeSleep" />
+
+    <TextView
+        android:id="@+id/tvCurrentSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2"
+        tools:text="10:00pm" />
+
+    <TextView
+        android:id="@+id/tvCurrentBio"
+        android:layout_width="309dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeWake"
+        tools:text="hello this is the bio which is for saying things about yourself like what you like" />
+
+    <TextView
+        android:id="@+id/tvRoomUseDisplay2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="4dp"
+        android:text="Room Use: "
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/imageView16"
+        app:layout_constraintTop_toBottomOf="@+id/tvDrinking" />
+
+    <ImageView
+        android:id="@+id/editMajor"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="102dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentMajor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <ImageView
+        android:id="@+id/editYear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentYear"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentName"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <ImageView
+        android:id="@+id/ivCurrentProfileImage"
+        android:layout_width="114dp"
+        android:layout_height="114dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvCurrentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:textSize="18sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentProfileImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="emilykaitlyn" />
+
+    <TextView
+        android:id="@+id/tvCurrentYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:textSize="18sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentName"
+        tools:text="Junior" />
+
+    <TextView
+        android:id="@+id/tvCurrentMajor"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="11dp"
+        android:textSize="18sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentYear"
+        tools:text="Computer Science" />
+
+    <ImageView
+        android:id="@+id/editName"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toEndOf="@+id/tvCurrentName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pencil"
+        app:tint="#57B5AC" />
+
+    <Button
+        android:id="@+id/btnEditImages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="10dp"
+        android:text="Edit Images"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentImage1" />
+
+    <Button
+        android:id="@+id/btnDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="97dp"
+        android:layout_marginEnd="16dp"
+        android:text="Done"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentImage3" />
+
+    <Switch
+        android:id="@+id/switchCurrentProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="10dp"
+        android:text="Display Roommate Profile"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEditImages" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

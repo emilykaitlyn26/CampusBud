@@ -26,7 +26,7 @@ public class CometChatStartConversation extends AppCompatActivity {
 
     private ViewPager viewPager;
 
-    private TabLayout tabLayout;
+    //private TabLayout tabLayout;
 
     private TabAdapter adapter;
 
@@ -46,7 +46,7 @@ public class CometChatStartConversation extends AppCompatActivity {
         setContentView(R.layout.activity_comet_chat_start_conversation);
         title = findViewById(R.id.title);
         viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.tabLayout);
+        //tabLayout = findViewById(R.id.tabLayout);
         adapter = new TabAdapter(getSupportFragmentManager());
         backIcon = findViewById(R.id.backIcon);
         backIcon.setOnClickListener(new View.OnClickListener() {
@@ -59,25 +59,25 @@ public class CometChatStartConversation extends AppCompatActivity {
         CometChatUserList cometChatUserList = new CometChatUserList();
         cometChatUserList.setTitleVisible(false);
         CometChatGroupList cometChatGroupList = new CometChatGroupList();
-        cometChatGroupList.setTitleVisible(false);
-        cometChatGroupList.setGroupCreateVisible(false);
+        //cometChatGroupList.setTitleVisible(false);
+        //cometChatGroupList.setGroupCreateVisible(false);
         if (conversationType.equalsIgnoreCase(ConversationMode.ALL_CHATS.toString())) {
             adapter.addFragment(cometChatUserList, "User");
-            adapter.addFragment(cometChatGroupList, getString(R.string.groups));
-        } else if (conversationType.equalsIgnoreCase(ConversationMode.GROUP.toString())) {
+            //adapter.addFragment(cometChatGroupList, getString(R.string.groups));
+        /*} else if (conversationType.equalsIgnoreCase(ConversationMode.GROUP.toString())) {
             title.setText(getString(R.string.select_group));
             tabLayout.setVisibility(View.GONE);
-            adapter.addFragment(cometChatGroupList, getString(R.string.groups));
+            adapter.addFragment(cometChatGroupList, getString(R.string.groups));*/
         } else {
             title.setText(getString(R.string.select_user));
-            tabLayout.setVisibility(View.GONE);
+            //tabLayout.setVisibility(View.GONE);
             adapter.addFragment(cometChatUserList, getString(R.string.users));
         }
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
-        tabLayout.setupWithViewPager(viewPager);
+        //tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        /*tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition()==0) {
@@ -96,6 +96,6 @@ public class CometChatStartConversation extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
-        });
+        });*/
     }
 }

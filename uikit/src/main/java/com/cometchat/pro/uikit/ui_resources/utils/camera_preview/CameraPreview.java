@@ -122,7 +122,7 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
                 }
                 @Override
                 public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    Toast.makeText(context, "Configuration change", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Configuration change", Toast.LENGTH_SHORT).show();
                 }
             }, null);
         } catch (CameraAccessException e) {

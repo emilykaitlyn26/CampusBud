@@ -50,9 +50,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="8dp"
+                    android:background="#57B5AC"
                     android:backgroundTint="@color/colorPrimary"
                     android:foregroundTint="@color/colorPrimary"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     tools:visibility="visible" />
                 <include android:id="@+id/vw_sticker_message"
                     android:layout_width="128dp"

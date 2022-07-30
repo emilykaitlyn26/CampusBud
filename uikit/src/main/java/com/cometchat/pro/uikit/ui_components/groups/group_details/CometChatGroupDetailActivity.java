@@ -1133,8 +1133,8 @@ public class CometChatGroupDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(CometChatException e) {
-                Toast.makeText(CometChatGroupDetailActivity.this,CometChatError.localized(e),
-                        Toast.LENGTH_LONG).show();
+                //Toast.makeText(CometChatGroupDetailActivity.this,CometChatError.localized(e),
+                        //Toast.LENGTH_LONG).show();
             }
         });
     }

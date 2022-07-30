@@ -375,7 +375,7 @@ public class CometChatGroupList extends Fragment  {
 
             @Override
             public void onError(CometChatException e) {
-                Toast.makeText(getContext(),CometChatError.localized(e),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),CometChatError.localized(e),Toast.LENGTH_SHORT).show();
             }
         });
     }

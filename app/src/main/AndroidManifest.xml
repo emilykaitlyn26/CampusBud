@@ -27,6 +27,51 @@
         android:theme="@style/Theme.CapstoneApp"
         tools:targetApi="31">
         <activity
+            android:name=".CreateImagesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DrinkingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SmokingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RoomUseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CleanlinessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".YearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MajorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SleepActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WakeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ImagesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateActivitiesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateInterestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateRoommateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".BioActivity"
             android:exported="false" />
         <activity
@@ -42,16 +87,16 @@
             android:name=".SetCollegeActivity"
             android:exported="false" />
         <activity
-            android:name=".State"
+            android:name=".models.State"
             android:exported="false" />
         <activity
-            android:name=".University"
+            android:name=".models.University"
             android:exported="false" />
         <activity
             android:name=".AutoTextField"
             android:exported="false" />
         <activity
-            android:name=".Image"
+            android:name=".models.Image"
             android:exported="false" />
 
         <provider

@@ -6,11 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".SetCollegeActivity">
 
+    <!--<Button
+        android:id="@+id/btnContinueProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Continue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseCollege" />-->
+
     <AutoCompleteTextView
         android:id="@+id/chooseCollege"
         android:layout_width="350dp"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:inputType="textAutoComplete"
+        android:textColorHighlight="#57b5ac"
+        android:textColorLink="#57b5ac"
+        android:typeface="serif"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,20 +33,36 @@
         android:id="@+id/tvCollegePrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Select College: "
-        android:textSize="28sp"
+        android:textSize="34sp"
+        android:typeface="serif"
         app:layout_constraintBottom_toTopOf="@+id/chooseCollege"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnSignUp"
+        android:id="@+id/btnContinueProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Sign Up"
+        android:layout_marginTop="10dp"
+        android:text="Continue"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseCollege" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="133dp"
+        android:layout_height="232dp"
+        android:layout_marginTop="110dp"
+        android:tint="#57B5AC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/collegesymbol" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

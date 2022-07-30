@@ -25,7 +25,7 @@ import java.util.Locale;
 public class UIKitSettings {
 
     //style
-    protected static String UIcolor = "#03A9F4";
+    protected static String UIcolor = "#57B5AC";
     //BottomBar
     private static boolean users = true;
     private static boolean groups = true;
@@ -189,22 +189,22 @@ public class UIKitSettings {
         CometChat.addConnectionListener(TAG, new CometChat.ConnectionListener() {
             @Override
             public void onConnected() {
-                Toast.makeText(context,"OnConnected",Toast.LENGTH_LONG).show();
+                //Toast.makeText(context,"OnConnected",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onConnecting() {
-                Toast.makeText(context,"OnConnecting",Toast.LENGTH_LONG).show();
+                //Toast.makeText(context,"OnConnecting",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onDisconnected() {
-                Toast.makeText(context,"OnDisConnected",Toast.LENGTH_LONG).show();
+                //Toast.makeText(context,"OnDisConnected",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFeatureThrottled() {
-                Toast.makeText(context,"OnFeatureThrottled",Toast.LENGTH_LONG).show();
+                //Toast.makeText(context,"OnFeatureThrottled",Toast.LENGTH_LONG).show();
             }
         });
     }

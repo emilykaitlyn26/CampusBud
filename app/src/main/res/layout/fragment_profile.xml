@@ -35,7 +35,7 @@
         android:textSize="16sp"
         android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvActivities2Input"
-        app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentInterest1"
         tools:text="Activity3" />
 
     <TextView
@@ -55,7 +55,7 @@
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentInterest1"
         tools:text="Activity2" />
 
     <TextView
@@ -100,12 +100,12 @@
         tools:text="Interest2" />
 
     <TextView
-        android:id="@+id/tvBioInput"
+        android:id="@+id/tvCurrentBio"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="26dp"
         android:textSize="16sp"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +130,7 @@
         android:textSize="16sp"
         android:typeface="serif"
         app:layout_constraintEnd_toStartOf="@+id/tvActivities2Input"
-        app:layout_constraintTop_toBottomOf="@+id/tvInterests1Input"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentInterest1"
         tools:text="Activity1" />
 
     <!--<TextView
@@ -160,15 +160,15 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTimeWake" />-->
 
     <TextView
-        android:id="@+id/tvTimeWakeInput"
+        android:id="@+id/tvCurrentWake"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="3dp"
         android:textSize="16sp"
         android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimeSleepInput"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentSleep"
         tools:text="8:00am" />
 
     <TextView
@@ -185,10 +185,10 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTimeSleep" />
 
     <TextView
-        android:id="@+id/tvTimeSleepInput"
+        android:id="@+id/tvCurrentSleep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="3dp"
         android:textSize="16sp"
         android:typeface="serif"
@@ -210,29 +210,29 @@
         app:layout_constraintTop_toBottomOf="@+id/tvDrinking" />
 
     <ImageView
-        android:id="@+id/ivPictureDisplay"
+        android:id="@+id/ivCurrentProfileImage"
         android:layout_width="114dp"
         android:layout_height="114dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tvUserDisplay"
+        android:id="@+id/tvCurrentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
         android:textSize="18sp"
         android:typeface="serif"
-        app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentProfileImage"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="emilykaitlyn" />
 
     <TextView
-        android:id="@+id/tvYearDisplay"
+        android:id="@+id/tvCurrentYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -240,11 +240,11 @@
         android:textSize="18sp"
         android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/imageView12"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentName"
         tools:text="Junior" />
 
     <TextView
-        android:id="@+id/tvMajorDisplay"
+        android:id="@+id/tvCurrentMajor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -254,7 +254,7 @@
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView12"
-        app:layout_constraintTop_toBottomOf="@+id/tvYearDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentYear"
         tools:text="Computer Science" />
 
     <ImageView
@@ -279,7 +279,7 @@
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage" />
 
     <TextView
         android:id="@+id/tvRoomCleanliness"
@@ -321,10 +321,10 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSmoking" />
 
     <TextView
-        android:id="@+id/tvCleanlinessInput"
+        android:id="@+id/tvCurrentSmoking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:textSize="16sp"
         android:typeface="serif"
@@ -333,10 +333,10 @@
         tools:text="Organized" />
 
     <TextView
-        android:id="@+id/tvSmokingInput"
+        android:id="@+id/tvCurrentCleanliness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="4dp"
         android:textSize="16sp"
         android:typeface="serif"
@@ -345,10 +345,10 @@
         tools:text="No" />
 
     <TextView
-        android:id="@+id/tvDrinkingInput"
+        android:id="@+id/tvCurrentDrinking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="4dp"
         android:textSize="16sp"
         android:typeface="serif"
@@ -370,19 +370,19 @@
         app:layout_constraintTop_toBottomOf="@+id/tvRoomUseDisplay2" />
 
     <TextView
-        android:id="@+id/tvRoomUseInput"
+        android:id="@+id/tvCurrentRoomUse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="3dp"
         android:textSize="16sp"
         android:typeface="serif"
         app:layout_constraintStart_toEndOf="@+id/tvTimeWake"
-        app:layout_constraintTop_toBottomOf="@+id/tvDrinkingInput"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentDrinking"
         tools:text="Social Space" />
 
     <TextView
-        android:id="@+id/tvInterests1Input"
+        android:id="@+id/tvCurrentInterest1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -415,36 +415,36 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTimeWake" />-->
 
     <ImageView
-        android:id="@+id/ivImage1"
+        android:id="@+id/ivCurrentImage1"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="15dp"
         android:scaleType="centerCrop"
-        app:layout_constraintEnd_toStartOf="@+id/ivImage2"
-        app:layout_constraintTop_toBottomOf="@+id/tvBioInput"
+        app:layout_constraintEnd_toStartOf="@+id/ivCurrentImage2"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentBio"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/ivImage2"
+        android:id="@+id/ivCurrentImage2"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_marginTop="18dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBioInput"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentBio"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
-        android:id="@+id/ivImage3"
+        android:id="@+id/ivCurrentImage3"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="18dp"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toEndOf="@+id/ivImage2"
-        app:layout_constraintTop_toBottomOf="@+id/tvBioInput"
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentImage2"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentBio"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
@@ -455,8 +455,8 @@
         android:layout_marginTop="-3dp"
         android:src="@drawable/collegesymbol"
         android:tint="@color/light_blue"
-        app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
-        app:layout_constraintTop_toBottomOf="@+id/tvUserDisplay" />
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentName" />
 
     <ImageView
         android:id="@+id/imageView13"
@@ -466,73 +466,73 @@
         android:layout_marginTop="15dp"
         android:src="@drawable/book2"
         android:tint="@color/light_blue"
-        app:layout_constraintStart_toEndOf="@+id/ivPictureDisplay"
-        app:layout_constraintTop_toBottomOf="@+id/tvYearDisplay" />
+        app:layout_constraintStart_toEndOf="@+id/ivCurrentProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentYear" />
 
     <ImageView
         android:id="@+id/imageView14"
         android:layout_width="18dp"
         android:layout_height="21dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="264dp"
         android:src="@drawable/sun"
         android:tint="@color/light_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage" />
 
     <ImageView
         android:id="@+id/imageView15"
         android:layout_width="19dp"
         android:layout_height="26dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="236dp"
         android:src="@drawable/moon"
         android:tint="@color/light_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage" />
 
     <ImageView
         android:id="@+id/imageView16"
         android:layout_width="16dp"
         android:layout_height="25dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="213dp"
         android:src="@drawable/door"
         android:tint="@color/light_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage" />
 
     <ImageView
         android:id="@+id/imageView17"
         android:layout_width="20dp"
         android:layout_height="22dp"
-        android:layout_marginStart="14dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="188dp"
         android:src="@drawable/drink"
         android:tint="@color/light_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage" />
 
     <ImageView
         android:id="@+id/imageView18"
         android:layout_width="15dp"
         android:layout_height="14dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="166dp"
         android:src="@drawable/smoking"
         android:tint="@color/light_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage" />
 
     <ImageView
         android:id="@+id/imageView19"
         android:layout_width="16dp"
         android:layout_height="21dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="138dp"
         android:src="@drawable/broom"
         android:tint="@color/light_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPictureDisplay" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCurrentProfileImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

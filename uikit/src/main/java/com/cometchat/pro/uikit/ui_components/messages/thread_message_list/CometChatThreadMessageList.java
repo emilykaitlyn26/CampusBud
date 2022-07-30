@@ -536,14 +536,14 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                                             }
                                         });
                             } catch (Exception e) {
-                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 Log.e(TAG, "onError: "+e.getMessage());
                             }
                         }
                     });
                  }
             } catch (Exception e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "setPollsData: "+e.getMessage());
             }
         }
@@ -1385,11 +1385,11 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                 locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
                 if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
                 {
-                    Toast.makeText(getContext(), "Gps enabled",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Gps enabled",Toast.LENGTH_SHORT).show();
                     getLocation();
                 }
                 else {
-                    Toast.makeText(getContext(), "Gps disabled",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Gps disabled",Toast.LENGTH_SHORT).show();
                 }
         }
 
@@ -1486,7 +1486,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             @Override
             public void onError(CometChatException e) {
                 Log.e(TAG, "getUser():onError: "+e.getCode());
-                Toast.makeText(context, CometChatError.localized(e), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, CometChatError.localized(e), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -1521,7 +1521,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
             @Override
             public void onError(CometChatException e) {
                 Log.e(TAG, "getGroup():onError: "+e.getCode());
-                Toast.makeText(context, CometChatError.localized(e), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, CometChatError.localized(e), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -2405,7 +2405,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                 ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText("ThreadMessageAdapter", copyMessage);
                 clipboardManager.setPrimaryClip(clipData);
-                Toast.makeText(context, getResources().getString(R.string.text_copied), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, getResources().getString(R.string.text_copied), Toast.LENGTH_LONG).show();
                 if (messageAdapter != null) {
                     messageAdapter.clearLongClickSelectedItem();
                     messageAdapter.notifyDataSetChanged();
@@ -2531,7 +2531,7 @@ public class CometChatThreadMessageList extends Fragment implements View.OnClick
                                 }
                             });
                 } catch (Exception e) {
-                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
 

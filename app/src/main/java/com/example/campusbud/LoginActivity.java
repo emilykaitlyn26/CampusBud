@@ -1,21 +1,23 @@
 package com.example.campusbud;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.cometchat.pro.core.AppSettings;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.exceptions.CometChatException;
 import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.ui_settings.UIKitSettings;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseUser;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,8 +26,9 @@ public class LoginActivity extends AppCompatActivity {
     private static final String APP_ID = BuildConfig.APP_ID;
     private static final String REGION = BuildConfig.REGION;
 
-    private EditText mEtUsername;
-    private EditText mEtPassword;
+    private TextInputLayout mLayoutUsername;
+    private TextInputLayout mLayoutPassword;
+    private TextView mTvLoginError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +55,18 @@ public class LoginActivity extends AppCompatActivity {
             goMainActivity();
         }
 
-        mEtUsername = findViewById(R.id.etUsernameSettings);
-        mEtPassword = findViewById(R.id.etPassword);
+        mLayoutUsername = findViewById(R.id.layoutUsernameLogin);
+        mLayoutPassword = findViewById(R.id.layoutPasswordLogin);
+        mTvLoginError = findViewById(R.id.tvLoginError);
         Button mBtnLogin = findViewById(R.id.btnLogin);
         TextView mTvSignUp = findViewById(R.id.tvSignUp);
 
+        mTvLoginError.setVisibility(View.GONE);
+
         mBtnLogin.setOnClickListener(v -> {
             Log.i(TAG, "onClick login button");
-            String mUsername = mEtUsername.getText().toString();
-            String mPassword = mEtPassword.getText().toString();
+            String mUsername = Objects.requireNonNull(mLayoutUsername.getEditText()).getText().toString();
+            String mPassword = Objects.requireNonNull(mLayoutPassword.getEditText()).getText().toString();
             loginUser(mUsername, mPassword);
         });
 
@@ -82,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(username, password, (user, e) -> {
             if (e != null) {
                 Log.e(TAG, "Issue with login", e);
-                Toast.makeText(LoginActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
+                mTvLoginError.setVisibility(View.VISIBLE);
                 return;
             }
             ParseUser mParseUser = ParseUser.getCurrentUser();
@@ -102,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
             }
-            Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
         });
     }
 }

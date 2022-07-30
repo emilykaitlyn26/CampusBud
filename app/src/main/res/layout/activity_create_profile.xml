@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateProfileActivity">
+
+    <TextView
+        android:id="@+id/tvMajorError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error: Major must be less than 30 characters"
+        android:textColor="#FF0000"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameError" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="216dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="13dp"
+        android:hint="Name"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:layout_constraintStart_toEndOf="@+id/imageView21"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <EditText
+            android:id="@+id/etCreateName"
+            android:layout_width="216dp"
+            android:layout_height="55dp"
+            android:typeface="serif" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutMajor"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="216dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="13dp"
+        android:hint="Major"
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
+        app:layout_constraintStart_toEndOf="@+id/imageView22"
+        app:layout_constraintTop_toBottomOf="@+id/layoutName">
+
+        <EditText
+            android:id="@+id/etCreateMajor"
+            android:layout_width="216dp"
+            android:layout_height="55dp"
+            android:typeface="serif" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Create Profile"
+        android:textSize="34sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView20" />
+
+    <RadioGroup
+        android:id="@+id/rgYears"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-5dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@+id/imageView23"
+        app:layout_constraintTop_toBottomOf="@+id/layoutMajor">
+
+        <RadioButton
+            android:id="@+id/rbFreshmanOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="-20dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Freshman"
+            android:textColorHighlight="#57B5AC"
+            android:textColorLink="#57B5AC"
+            android:textSize="16sp"
+            android:typeface="serif" />
+
+        <RadioButton
+            android:id="@+id/rbSophomoreOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="-18dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Sophomore"
+            android:textColorHighlight="#57B5AC"
+            android:textColorLink="#57B5AC"
+            android:textSize="16sp"
+            android:typeface="serif" />
+
+        <RadioButton
+            android:id="@+id/rbJuniorOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="-15dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Junior"
+            android:textColorHighlight="#57B5Ac"
+            android:textColorLink="#57B5AC"
+            android:textSize="16sp"
+            android:typeface="serif" />
+
+        <RadioButton
+            android:id="@+id/rbSeniorOption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Senior"
+            android:textColorHighlight="#57b5ac"
+            android:textColorLink="#57b5ac"
+            android:textSize="16sp"
+            android:typeface="serif" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnContinueInterests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continue"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgGender" />
+
+    <RadioGroup
+        android:id="@+id/rgGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-5dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgYears">
+
+        <RadioButton
+            android:id="@+id/rbMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Male"
+            android:textColorHighlight="#57b5ac"
+            android:textColorLink="#57B5AC"
+            android:textSize="16sp"
+            android:typeface="serif" />
+
+        <RadioButton
+            android:id="@+id/rbFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="Female"
+            android:textColorHighlight="#57B5AC"
+            android:textColorLink="#57B5AC"
+            android:textSize="16sp"
+            android:typeface="serif" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvErrorAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error: All fields must be completed"
+        android:textColor="#FF0000"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnContinueInterests" />
+
+    <TextView
+        android:id="@+id/tvNameError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Error: Name must be less than 20 characters"
+        android:textColor="#FF0000"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvErrorAll" />
+
+    <ImageView
+        android:id="@+id/imageView20"
+        android:layout_width="98dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="100dp"
+        android:tint="#57B5AC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user" />
+
+    <ImageView
+        android:id="@+id/imageView21"
+        android:layout_width="45dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="26dp"
+        android:tint="#57b5Ac"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:srcCompat="@drawable/person" />
+
+    <ImageView
+        android:id="@+id/imageView22"
+        android:layout_width="38dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="73dp"
+        android:layout_marginTop="41dp"
+        android:tint="#57b5ac"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView21"
+        app:srcCompat="@drawable/book2" />
+
+    <ImageView
+        android:id="@+id/imageView23"
+        android:layout_width="32dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="386dp"
+        android:tint="#57b5AC"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/collegesymbol" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

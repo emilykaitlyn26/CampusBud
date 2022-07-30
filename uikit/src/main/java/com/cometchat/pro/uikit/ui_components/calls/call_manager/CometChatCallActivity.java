@@ -302,7 +302,7 @@ public class CometChatCallActivity extends AppCompatActivity implements View.OnC
             public void onError(CometChatException e) {
                 finish();
                 Log.e(TAG, "onErrorReject: "+e.getMessage()+" "+e.getCode());
-                Toast.makeText(CometChatCallActivity.this,"Unable to end call",Toast.LENGTH_LONG).show();
+                //Toast.makeText(CometChatCallActivity.this,"Unable to end call",Toast.LENGTH_LONG).show();
             }
         });
     }

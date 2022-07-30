@@ -1,14 +1,9 @@
 package com.example.campusbud.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.cometchat.pro.core.CometChat;
 import com.cometchat.pro.models.User;
-import com.example.campusbud.Image;
 import com.example.campusbud.ProfileSettings;
 import com.example.campusbud.R;
+import com.example.campusbud.models.Image;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -59,6 +58,7 @@ public class ProfileFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         User mUser = CometChat.getLoggedInUser();
@@ -78,21 +78,21 @@ public class ProfileFragment extends Fragment {
             Log.d(TAG, "metadata is null");
         }
 
-        mIvPictureDisplay = view.findViewById(R.id.ivPictureDisplay);
-        mIvImage1 = view.findViewById(R.id.ivImage1);
-        mIvImage2 = view.findViewById(R.id.ivImage2);
-        mIvImage3 = view.findViewById(R.id.ivImage3);
-        TextView mTvUserDisplay = view.findViewById(R.id.tvUserDisplay);
-        TextView mTvYearDisplay = view.findViewById(R.id.tvYearDisplay);
-        TextView mTvMajorDisplay = view.findViewById(R.id.tvMajorDisplay);
+        mIvPictureDisplay = view.findViewById(R.id.ivCurrentProfileImage);
+        mIvImage1 = view.findViewById(R.id.ivCurrentImage1);
+        mIvImage2 = view.findViewById(R.id.ivCurrentImage2);
+        mIvImage3 = view.findViewById(R.id.ivCurrentImage3);
+        TextView mTvUserDisplay = view.findViewById(R.id.tvCurrentName);
+        TextView mTvYearDisplay = view.findViewById(R.id.tvCurrentYear);
+        TextView mTvMajorDisplay = view.findViewById(R.id.tvCurrentMajor);
         ImageView mIvSettings = view.findViewById(R.id.ivSettings);
-        TextView mTvCleanlinessInput = view.findViewById(R.id.tvCleanlinessInput);
-        TextView mTvSmokingInput = view.findViewById(R.id.tvSmokingInput);
-        TextView mTvDrinkingInput = view.findViewById(R.id.tvDrinkingInput);
-        TextView mTvRoomUseInput = view.findViewById(R.id.tvRoomUseInput);
-        TextView mTvTimeSleepInput = view.findViewById(R.id.tvTimeSleepInput);
-        TextView mTvTimeWakeInput = view.findViewById(R.id.tvTimeWakeInput);
-        TextView mTvInterests1Input = view.findViewById(R.id.tvInterests1Input);
+        TextView mTvCleanlinessInput = view.findViewById(R.id.tvCurrentSmoking);
+        TextView mTvSmokingInput = view.findViewById(R.id.tvCurrentCleanliness);
+        TextView mTvDrinkingInput = view.findViewById(R.id.tvCurrentDrinking);
+        TextView mTvRoomUseInput = view.findViewById(R.id.tvCurrentRoomUse);
+        TextView mTvTimeSleepInput = view.findViewById(R.id.tvCurrentSleep);
+        TextView mTvTimeWakeInput = view.findViewById(R.id.tvCurrentWake);
+        TextView mTvInterests1Input = view.findViewById(R.id.tvCurrentInterest1);
         mTvInterests1Input.setBackgroundResource(R.drawable.card);
         TextView mTvInterests2Input = view.findViewById(R.id.tvInterests2Input);
         mTvInterests2Input.setBackgroundResource(R.drawable.card);
@@ -104,7 +104,7 @@ public class ProfileFragment extends Fragment {
         mTvActivities2Input.setBackgroundResource(R.drawable.card);
         TextView mTvActivities3Input = view.findViewById(R.id.tvActivities3Input);
         mTvActivities3Input.setBackgroundResource(R.drawable.card);
-        TextView mTvBioInput = view.findViewById(R.id.tvBioInput);
+        TextView mTvBioInput = view.findViewById(R.id.tvCurrentBio);
 
         if (mMetadata != null) {
             try {
@@ -125,7 +125,11 @@ public class ProfileFragment extends Fragment {
                     mTvCleanlinessInput.setText(roommateProfile.getString("cleanliness"));
                     mTvSmokingInput.setText(roommateProfile.getString("if_smoke"));
                     mTvDrinkingInput.setText(roommateProfile.getString("if_drink"));
-                    mTvRoomUseInput.setText(roommateProfile.getString("room_use"));
+                    if (roommateProfile.getString("room_use").equals("All of the Above")) {
+                        mTvRoomUseInput.setText("Any Use");
+                    } else {
+                        mTvRoomUseInput.setText(roommateProfile.getString("room_use"));
+                    }
                     mTvTimeSleepInput.setText(roommateProfile.getString("time_sleep"));
                     mTvTimeWakeInput.setText(roommateProfile.getString("time_wake"));
                     mTvInterests1Input.setText(roommateProfile.getString("interest1"));
@@ -159,19 +163,21 @@ public class ProfileFragment extends Fragment {
                 return;
             }
             mImages.addAll(objects);
-            int mIndex = mImages.size() - 1;
-            mContext1 = mIvImage1.getContext();
-            ParseFile mImage1file = mImages.get(mIndex).getImage1Url();
-            Glide.with(mContext1).load(mImage1file.getUrl()).placeholder(R.drawable.greyimage).into(mIvImage1);
-            mContext2 = mIvImage2.getContext();
-            ParseFile mImage2file = (mImages.get(mIndex)).getImage2Url();
-            Glide.with(mContext2).load(mImage2file.getUrl()).placeholder(R.drawable.greyimage).into(mIvImage2);
-            mContext3 = mIvImage3.getContext();
-            ParseFile mImage3file = (mImages.get(mIndex)).getImage3Url();
-            Glide.with(mContext3).load(mImage3file.getUrl()).placeholder(R.drawable.greyimage).into(mIvImage3);
-            mContextP = mIvPictureDisplay.getContext();
-            ParseFile mProfileImageFile = mImages.get(mIndex).getProfileImageUrl();
-            Glide.with(mContextP).load(mProfileImageFile.getUrl()).placeholder(R.drawable.greyimage).circleCrop().into(mIvPictureDisplay);
+            if(mImages.size() > 0) {
+                int mIndex = mImages.size() - 1;
+                mContext1 = mIvImage1.getContext();
+                ParseFile mImage1file = mImages.get(mIndex).getImage1Url();
+                Glide.with(mContext1).load(mImage1file.getUrl()).placeholder(R.drawable.greyimage).into(mIvImage1);
+                mContext2 = mIvImage2.getContext();
+                ParseFile mImage2file = (mImages.get(mIndex)).getImage2Url();
+                Glide.with(mContext2).load(mImage2file.getUrl()).placeholder(R.drawable.greyimage).into(mIvImage2);
+                mContext3 = mIvImage3.getContext();
+                ParseFile mImage3file = (mImages.get(mIndex)).getImage3Url();
+                Glide.with(mContext3).load(mImage3file.getUrl()).placeholder(R.drawable.greyimage).into(mIvImage3);
+                mContextP = mIvPictureDisplay.getContext();
+                ParseFile mProfileImageFile = mImages.get(mIndex).getProfileImageUrl();
+                Glide.with(mContextP).load(mProfileImageFile.getUrl()).placeholder(R.drawable.greyimage).circleCrop().into(mIvPictureDisplay);
+            }
         });
     }
 

@@ -1,4 +1,4 @@
-package com.example.campusbud;
+package com.example.campusbud.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;

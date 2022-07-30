@@ -1,5 +1,6 @@
 package com.example.campusbud.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cometchat.pro.models.User;
-import com.example.campusbud.Image;
+import com.example.campusbud.models.Image;
 import com.example.campusbud.R;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -73,6 +74,7 @@ public class CardAdapter extends BaseAdapter {
         return mView;
     }
 
+    @SuppressLint("SetTextI18n")
     private void setup(User userProfile, View v) throws JSONException {
         JSONObject mMetadata = userProfile.getMetadata();
         JSONArray mRoommateProfileArray = mMetadata.getJSONArray("roommate_profile");
@@ -104,7 +106,11 @@ public class CardAdapter extends BaseAdapter {
         mTvRCleanlinessInput.setText(mRoommateProfile.getString("cleanliness"));
         mTvRSmokingInput.setText(mRoommateProfile.getString("if_smoke"));
         mTvRDrinkingInput.setText(mRoommateProfile.getString("if_drink"));
-        mTvRRoomUseInput.setText(mRoommateProfile.getString("room_use"));
+        if (mRoommateProfile.getString("room_use").equals("All of the Above")) {
+            mTvRRoomUseInput.setText("Any Use");
+        } else {
+            mTvRRoomUseInput.setText(mRoommateProfile.getString("room_use"));
+        }
         mTvRTimeSleepInput.setText(mRoommateProfile.getString("time_sleep"));
         mTvRTimeWakeInput.setText(mRoommateProfile.getString("time_wake"));
         mTvRInterestsInput1.setText(mRoommateProfile.getString("interest1"));

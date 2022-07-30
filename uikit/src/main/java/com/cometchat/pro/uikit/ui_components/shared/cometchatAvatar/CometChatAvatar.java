@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,8 @@ import com.cometchat.pro.models.User;
 
 import com.cometchat.pro.uikit.R;
 import com.google.android.material.card.MaterialCardView;
+
+import org.json.JSONException;
 
 /**
  * Purpose - This class is a subclass of AppCompatImageView, It is a component which is been used by developer
@@ -129,12 +132,23 @@ public class CometChatAvatar extends MaterialCardView {
     private void setAvatar(@NonNull User user) {
 
         if (user!=null) {
-            if (user.getAvatar() != null) {
+            try {
+                if(user.getMetadata().has("ProfilePic")){
+                    avatarUrl = user.getMetadata().getString("ProfilePic");
+                    if (isValidContextForGlide(context)) {
+                        setValues();
+                    }
+                    Log.e("PFP", avatarUrl);
+                } /*else {
+                    avatarUrl = "";
+                    Log.e("No PFP", avatarUrl + " for user " + user.getUid());
+                }*/
+            /*if (user.getAvatar() != null) {
                 avatarUrl = user.getAvatar();
                 if (isValidContextForGlide(context)) {
                     setValues();
                 }
-            } else {
+            }*/ else {
                 if (user.getName()!=null&&!user.getName().isEmpty()) {
                     if (user.getName().length() > 2) {
                         text = user.getName().substring(0, 2);
@@ -146,6 +160,9 @@ public class CometChatAvatar extends MaterialCardView {
                 }
                 imageView.setVisibility(View.GONE);
                 textView.setText(text);
+            }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
 
@@ -267,7 +284,7 @@ public class CometChatAvatar extends MaterialCardView {
                 textView.setVisibility(View.GONE);
             }
         } catch (Exception e) {
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
         invalidate();
     }

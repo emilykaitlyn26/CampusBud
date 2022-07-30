@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.content.Intent;
-
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +23,7 @@ import com.cometchat.pro.models.MediaMessage;
 import com.cometchat.pro.models.TextMessage;
 import com.cometchat.pro.uikit.databinding.ActivityCometchatUnifiedBinding;
 import com.cometchat.pro.uikit.ui_resources.utils.CometChatError;
+
 import com.google.android.material.badge.BadgeDrawable;
 
 import java.util.ArrayList;
@@ -45,12 +44,14 @@ public class ChatFragment extends Fragment {
 
     private final List<String> mUnreadCount = new ArrayList<>();
 
-    private BadgeDrawable mBadgeDrawable;
+    private final BadgeDrawable mBadgeDrawable;
 
     @VisibleForTesting
     public static AppCompatActivity activity;
 
-    public ChatFragment() {}
+    public ChatFragment(BadgeDrawable mBadgeDrawable) {
+        this.mBadgeDrawable = mBadgeDrawable;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -442,8 +442,8 @@ public class CometChatComposeBox extends RelativeLayout implements View.OnClickL
                     voiceMessage = true;
                     if (audioFileNameWithPath != null)
                         startPlayingAudio(audioFileNameWithPath);
-                    else
-                        Toast.makeText(getContext(), "No File Found. Please", Toast.LENGTH_LONG).show();
+                    //else
+                        //Toast.makeText(getContext(), "No File Found. Please", Toast.LENGTH_LONG).show();
                 }
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

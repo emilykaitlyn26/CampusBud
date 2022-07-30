@@ -540,7 +540,7 @@ public class Extensions {
                 }
             }
         } catch (Exception e) {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -558,7 +558,7 @@ public class Extensions {
                 }
             }
         } catch (Exception e) {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

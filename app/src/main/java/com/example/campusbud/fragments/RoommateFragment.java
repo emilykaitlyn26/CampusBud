@@ -21,7 +21,7 @@ import com.cometchat.pro.models.User;
 import com.cometchat.pro.uikit.ui_components.messages.message_list.CometChatMessageListActivity;
 import com.cometchat.pro.uikit.ui_resources.constants.UIKitConstants;
 import com.example.campusbud.adapters.CardAdapter;
-import com.example.campusbud.Image;
+import com.example.campusbud.models.Image;
 import com.example.campusbud.R;
 import com.parse.ParseQuery;
 import com.yalantis.library.Koloda;
@@ -722,7 +722,7 @@ public class RoommateFragment extends Fragment {
         Integer[] mTempYearArray = {mFreshValue, mSophValue, mJunValue, mSenValue};
         int mYcount = 0;
         for (int i = 0; i < mTempYearArray.length; i++) {
-            int mMax = (int) Collections.max(mYearArray);
+            int mMax = Collections.max(mYearArray);
             int mIndexOfMax = Arrays.asList(mTempYearArray).indexOf(mMax);
             switch (mIndexOfMax) {
                 case 0:
@@ -871,7 +871,7 @@ public class RoommateFragment extends Fragment {
         Integer[] mTempCleanlinessArray = {mOrganizedValue, mCasualValue, mOccMessyValue, mMessyValue};
         int mClcount = 0;
         for (int i = 0; i < mTempCleanlinessArray.length; i++) {
-            int mMax = (int) Collections.max(mCleanlinessArray);
+            int mMax = Collections.max(mCleanlinessArray);
             int mIndexOfMax = Arrays.asList(mTempCleanlinessArray).indexOf(mMax);
             switch (mIndexOfMax) {
                 case 0:
@@ -1018,7 +1018,7 @@ public class RoommateFragment extends Fragment {
         Integer[] mTempDrinkingArray = {mYesdValue, mNodValue, mSometimesdValue};
         int mDcount = 0;
         for (int i = 0; i < mDrinkingArray.size(); i++) {
-            int mMax = (int) Collections.max(mDrinkingArray);
+            int mMax = Collections.max(mDrinkingArray);
             int mIndexOfMax = Arrays.asList(mTempDrinkingArray).indexOf(mMax);
             switch (mIndexOfMax) {
                 case 0:
@@ -1113,7 +1113,7 @@ public class RoommateFragment extends Fragment {
         Integer[] mTempSmokingArray = {mYesValue, mNoValue, mSometimesValue};
         int mScount = 0;
         for (int i = 0; i < mSmokingArray.size(); i++) {
-            int max = (int) Collections.max(mSmokingArray);
+            int max = Collections.max(mSmokingArray);
             int indexOfMax = Arrays.asList(mTempSmokingArray).indexOf(max);
             switch (indexOfMax) {
                 case 0:
@@ -1210,7 +1210,7 @@ public class RoommateFragment extends Fragment {
         Integer[] mTempRoomArray = {mSocialValue, mStudyValue, mSleepingValue, mAllValue};
         int mRcount = 0;
         for (int i = 0; i < mRoomArray.size(); i++) {
-            int mMax = (int) Collections.max(mRoomArray);
+            int mMax = Collections.max(mRoomArray);
             int mIndexOfMax = Arrays.asList(mTempRoomArray).indexOf(mMax);
             switch (mIndexOfMax) {
                 case 0:
