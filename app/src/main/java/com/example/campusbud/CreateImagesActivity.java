@@ -98,8 +98,8 @@ public class CreateImagesActivity extends AppCompatActivity {
                 Log.e(TAG, "Error while saving", e);
             }
             Log.i(TAG, "Post save was successful!");
+            updatePFPCometChat();
         });
-        updatePFPCometChat();
     }
 
     private void updatePFPCometChat(){
